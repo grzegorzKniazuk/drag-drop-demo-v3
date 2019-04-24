@@ -18,6 +18,8 @@ html, body {
 	@include size(100%, 100%);
 	@include font('small', 400, 'Roboto');
 	text-rendering: optimizeLegibility;
+	min-width: 100vw;
+	min-height: 100vh;
 
 	strong {
 		font-weight: 700;
