@@ -42,7 +42,8 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 				    	id: Math.floor((Math.random() * 10000000) + 1),
 					    title: columnTitle,
 					    slidesIds: [ slideId ],
-				    }
+				    },
+				    sourceColumnId: columnId,
 			    }));
 		    });
 	}
