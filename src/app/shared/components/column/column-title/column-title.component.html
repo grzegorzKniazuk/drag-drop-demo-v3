@@ -1,0 +1,10 @@
+<p-dialog header="Tytuł nowej sekcji"
+		  [(visible)]="dialogVisibility"
+		  [modal]="true"
+		  [baseZIndex]="10">
+	<input type="text" size="30" pInputText [(ngModel)]="columnTitle">
+	<p-footer>
+		<button type="button" pButton icon="pi pi-check" (click)="onSave()" label="Zapisz"></button>
+		<button type="button" pButton icon="pi pi-times" (click)="onCancel()" label="Anuluj" class="ui-button-secondary"></button>
+	</p-footer>
+</p-dialog>

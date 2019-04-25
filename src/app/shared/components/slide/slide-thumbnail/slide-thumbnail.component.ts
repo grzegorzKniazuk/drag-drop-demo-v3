@@ -23,8 +23,8 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit {
 		event.stopImmediatePropagation();
 
 		event.dataTransfer.setData('string', JSON.stringify({
-			slideID: this.slide.id,
-			columnID: this.slide.columnId,
+			slideId: this.slide.id,
+			columnId: this.slide.columnId,
 		}));
 	}
 }

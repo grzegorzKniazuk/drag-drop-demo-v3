@@ -1,18 +1,22 @@
 import { NgModule } from '@angular/core';
-import { ButtonModule, DropdownModule, MultiSelectModule, SidebarModule } from 'primeng/primeng';
+import { ButtonModule, ChipsModule, DialogModule, DropdownModule, InputTextModule, MultiSelectModule, SidebarModule } from 'primeng/primeng';
+
+const primeNGmodules = [
+	SidebarModule,
+	DropdownModule,
+	MultiSelectModule,
+	ButtonModule,
+	DialogModule,
+	InputTextModule,
+	ChipsModule,
+];
 
 @NgModule({
 	imports: [
-		SidebarModule,
-		DropdownModule,
-		MultiSelectModule,
-		ButtonModule,
+		...primeNGmodules,
 	],
 	exports: [
-		SidebarModule,
-		DropdownModule,
-		MultiSelectModule,
-		ButtonModule,
+		...primeNGmodules,
 	],
 })
 export class PrimeNgModule {

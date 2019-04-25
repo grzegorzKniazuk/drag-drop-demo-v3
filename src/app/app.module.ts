@@ -9,6 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { environment } from 'src/environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
 	declarations: [
@@ -17,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 	imports: [
 		BrowserModule,
 		BrowserAnimationsModule,
+		SharedModule,
 		AppRoutingModule,
 		StoreModule.forRoot(reducers, { metaReducers }),
 		EffectsModule.forRoot([]),

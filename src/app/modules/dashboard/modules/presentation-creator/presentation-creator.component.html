@@ -1,3 +1,5 @@
-<div class="presentation-creator-container" (dragover)="allowDrop($event)">
+<div class="presentation-creator-container"
+	 (drop)="onDrop($event)"
+	 (dragover)="allowDrop($event)">
 	<app-library-bar></app-library-bar>
 </div>
