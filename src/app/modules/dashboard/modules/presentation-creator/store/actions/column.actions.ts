@@ -8,7 +8,7 @@ export enum ColumnActionsTypes {
 export class AddColumn implements Action {
 	public readonly type = ColumnActionsTypes.AddColumn;
 
-	constructor(public payload: { column: Column, sourceColumnId: number }) {
+	constructor(public payload: { targetColumn: Column, sourceColumnId: number }) {
 	}
 }
 

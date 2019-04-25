@@ -38,7 +38,7 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 		    )
 		    .subscribe((columnTitle: string) => {
 			    this.store.dispatch(new AddColumn({
-				    column: {
+				    targetColumn: {
 				    	id: Math.floor((Math.random() * 10000000) + 1),
 					    title: columnTitle,
 					    slidesIds: [ slideId ],

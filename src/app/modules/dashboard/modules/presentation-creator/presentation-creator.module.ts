@@ -5,6 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromPresentationCreator from './store';
 import { LibraryBarComponent } from './components/library-bar/library-bar.component';
+import { ColumnEffects } from 'src/app/modules/dashboard/modules/presentation-creator/store/effects/column.effects';
 
 @NgModule({
 	declarations: [
@@ -14,7 +15,7 @@ import { LibraryBarComponent } from './components/library-bar/library-bar.compon
 	imports: [
 		SharedModule,
 		StoreModule.forFeature('presentationCreator', fromPresentationCreator.reducers, { metaReducers: fromPresentationCreator.metaReducers }),
-		EffectsModule.forFeature([]),
+		EffectsModule.forFeature([ ColumnEffects ]),
 	],
 })
 export class PresentationCreatorModule {
