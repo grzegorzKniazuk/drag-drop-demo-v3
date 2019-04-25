@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 
 @Component({
-  selector: 'app-presentation-creator',
-  templateUrl: './presentation-creator.component.html',
-  styleUrls: ['./presentation-creator.component.scss']
+	selector: 'app-presentation-creator',
+	templateUrl: './presentation-creator.component.html',
+	styleUrls: [ './presentation-creator.component.scss' ],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PresentationCreatorComponent implements OnInit {
+export class PresentationCreatorComponent extends DropZoneBase implements OnInit {
 
-  constructor() { }
+	constructor() {
+		super();
+	}
 
-  ngOnInit() {
-  }
+	ngOnInit() {
+	}
 
 }

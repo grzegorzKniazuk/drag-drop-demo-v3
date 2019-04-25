@@ -1,5 +1,25 @@
 @import "./src/assets/styles/base.scss";
 
+.sidebar-content {
+	@include flex(flex, flex-start, flex-start, row);
+	@include size(100%, 100%);
+
+	.slides-in-library {
+		@include flex(flex, flex-start, flex-start, row);
+		@include size(100%, 100%);
+	}
+
+	.no-slides-in-library {
+		@include flex(flex, center, center, column);
+		@include size(100%, 100%);
+		cursor: pointer;
+
+		input[type="file"] {
+			display: none;
+		}
+	}
+}
+
 button {
 	position: absolute;
 	bottom: 0;

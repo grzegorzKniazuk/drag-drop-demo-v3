@@ -1,0 +1,14 @@
+@import "./src/assets/styles/base.scss";
+
+.slide-container {
+	@include flex(flex, center, center, row, relative);
+	z-index: 2;
+
+	img {
+		@include size(200px);
+	}
+
+	&.drag-over {
+		opacity: 0.65;
+	}
+}

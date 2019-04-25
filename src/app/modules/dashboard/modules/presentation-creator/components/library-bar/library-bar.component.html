@@ -1,3 +1,16 @@
-<p-sidebar [(visible)]="display" [baseZIndex]="10" position="bottom">
+<p-sidebar [(visible)]="display" [baseZIndex]="10" position="bottom" [style]="{ height:'180px' }" (dragleave)="onDragLeave()">
+	<div class="sidebar-content">
+		<div class="slides-in-library" *ngIf="(librarySlidesAmount$ | async)">
+			<ng-container *ngFor="let slide of (slidesInLibary$ | async)">
+				<app-slide [slide]="slide"></app-slide>
+				<app-slide-library-divider></app-slide-library-divider>
+			</ng-container>
+		</div>
+		<div class="no-slides-in-library" *ngIf="!(librarySlidesAmount$ | async)" (click)="clickIntoFileInput()">
+			<span>Brak slajdów</span>
+			<input #fileInputElement (change)="uploadFiles($event)" id="fileUpload" multiple type="file">
+			<label for="fileUpload">Kliknij tutaj, aby dodać pliki</label>
+		</div>
+	</div>
 </p-sidebar>
-<button pButton type="button" (click)="display = true" icon="pi pi-list" label="Biblioteka" iconPos="right"></button>
+<button pButton type="button" (click)="openSlider()" icon="pi pi-list" label="Biblioteka" iconPos="right"></button>
