@@ -4,9 +4,12 @@ import { Column } from 'src/app/shared/interfaces/column';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { debounceTime } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { UpdateColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+import { Observable } from 'rxjs';
+import { Slide } from 'src/app/shared/interfaces/slide';
+import { selectSlideFromPresentationById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 
 @AutoUnsubscribe()
 @Component({
@@ -18,6 +21,7 @@ import { UpdateColumn } from 'src/app/modules/dashboard/modules/presentation-cre
 export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 
 	@Input() public column: Column;
+	public columnSlides$: Observable<Slide[]>;
 	public columnTitleForm: FormGroup;
 
 	constructor(
@@ -30,6 +34,8 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.buildForm();
 		this.watchFormChanges();
+
+		this.columnSlides$ = this.store.pipe(select(selectSlideFromPresentationById, { columnId: this.column.id }));
 	}
 
 	ngOnDestroy() {
@@ -57,7 +63,8 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 	}
 
 	public onDrop(event: DragEvent): void {
+		event.stopImmediatePropagation();
 
+		this.isElementOnDragOver = false;
 	}
-
 }
