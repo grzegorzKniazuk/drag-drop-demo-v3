@@ -1,3 +1,10 @@
-<p>
-  column works!
-</p>
+<div (dragover)="allowDrop($event)"
+	 (drop)="onDrop($event)"
+	 class="column-container">
+	<div class="title-container">
+		title
+	</div>
+	<div class="thumbnails-container">
+	</div>
+</div>
+

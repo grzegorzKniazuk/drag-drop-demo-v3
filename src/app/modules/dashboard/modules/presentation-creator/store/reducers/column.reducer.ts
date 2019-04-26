@@ -13,7 +13,7 @@ export const initialColumnState: ColumnState = columnAdapter.getInitialState();
 export function columnReducer(state = initialColumnState, action: ColumnActions): ColumnState {
 	switch (action.type) {
 		case ColumnActionsTypes.AddColumn: {
-			return columnAdapter.addOne(action.payload.column, state);
+			return columnAdapter.addOne(action.payload.targetColumn, state);
 		}
 		default: {
 			return {

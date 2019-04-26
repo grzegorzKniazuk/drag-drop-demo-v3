@@ -1,4 +1,4 @@
-@import "./src/assets/styles/base.scss";
+@import "base.scss";
 
 .presentation-creator-container {
 	@include flex(flex, flex-start, flex-start, row);

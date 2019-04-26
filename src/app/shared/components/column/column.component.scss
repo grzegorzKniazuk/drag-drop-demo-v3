@@ -1,0 +1,18 @@
+@import "base.scss";
+
+.column-container {
+	@include flex(flex, flex-start, center, column);
+	@include size(200px, 100%);
+	min-height: calc(100vh - 180px);
+	z-index: 1;
+	background: #17a2b8;
+
+	.title-container {
+		position: relative;
+		width: 100%;
+	}
+
+	&.drag-over {
+		background: darken($white, 15%);
+	}
+}

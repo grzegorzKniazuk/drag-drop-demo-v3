@@ -1,4 +1,4 @@
-@import "./src/assets/styles/base.scss";
+@import "base.scss";
 
 .slide-container {
 	@include flex(flex, center, center, row, relative);

@@ -1,4 +1,4 @@
 export interface SlideDataTransfer {
-	slideId: number;
-	columnId: number;
+	sourceSlideId: number;
+	sourceColumnId: number;
 }
