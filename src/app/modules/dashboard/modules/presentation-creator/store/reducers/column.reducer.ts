@@ -12,7 +12,8 @@ export const initialColumnState: ColumnState = columnAdapter.getInitialState();
 
 export function columnReducer(state = initialColumnState, action: ColumnActions): ColumnState {
 	switch (action.type) {
-		case ColumnActionsTypes.AddColumn: {
+		case ColumnActionsTypes.AddColumnFromAnotherColumn:
+		case ColumnActionsTypes.AddColumnFromLibrary: {
 			return columnAdapter.addOne(action.payload.targetColumn, state);
 		}
 		default: {

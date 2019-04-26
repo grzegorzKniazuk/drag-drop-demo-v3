@@ -4,6 +4,7 @@
 	@include flex(flex, flex-start, center, column);
 	@include size(200px, 100%);
 	min-height: calc(100vh - 180px);
+	margin: 15px;
 	z-index: 1;
 	background: #17a2b8;
 

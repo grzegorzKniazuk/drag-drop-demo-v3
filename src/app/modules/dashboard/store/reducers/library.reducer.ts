@@ -15,6 +15,9 @@ export function libraryReducer(state = initialLibraryState, action: LibraryActio
 		case LibraryActionsTypes.AddSlidesToLibrary: {
 			return libraryAdapter.addMany(action.payload.slides, state);
 		}
+		case LibraryActionsTypes.MoveSlideFromLibrary: {
+			return libraryAdapter.removeOne(action.payload.slideId, state);
+		}
 		default: {
 			return {
 				...state,

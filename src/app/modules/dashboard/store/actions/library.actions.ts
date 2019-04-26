@@ -3,6 +3,7 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 
 export enum LibraryActionsTypes {
 	AddSlidesToLibrary = '[Library] Add Elements',
+	MoveSlideFromLibrary = '[Slide] Move Slide From Library',
 }
 
 export class AddSlidesToLibrary implements Action {
@@ -12,4 +13,11 @@ export class AddSlidesToLibrary implements Action {
 	}
 }
 
-export type LibraryActions = AddSlidesToLibrary;
+export class MoveSlideFromLibrary implements Action {
+	public readonly type = LibraryActionsTypes.MoveSlideFromLibrary;
+
+	constructor(public payload: { slideId: number, targetColumnId: number }) {
+	}
+}
+
+export type LibraryActions = AddSlidesToLibrary | MoveSlideFromLibrary;

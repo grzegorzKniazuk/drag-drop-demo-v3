@@ -2,14 +2,22 @@ import { Action } from '@ngrx/store';
 import { Column } from 'src/app/shared/interfaces/column';
 
 export enum ColumnActionsTypes {
-	AddColumn = '[Slide] Add Column',
+	AddColumnFromAnotherColumn = '[Column] Add Column From Another Column',
+	AddColumnFromLibrary = '[Column] Add Column From Library'
 }
 
-export class AddColumn implements Action {
-	public readonly type = ColumnActionsTypes.AddColumn;
+export class AddColumnFromAnotherColumn implements Action {
+	public readonly type = ColumnActionsTypes.AddColumnFromAnotherColumn;
 
-	constructor(public payload: { targetColumn: Column, sourceColumnId: number }) {
+	constructor(public payload: { targetColumn: Column, sourceSlideId: number, sourceColumnId: number }) {
 	}
 }
 
-export type ColumnActions = AddColumn;
+export class AddColumnFromLibrary implements Action {
+	public readonly type = ColumnActionsTypes.AddColumnFromLibrary;
+
+	constructor(public payload: { targetColumn: Column, sourceSlideId: number }) {
+	}
+}
+
+export type ColumnActions = AddColumnFromAnotherColumn | AddColumnFromLibrary;
