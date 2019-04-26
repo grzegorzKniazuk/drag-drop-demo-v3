@@ -11,4 +11,4 @@ export const reducers: ActionReducerMap<DashboardState> = {
 	library: libraryReducer,
 };
 
-export const metaReducers: MetaReducer<DashboardState>[] = environment.production ? [] : [ storeFreeze ];
+export const metaReducers: MetaReducer<DashboardState>[] = environment.production ? [ storeFreeze ] : [ storeFreeze ];

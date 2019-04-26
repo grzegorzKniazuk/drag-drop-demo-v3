@@ -8,4 +8,4 @@ export interface AppState {
 
 export const reducers: ActionReducerMap<AppState> = {};
 
-export const metaReducers: MetaReducer<AppState>[] = environment.production ? [] : [ storeFreeze ];
+export const metaReducers: MetaReducer<AppState>[] = environment.production ? [ storeFreeze ] : [ storeFreeze ];
