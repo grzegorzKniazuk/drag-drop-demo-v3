@@ -4,7 +4,7 @@ import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
-import { first } from 'rxjs/operators';
+import { first, withLatestFrom } from 'rxjs/operators';
 import {
 	AddColumnFromAnotherColumn,
 	AddColumnFromLibrary,
@@ -14,6 +14,8 @@ import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { Column } from 'src/app/shared/interfaces/column';
 import { selectColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
+import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
+import { Slide } from 'src/app/shared/interfaces/slide';
 
 @AutoUnsubscribe()
 @Component({
@@ -48,30 +50,28 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 
 		const { sourceSlideId, sourceColumnId }: SlideDataTransfer = JSON.parse(event.dataTransfer.getData('string'));
 
-		console.log(sourceSlideId, sourceColumnId);
 		this.componentFactoryService.createColumnTitleComponent(this.viewContainerRef).columnTitle$
 		    .pipe(
 			    first(),
+			    withLatestFrom(this.store.pipe(select(selectSlideFromLibraryById, { id: sourceSlideId }))),
 		    )
-		    .subscribe((columnTitle: string) => {
+		    .subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
+			    const targetColumn = { // przygotuj nowa kolumne
+				    id: Math.floor((Math.random() * 10000000) + 1),
+				    title: columnTitle,
+				    slidesIds: [ sourceSlideId ],
+			    };
+
 			    if (sourceColumnId) { // akcje inicjuje inna kolumna
 				    this.store.dispatch(new AddColumnFromAnotherColumn({
-					    targetColumn: {
-						    id: Math.floor((Math.random() * 10000000) + 1),
-						    title: columnTitle,
-						    slidesIds: [ sourceSlideId ],
-					    },
-					    sourceSlideId,
+					    targetColumn,
+					    sourceSlide,
 					    sourceColumnId,
 				    }));
 			    } else { // akcje inicjuje bibloteka slajdów
 				    this.store.dispatch(new AddColumnFromLibrary({
-					    targetColumn: {
-						    id: Math.floor((Math.random() * 10000000) + 1),
-						    title: columnTitle,
-						    slidesIds: [ sourceSlideId ],
-					    },
-					    sourceSlideId,
+					    targetColumn,
+					    sourceSlide,
 				    }));
 			    }
 		    });

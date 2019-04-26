@@ -12,10 +12,10 @@ export const initialSlideState: SlideState = slideAdapter.getInitialState();
 
 export function slideReducer(state = initialSlideState, action: SlideActions): SlideState {
 	switch (action.type) {
-		case SlideActionsTypes.AddSlide: {
+		case SlideActionsTypes.AddSlideToPresentation: {
 			return slideAdapter.addOne(action.payload.slide, state);
 		}
-		case SlideActionsTypes.UpdateSlide: {
+		case SlideActionsTypes.UpdateSlideInPresentation: {
 			return slideAdapter.updateOne(action.payload.slide, state);
 		}
 		default: {

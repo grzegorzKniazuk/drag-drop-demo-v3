@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { AddColumn, ColumnActionsTypes } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
-import { map } from 'rxjs/operators';
-import { MoveSlide } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { AddColumnFromLibrary, ColumnActionsTypes } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store';
+import { switchMap } from 'rxjs/operators';
+import { AddSlideToPresentation } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { RemoveSlideFromLibrary } from 'src/app/modules/dashboard/store/actions/library.actions';
+import { Observable } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
@@ -10,18 +14,25 @@ import { MoveSlide } from 'src/app/modules/dashboard/modules/presentation-creato
 export class ColumnEffects {
 
 	@Effect()
-	public addColumn$ = this.actions$.pipe(
-		ofType<AddColumn>(ColumnActionsTypes.AddColumn),
-		map((action: AddColumn) => {
-			return new MoveSlide({
-				slidesIds: action.payload.targetColumn.slidesIds,
-				sourceColumnId: action.payload.sourceColumnId,
-				targetColumnId: action.payload.targetColumn.id,
-			});
+	public addColumnFromLibrary$: Observable<AddSlideToPresentation | RemoveSlideFromLibrary> = this.actions$.pipe(
+		ofType<AddColumnFromLibrary>(ColumnActionsTypes.AddColumnFromLibrary),
+		switchMap((action: AddColumnFromLibrary) => {
+			return [
+				new AddSlideToPresentation({ // dodaj slajd do dodanej kolumny w prezentacji
+					slide: {
+						...action.payload.sourceSlide,
+						columnId: action.payload.targetColumn.id, // docelowa kolumna dla slajdu
+					},
+				}),
+				new RemoveSlideFromLibrary({ // usun slajd z biblioteki
+					sourceSlideId: action.payload.sourceSlide.id,
+				}),
+			];
 		}),
 	);
 
 	constructor(
+		private store: Store<AppState>,
 		private actions$: Actions,
 	) {
 	}
