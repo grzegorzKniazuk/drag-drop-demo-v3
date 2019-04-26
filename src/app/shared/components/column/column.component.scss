@@ -9,8 +9,18 @@
 	background: #17a2b8;
 
 	.title-container {
+		@include flex(flex, center, center, column);
 		position: relative;
 		width: 100%;
+
+		label {
+			align-self: flex-start;
+			margin-left: 2%;
+		}
+
+		input {
+			width: 96%;
+		}
 	}
 
 	&.drag-over {

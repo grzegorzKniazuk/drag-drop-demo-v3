@@ -1,9 +1,10 @@
 <div (dragover)="allowDrop($event)"
 	 (drop)="onDrop($event)"
 	 class="column-container">
-	<div class="title-container">
-		title
-	</div>
+	<form class="title-container" [formGroup]="columnTitleForm">
+		<label for="columnTitle">Nazwa sekcji</label>
+		<input id="columnTitle" type="text" pInputText formControlName="columnTitle">
+	</form>
 	<div class="thumbnails-container">
 	</div>
 </div>

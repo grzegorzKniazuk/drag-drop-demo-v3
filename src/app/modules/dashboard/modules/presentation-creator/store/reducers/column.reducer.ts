@@ -16,6 +16,9 @@ export function columnReducer(state = initialColumnState, action: ColumnActions)
 		case ColumnActionsTypes.AddColumnFromLibrary: {
 			return columnAdapter.addOne(action.payload.targetColumn, state);
 		}
+		case ColumnActionsTypes.UpdateColumn: {
+			return columnAdapter.updateOne(action.payload.column, state);
+		}
 		default: {
 			return {
 				...state,
