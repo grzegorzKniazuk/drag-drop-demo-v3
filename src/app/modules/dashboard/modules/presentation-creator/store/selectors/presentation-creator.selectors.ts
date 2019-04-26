@@ -12,8 +12,3 @@ export const selectColumnsState = createSelector(
 	selectPresentationCreatorState,
 	state => state.columns,
 );
-
-export const selectLibraryState = createSelector(
-	selectPresentationCreatorState,
-	state => state.library,
-);

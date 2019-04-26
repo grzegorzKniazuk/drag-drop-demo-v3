@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
-import { selectLibraryState } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/presentation-creator.selectors';
-import * as libraryEntitySelectors from 'src/app/modules/dashboard/modules/presentation-creator/store/reducers/library.reducer';
+import * as libraryEntitySelectors from 'src/app/modules/dashboard/store/reducers/library.reducer';
+import { selectLibraryState } from 'src/app/modules/dashboard/store/selectors/dashboard.selectors';
+
 
 export const selectLibrarySlidesAmount = createSelector(
 	selectLibraryState,
@@ -11,3 +12,5 @@ export const selectLibrarySlides = createSelector(
 	selectLibraryState,
 	libraryEntitySelectors.selectAll,
 );
+
+

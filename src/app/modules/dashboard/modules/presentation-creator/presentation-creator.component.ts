@@ -7,6 +7,7 @@ import { ComponentFactoryService } from 'src/app/shared/services/component-facto
 import { first } from 'rxjs/operators';
 import { AddColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { Title } from '@angular/platform-browser';
 
 @AutoUnsubscribe()
 @Component({
@@ -20,12 +21,14 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	constructor(
 		private componentFactoryService: ComponentFactoryService,
 		private viewContainerRef: ViewContainerRef,
+		private title: Title,
 		private store: Store<AppState>,
 	) {
 		super();
 	}
 
 	ngOnInit() {
+		this.title.setTitle('Kreator prezentacji');
 	}
 
 	ngOnDestroy() {

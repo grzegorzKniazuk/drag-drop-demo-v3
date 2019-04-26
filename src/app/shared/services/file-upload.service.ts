@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { AddSlidesToLibrary } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/library.actions';
+import { AddSlidesToLibrary } from 'src/app/modules/dashboard/store/actions/library.actions';
 
 @Injectable({
 	providedIn: 'root',
