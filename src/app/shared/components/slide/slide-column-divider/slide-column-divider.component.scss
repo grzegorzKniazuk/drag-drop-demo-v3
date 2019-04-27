@@ -1,0 +1,13 @@
+@import "base.scss";
+
+.slide-divider {
+	@include flex(flex);
+	@include size(200px, 20px);
+	transition: height 150ms ease-out;
+
+	&.drag-over {
+		background: darken($white, 15%);
+		height: 132px;
+		transition: height 150ms ease-in;
+	}
+}

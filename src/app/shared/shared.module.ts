@@ -6,12 +6,14 @@ import { ColumnComponent } from 'src/app/shared/components/column/column.compone
 import { SlideLibraryDividerComponent } from 'src/app/shared/components/slide/slide-library-divider/slide-library-divider.component';
 import { ColumnTitleComponent } from 'src/app/shared/components/column/column-title/column-title.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SlideColumnDividerComponent } from 'src/app/shared/components/slide/slide-column-divider/slide-column-divider.component';
 
 const components = [
 	SlideThumbnailComponent,
 	ColumnComponent,
 	SlideLibraryDividerComponent,
 	ColumnTitleComponent,
+	SlideColumnDividerComponent,
 ];
 
 const entryComponents = [
