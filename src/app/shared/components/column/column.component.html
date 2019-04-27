@@ -3,9 +3,9 @@
 	 (drop)="onDrop($event)"
 	 [ngClass]="dragOverCssClass"
 	 class="column-container">
-	<form class="title-container" [formGroup]="columnTitleForm">
+	<form [formGroup]="columnTitleForm" class="title-container">
 		<label for="columnTitle">Nazwa sekcji</label>
-		<input id="columnTitle" type="text" pInputText formControlName="columnTitle">
+		<input formControlName="columnTitle" id="columnTitle" pInputText type="text">
 	</form>
 	<div>
 		<ng-container *ngFor="let slide of (columnSlides$ | async)">

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, ViewChild } from '@angular/core';
 
 @Component({
 	selector: 'app-column-title',
@@ -8,10 +8,10 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmi
 })
 export class ColumnTitleComponent implements AfterViewInit {
 
-	@ViewChild('titleInput') private titleInput: ElementRef;
 	public columnTitle$: EventEmitter<string> = new EventEmitter<string>();
 	public columnTitle: string;
 	public dialogVisibility = true;
+	@ViewChild('titleInput') private titleInput: ElementRef;
 
 	ngAfterViewInit() {
 		this.titleInput.nativeElement.focus();

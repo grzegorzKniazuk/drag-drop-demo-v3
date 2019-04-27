@@ -10,10 +10,11 @@
 	}
 
 	.no-slides-in-library {
-		@include flex(flex, center, center, column);
+		@include flex(flex, center, center, column, relative);
 		@include size(100%, 100%);
 		cursor: pointer;
 		user-select: none;
+		top: -30px;
 
 		input[type="file"] {
 			display: none;

@@ -1,5 +1,5 @@
-<div class="slide-container"
-	 (dragover)="allowDrop($event)"
-	 (dragstart)="onDragStart($event)">
+<div (dragover)="allowDrop($event)"
+	 (dragstart)="onDragStart($event)"
+	 class="slide-container">
 	<img [src]="slide.imageData" alt="">
 </div>

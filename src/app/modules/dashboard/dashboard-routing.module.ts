@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
 import { PresentationCreatorComponent } from 'src/app/modules/dashboard/modules/presentation-creator/presentation-creator.component';
 
@@ -13,11 +13,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-  	RouterModule.forChild(routes),
-  ],
-  exports: [
-  	RouterModule,
-  ]
+	imports: [
+		RouterModule.forChild(routes),
+	],
+	exports: [
+		RouterModule,
+	],
 })
-export class DashboardRoutingModule { }
+export class DashboardRoutingModule {
+}

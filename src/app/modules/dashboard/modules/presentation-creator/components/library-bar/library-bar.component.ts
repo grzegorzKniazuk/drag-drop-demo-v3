@@ -2,10 +2,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { Observable } from 'rxjs';
-import {
-	selectLibrarySlides,
-	selectLibrarySlidesAmount,
-} from 'src/app/modules/dashboard/store/selectors/library.selectors';
+import { selectLibrarySlides, selectLibrarySlidesAmount } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { FileUploadService } from 'src/app/shared/services/file-upload.service';
 import { Slide } from 'src/app/shared/interfaces/slide';
@@ -19,10 +16,10 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 })
 export class LibraryBarComponent implements OnInit, OnDestroy {
 
-	@ViewChild('fileInputElement') protected fileInputElement: ElementRef;
 	public display: boolean;
 	public librarySlidesAmount$: Observable<number>;
 	public slidesInLibary$: Observable<Slide[]>;
+	@ViewChild('fileInputElement') protected fileInputElement: ElementRef;
 
 	constructor(
 		private fileUploadService: FileUploadService,
@@ -50,7 +47,7 @@ export class LibraryBarComponent implements OnInit, OnDestroy {
 		this.display = false;
 	}
 
-	@HostListener('document:keydown', ['$event'])
+	@HostListener('document:keydown', [ '$event' ])
 	public openSlider(event: KeyboardEvent | MouseEvent | any, onClick: boolean = false): void {
 		if (event.key === 'ArrowUp' || onClick) {
 			this.display = true;

@@ -1,6 +1,6 @@
-<div class="presentation-creator-container"
+<div (dragover)="allowDrop($event)"
 	 (drop)="onDrop($event)"
-	 (dragover)="allowDrop($event)">
+	 class="presentation-creator-container">
 	<ng-container *ngFor="let column of (columns$ | async)">
 		<app-column [column]="column"></app-column>
 	</ng-container>

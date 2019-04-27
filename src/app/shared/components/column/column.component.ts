@@ -49,6 +49,19 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 	ngOnDestroy() {
 	}
 
+	public onDrop(event: DragEvent): void {
+		event.stopImmediatePropagation();
+		this.isElementOnDragOver = false;
+
+		const { sourceSlideId, sourceColumnId }: SlideDataTransfer = JSON.parse(event.dataTransfer.getData('string'));
+
+		if (sourceColumnId) {
+			this.moveSlideFromColumnToColumn(sourceSlideId, sourceColumnId);
+		} else {
+			this.moveSlideFromLibraryToColumn(sourceSlideId);
+		}
+	}
+
 	private buildForm(): void {
 		this.columnTitleForm = this.formBuilder.group({
 			columnTitle: [ this.column.title ],
@@ -68,19 +81,6 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 				},
 			}));
 		});
-	}
-
-	public onDrop(event: DragEvent): void {
-		event.stopImmediatePropagation();
-		this.isElementOnDragOver = false;
-
-		const { sourceSlideId, sourceColumnId }: SlideDataTransfer = JSON.parse(event.dataTransfer.getData('string'));
-
-		if (sourceColumnId) {
-			this.moveSlideFromColumnToColumn(sourceSlideId, sourceColumnId);
-		} else {
-			this.moveSlideFromLibraryToColumn(sourceSlideId);
-		}
 	}
 
 	// jesli slajd jest przenoszony z innej kolumny

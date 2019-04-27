@@ -19,7 +19,7 @@ export function slideReducer(state = initialSlideState, action: SlideActions): S
 			return slideAdapter.updateOne(action.payload.slide, state);
 		}
 		default: {
-			return  {
+			return {
 				...state,
 			};
 		}
