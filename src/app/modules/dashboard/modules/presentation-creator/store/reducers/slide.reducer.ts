@@ -3,7 +3,6 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 import { SlideActions, SlideActionsTypes } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 
 export interface SlideState extends EntityState<Slide> {
-
 }
 
 export const slideAdapter: EntityAdapter<Slide> = createEntityAdapter<Slide>();

@@ -25,3 +25,12 @@ export const selectSlideFromColumnById = createSelector(
 		});
 	},
 );
+
+export const selectAmountOfSlidesInColumnById = createSelector(
+	selectSlides,
+	(slides: Slide[], props: { columnId: number }) => {
+		return slides.filter((slide: Slide) => {
+			return slide.columnId === props.columnId;
+		}).length;
+	},
+);

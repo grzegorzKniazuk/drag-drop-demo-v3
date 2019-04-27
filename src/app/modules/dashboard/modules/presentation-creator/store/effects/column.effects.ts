@@ -26,9 +26,10 @@ export class ColumnEffects {
 		ofType<AddColumnFromLibrary>(ColumnActionsTypes.AddColumnFromLibrary),
 		switchMap((action: AddColumnFromLibrary) => {
 			return [
-				new AddSlideToPresentation({ // dodaj slajd do dodanej kolumny w prezentacji
+				new AddSlideToPresentation({ // dodaj slajd do nowo dodanej kolumny w prezentacji
 					slide: {
 						...action.payload.sourceSlide,
+						position: 0,
 						columnId: action.payload.column.id, // docelowa kolumna dla slajdu
 					},
 				}),
@@ -43,10 +44,11 @@ export class ColumnEffects {
 	public addColumnFromAnotherColumn$ = this.actions$.pipe(
 		ofType<AddColumnFromAnotherColumn>(ColumnActionsTypes.AddColumnFromAnotherColumn),
 		map((action: AddColumnFromAnotherColumn) => {
-			return new UpdateSlideInPresentation({ // aktualizuj kolumne w slajdzie
+			return new UpdateSlideInPresentation({ // przenies slajd do nowo dodanej kolumny w prezentacji
 				slide: {
 					id: action.payload.sourceSlideId,
 					changes: {
+						position: 0,
 						columnId: action.payload.column.id,
 					},
 				},
@@ -63,6 +65,7 @@ export class ColumnEffects {
 					slide: {
 						...action.payload.sourceSlide,
 						columnId: action.payload.targetColumnId, // docelowa kolumna dla slajdu
+						position: action.payload.slideNewPosition, // pozycja slajdu w docelowej kolumnie
 					},
 				}),
 				new RemoveSlideFromLibrary({ // usun slajd z biblioteki
