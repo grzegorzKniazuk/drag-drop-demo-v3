@@ -24,7 +24,6 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnChanges {
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
-
 		this.updateSlidePositionInColumn(changes);
 	}
 
