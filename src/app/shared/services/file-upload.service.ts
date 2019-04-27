@@ -41,6 +41,7 @@ export class FileUploadService {
 						this.slides.push({
 							id: Math.floor((Math.random() * 10000000) + 1),
 							columnId: null,
+							position: null,
 							imageData: imageBuffer,
 						});
 

@@ -1,4 +1,12 @@
+import { NgZone } from '@angular/core';
+
 export abstract class DropZoneBase {
+
+	constructor(
+		protected ngZone: NgZone,
+	) {
+	}
+
 	public isElementOnDragOver: boolean;
 
 	public get dragOverCssClass(): string {
@@ -6,9 +14,12 @@ export abstract class DropZoneBase {
 	}
 
 	public allowDrop(event: DragEvent): void {
-		event.preventDefault();
+		this.ngZone.runOutsideAngular(() => {
+			event.preventDefault();
+			event.stopImmediatePropagation();
 
-		this.isElementOnDragOver = true;
+			this.isElementOnDragOver = true;
+		});
 	}
 
 	public onDragLeave(): void {

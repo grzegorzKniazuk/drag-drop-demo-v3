@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/core';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 
 @Component({
@@ -9,8 +9,10 @@ import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 })
 export class SlideColumnDividerComponent extends DropZoneBase implements OnInit {
 
-	constructor() {
-		super();
+	constructor(
+		ngZone: NgZone,
+	) {
+		super(ngZone);
 	}
 
 	ngOnInit() {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Column } from 'src/app/shared/interfaces/column';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -36,8 +36,9 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 	constructor(
 		private formBuilder: FormBuilder,
 		private store: Store<AppState>,
+		ngZone: NgZone
 	) {
-		super();
+		super(ngZone);
 	}
 
 	ngOnInit() {

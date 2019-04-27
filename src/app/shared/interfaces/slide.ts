@@ -1,5 +1,6 @@
 export interface Slide {
 	id: number;
-	columnId: number;
+	position: number | null;
+	columnId: number | null;
 	imageData: string | ArrayBuffer;
 }

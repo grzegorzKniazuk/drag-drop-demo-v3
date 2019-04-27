@@ -1,6 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, NgZone, OnChanges, SimpleChanges } from '@angular/core';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store';
+import { UpdateSlidePositionInColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 
 @Component({
 	selector: 'app-slide',
@@ -8,15 +11,36 @@ import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 	styleUrls: [ './slide-thumbnail.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SlideThumbnailComponent extends DropZoneBase implements OnInit {
+export class SlideThumbnailComponent extends DropZoneBase implements OnChanges {
 
 	@Input() public slide: Slide;
+	@Input() public position: number;
 
-	constructor() {
-		super();
+	constructor(
+		private store: Store<AppState>,
+		ngZone: NgZone,
+	) {
+		super(ngZone);
 	}
 
-	ngOnInit() {
+	ngOnChanges(changes: SimpleChanges) {
+
+		this.updateSlidePositionInColumn(changes);
+	}
+
+	private updateSlidePositionInColumn(changes: SimpleChanges): void {
+		if (changes.position && changes.position.currentValue !== this.slide.position) {
+			this.ngZone.runOutsideAngular(() => {
+				this.store.dispatch(new UpdateSlidePositionInColumn({
+					slide: {
+						id: this.slide.id,
+						changes: {
+							position: changes.position.currentValue,
+						},
+					},
+				}));
+			});
+		}
 	}
 
 	public onDragStart(event: DragEvent): void {
