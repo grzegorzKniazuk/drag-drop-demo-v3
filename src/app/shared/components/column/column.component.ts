@@ -18,6 +18,7 @@ import {
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
+import { UpdateSlideInPresentation } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 
 @AutoUnsubscribe()
 @Component({
@@ -56,7 +57,7 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 		const { sourceSlideId, sourceColumnId }: SlideDataTransfer = JSON.parse(event.dataTransfer.getData('string'));
 
 		if (sourceColumnId) {
-			this.moveSlideFromColumnToColumn(sourceSlideId, sourceColumnId);
+			this.moveSlideFromColumnToColumn(sourceSlideId);
 		} else {
 			this.moveSlideFromLibraryToColumn(sourceSlideId);
 		}
@@ -84,10 +85,15 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 	}
 
 	// jesli slajd jest przenoszony z innej kolumny
-	private moveSlideFromColumnToColumn(sourceSlideId: number, sourceColumnId: number): void {
-		this.store.pipe(
-			select(selectSlideFromColumnById, { slideId: sourceSlideId, columnId: sourceColumnId }),
-		);
+	private moveSlideFromColumnToColumn(sourceSlideId: number): void {
+		this.store.dispatch(new UpdateSlideInPresentation({
+			slide: {
+				id: sourceSlideId,
+				changes: {
+					columnId: this.column.id,
+				},
+			},
+		}));
 	}
 
 	// jesli slajd jest przenoszony z biblioteki
@@ -95,9 +101,9 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 		this.store.pipe(
 			select(selectSlideFromLibraryById, { slideId: sourceSlideId }),
 			first(),
-		).subscribe((slide: Slide) => {
+		).subscribe((slideToMove: Slide) => {
 			this.store.dispatch(new AddSlideFromLibraryToExistingColumn({
-				sourceSlide: slide,
+				sourceSlide: slideToMove,
 				targetColumnId: this.column.id,
 			}));
 		});

@@ -14,14 +14,14 @@ export enum ColumnActionsTypes {
 export class AddColumnFromAnotherColumn implements Action {
 	public readonly type = ColumnActionsTypes.AddColumnFromAnotherColumn;
 
-	constructor(public payload: { targetColumn: Column, sourceSlide: Slide, sourceColumnId: number }) {
+	constructor(public payload: { column: Column, sourceSlideId: number, sourceColumnId: number }) {
 	}
 }
 
 export class AddColumnFromLibrary implements Action {
 	public readonly type = ColumnActionsTypes.AddColumnFromLibrary;
 
-	constructor(public payload: { targetColumn: Column, sourceSlide: Slide }) {
+	constructor(public payload: { column: Column, sourceSlide: Slide }) {
 	}
 }
 

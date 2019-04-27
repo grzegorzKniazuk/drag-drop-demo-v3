@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
+	AddColumnFromAnotherColumn,
 	AddColumnFromLibrary,
 	AddSlideFromLibraryToExistingColumn,
 	ColumnActionsTypes,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { switchMap } from 'rxjs/operators';
-import { AddSlideToPresentation } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { map, switchMap } from 'rxjs/operators';
+import {
+	AddSlideToPresentation,
+	UpdateSlideInPresentation,
+} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { RemoveSlideFromLibrary } from 'src/app/modules/dashboard/store/actions/library.actions';
 import { Observable } from 'rxjs';
 
@@ -17,7 +21,7 @@ import { Observable } from 'rxjs';
 })
 export class ColumnEffects {
 
-	@Effect()
+	@Effect({ dispatch: true })
 	public addColumnFromLibrary$: Observable<AddSlideToPresentation | RemoveSlideFromLibrary> = this.actions$.pipe(
 		ofType<AddColumnFromLibrary>(ColumnActionsTypes.AddColumnFromLibrary),
 		switchMap((action: AddColumnFromLibrary) => {
@@ -25,7 +29,7 @@ export class ColumnEffects {
 				new AddSlideToPresentation({ // dodaj slajd do dodanej kolumny w prezentacji
 					slide: {
 						...action.payload.sourceSlide,
-						columnId: action.payload.targetColumn.id, // docelowa kolumna dla slajdu
+						columnId: action.payload.column.id, // docelowa kolumna dla slajdu
 					},
 				}),
 				new RemoveSlideFromLibrary({ // usun slajd z biblioteki
@@ -35,7 +39,22 @@ export class ColumnEffects {
 		}),
 	);
 
-	@Effect()
+	@Effect({ dispatch: true })
+	public addColumnFromAnotherColumn$ = this.actions$.pipe(
+		ofType<AddColumnFromAnotherColumn>(ColumnActionsTypes.AddColumnFromAnotherColumn),
+		map((action: AddColumnFromAnotherColumn) => {
+			return new UpdateSlideInPresentation({ // aktualizuj kolumne w slajdzie
+					slide: {
+						id: action.payload.sourceSlideId,
+						changes: {
+							columnId: action.payload.column.id,
+						}
+					}
+				});
+		}),
+	);
+
+	@Effect({ dispatch: true })
 	public addSlideFromLibraryToExistingColumn$: Observable<AddSlideToPresentation | RemoveSlideFromLibrary> = this.actions$.pipe(
 		ofType<AddSlideFromLibraryToExistingColumn>(ColumnActionsTypes.AddSlideFromLibraryToExistingColumn),
 		switchMap((action: AddSlideFromLibraryToExistingColumn) => {

@@ -56,21 +56,20 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 			    withLatestFrom(this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId }))),
 		    )
 		    .subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
-			    const targetColumn = { // przygotuj nowa kolumne
+			    const column = { // przygotuj nowa kolumne
 				    id: Math.floor((Math.random() * 10000000) + 1),
 				    title: columnTitle,
-				    slidesIds: [ sourceSlideId ],
 			    };
 
 			    if (sourceColumnId) { // // jesli slajd jest przenoszony z innej kolumny
 				    this.store.dispatch(new AddColumnFromAnotherColumn({
-					    targetColumn,
-					    sourceSlide,
+					    column,
+					    sourceSlideId,
 					    sourceColumnId,
 				    }));
 			    } else { // jesli slajd jest przenoszony z biblioteki
 				    this.store.dispatch(new AddColumnFromLibrary({
-					    targetColumn,
+					    column,
 					    sourceSlide,
 				    }));
 			    }

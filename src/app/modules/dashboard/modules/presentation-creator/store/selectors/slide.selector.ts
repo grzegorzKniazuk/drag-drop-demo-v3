@@ -20,7 +20,7 @@ export const selectColumnSlidesById = createSelector(
 export const selectSlideFromColumnById = createSelector(
 	selectSlides,
 	(slides: Slide[], props: { slideId: number, columnId: number }) => {
-		return slides.filter((slide: Slide) => {
+		return slides.find((slide: Slide) => {
 			return slide.id === props.slideId && slide.columnId === props.columnId;
 		});
 	},
