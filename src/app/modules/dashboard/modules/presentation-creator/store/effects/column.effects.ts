@@ -29,7 +29,6 @@ export class ColumnEffects {
 				new AddSlideToPresentation({ // dodaj slajd do nowo dodanej kolumny w prezentacji
 					slide: {
 						...action.payload.sourceSlide,
-						position: 0,
 						columnId: action.payload.column.id, // docelowa kolumna dla slajdu
 					},
 				}),
@@ -48,7 +47,6 @@ export class ColumnEffects {
 				slide: {
 					id: action.payload.sourceSlideId,
 					changes: {
-						position: 0,
 						columnId: action.payload.column.id,
 					},
 				},
@@ -65,7 +63,6 @@ export class ColumnEffects {
 					slide: {
 						...action.payload.sourceSlide,
 						columnId: action.payload.targetColumnId, // docelowa kolumna dla slajdu
-						position: action.payload.slideNewPosition, // pozycja slajdu w docelowej kolumnie
 					},
 				}),
 				new RemoveSlideFromLibrary({ // usun slajd z biblioteki

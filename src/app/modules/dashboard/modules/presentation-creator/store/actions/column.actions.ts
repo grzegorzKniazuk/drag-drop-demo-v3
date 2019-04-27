@@ -27,7 +27,7 @@ export class AddColumnFromLibrary implements Action {
 export class AddSlideFromLibraryToExistingColumn implements Action {
 	public readonly type = ColumnActionsTypes.AddSlideFromLibraryToExistingColumn;
 
-	constructor(public payload: { targetColumnId: number, slideNewPosition: number, sourceSlide: Slide }) {
+	constructor(public payload: { targetColumnId: number, sourceSlide: Slide }) {
 	}
 }
 

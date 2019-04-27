@@ -3,7 +3,7 @@ import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Column } from 'src/app/shared/interfaces/column';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { debounceTime, first, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, first } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import {
@@ -86,26 +86,29 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 
 	// jesli slajd jest przenoszony z innej kolumny
 	private moveSlideFromColumnToColumn(sourceSlideId: number): void {
-		this.store.dispatch(new UpdateSlideInPresentation({
-			slide: {
-				id: sourceSlideId,
-				changes: {
-					columnId: this.column.id,
+		this.store.pipe(
+			select(selectAmountOfSlidesInColumnById, { columnId: this.column.id }),
+			first(),
+		).subscribe((numberOfSlidesInTargetColumn: number) => {
+			this.store.dispatch(new UpdateSlideInPresentation({
+				slide: {
+					id: sourceSlideId,
+					changes: {
+						columnId: this.column.id,
+					},
 				},
-			},
-		}));
+			}));
+		});
 	}
 
 	// jesli slajd jest przenoszony z biblioteki
 	private moveSlideFromLibraryToColumn(sourceSlideId: number): void {
 		this.store.pipe(
 			select(selectSlideFromLibraryById, { slideId: sourceSlideId }),
-			withLatestFrom(this.store.pipe(select(selectAmountOfSlidesInColumnById, { columnId: this.column.id }))),
 			first(),
-		).subscribe(([ slideToMove, numberOfSlidesInTargetColumn ]: [ Slide, number ]) => {
+		).subscribe((slideToMove: Slide) => {
 			this.store.dispatch(new AddSlideFromLibraryToExistingColumn({
 				sourceSlide: slideToMove,
-				slideNewPosition: numberOfSlidesInTargetColumn,
 				targetColumnId: this.column.id,
 			}));
 		});
