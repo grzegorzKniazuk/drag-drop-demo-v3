@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { Observable } from 'rxjs';
@@ -50,7 +50,10 @@ export class LibraryBarComponent implements OnInit, OnDestroy {
 		this.display = false;
 	}
 
-	public openSlider(): void {
-		this.display = true;
+	@HostListener('document:keydown', ['$event'])
+	public openSlider(event: KeyboardEvent | MouseEvent | any, onClick: boolean = false): void {
+		if (event.key === 'ArrowUp' || onClick) {
+			this.display = true;
+		}
 	}
 }
