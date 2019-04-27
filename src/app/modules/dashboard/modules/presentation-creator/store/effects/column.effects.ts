@@ -44,13 +44,13 @@ export class ColumnEffects {
 		ofType<AddColumnFromAnotherColumn>(ColumnActionsTypes.AddColumnFromAnotherColumn),
 		map((action: AddColumnFromAnotherColumn) => {
 			return new UpdateSlideInPresentation({ // aktualizuj kolumne w slajdzie
-					slide: {
-						id: action.payload.sourceSlideId,
-						changes: {
-							columnId: action.payload.column.id,
-						}
-					}
-				});
+				slide: {
+					id: action.payload.sourceSlideId,
+					changes: {
+						columnId: action.payload.column.id,
+					},
+				},
+			});
 		}),
 	);
 
