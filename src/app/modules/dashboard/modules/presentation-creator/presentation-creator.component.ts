@@ -53,7 +53,7 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 		this.componentFactoryService.createColumnTitleComponent(this.viewContainerRef).columnTitle$
 		    .pipe(
 			    first(),
-			    withLatestFrom(this.store.pipe(select(selectSlideFromLibraryById, { id: sourceSlideId }))),
+			    withLatestFrom(this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId }))),
 		    )
 		    .subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
 			    const targetColumn = { // przygotuj nowa kolumne
@@ -62,13 +62,13 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 				    slidesIds: [ sourceSlideId ],
 			    };
 
-			    if (sourceColumnId) { // akcje inicjuje inna kolumna
+			    if (sourceColumnId) { // // jesli slajd jest przenoszony z innej kolumny
 				    this.store.dispatch(new AddColumnFromAnotherColumn({
 					    targetColumn,
 					    sourceSlide,
 					    sourceColumnId,
 				    }));
-			    } else { // akcje inicjuje bibloteka slajdów
+			    } else { // jesli slajd jest przenoszony z biblioteki
 				    this.store.dispatch(new AddColumnFromLibrary({
 					    targetColumn,
 					    sourceSlide,

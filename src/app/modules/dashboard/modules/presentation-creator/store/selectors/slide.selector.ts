@@ -8,11 +8,20 @@ export const selectSlides = createSelector(
 	slideEntitySelectors.selectAll,
 );
 
-export const selectSlideFromPresentationById = createSelector(
+export const selectColumnSlidesById = createSelector(
 	selectSlides,
 	(slides: Slide[], props: { columnId: number }) => {
 		return slides.filter((slide: Slide) => {
 			return slide.columnId === props.columnId;
+		});
+	},
+);
+
+export const selectSlideFromColumnById = createSelector(
+	selectSlides,
+	(slides: Slide[], props: { slideId: number, columnId: number }) => {
+		return slides.filter((slide: Slide) => {
+			return slide.id === props.slideId && slide.columnId === props.columnId;
 		});
 	},
 );

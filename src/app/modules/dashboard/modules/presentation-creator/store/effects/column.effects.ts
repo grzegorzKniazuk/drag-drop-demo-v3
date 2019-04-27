@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { AddColumnFromLibrary, ColumnActionsTypes } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+import {
+	AddColumnFromLibrary,
+	AddSlideFromLibraryToExistingColumn,
+	ColumnActionsTypes,
+} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { switchMap } from 'rxjs/operators';
@@ -22,6 +26,24 @@ export class ColumnEffects {
 					slide: {
 						...action.payload.sourceSlide,
 						columnId: action.payload.targetColumn.id, // docelowa kolumna dla slajdu
+					},
+				}),
+				new RemoveSlideFromLibrary({ // usun slajd z biblioteki
+					sourceSlideId: action.payload.sourceSlide.id,
+				}),
+			];
+		}),
+	);
+
+	@Effect()
+	public addSlideFromLibraryToExistingColumn$: Observable<AddSlideToPresentation | RemoveSlideFromLibrary> = this.actions$.pipe(
+		ofType<AddSlideFromLibraryToExistingColumn>(ColumnActionsTypes.AddSlideFromLibraryToExistingColumn),
+		switchMap((action: AddSlideFromLibraryToExistingColumn) => {
+			return [
+				new AddSlideToPresentation({ // dodaj slajd do dodanej kolumny w prezentacji
+					slide: {
+						...action.payload.sourceSlide,
+						columnId: action.payload.targetColumnId, // docelowa kolumna dla slajdu
 					},
 				}),
 				new RemoveSlideFromLibrary({ // usun slajd z biblioteki

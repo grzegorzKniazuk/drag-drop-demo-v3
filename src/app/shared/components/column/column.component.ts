@@ -3,13 +3,21 @@ import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Column } from 'src/app/shared/interfaces/column';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, first } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { UpdateColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+import {
+	AddSlideFromLibraryToExistingColumn,
+	UpdateColumn,
+} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { Observable } from 'rxjs';
 import { Slide } from 'src/app/shared/interfaces/slide';
-import { selectSlideFromPresentationById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
+import {
+	selectColumnSlidesById,
+	selectSlideFromColumnById,
+} from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
+import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
+import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 
 @AutoUnsubscribe()
 @Component({
@@ -35,7 +43,7 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 		this.buildForm();
 		this.watchFormChanges();
 
-		this.columnSlides$ = this.store.pipe(select(selectSlideFromPresentationById, { columnId: this.column.id }));
+		this.columnSlides$ = this.store.pipe(select(selectColumnSlidesById, { columnId: this.column.id }));
 	}
 
 	ngOnDestroy() {
@@ -64,7 +72,34 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 
 	public onDrop(event: DragEvent): void {
 		event.stopImmediatePropagation();
-
 		this.isElementOnDragOver = false;
+
+		const { sourceSlideId, sourceColumnId }: SlideDataTransfer = JSON.parse(event.dataTransfer.getData('string'));
+
+		if (sourceColumnId) {
+			this.moveSlideFromColumnToColumn(sourceSlideId, sourceColumnId);
+		} else {
+			this.moveSlideFromLibraryToColumn(sourceSlideId);
+		}
+	}
+
+	// jesli slajd jest przenoszony z innej kolumny
+	private moveSlideFromColumnToColumn(sourceSlideId: number, sourceColumnId: number): void {
+		this.store.pipe(
+			select(selectSlideFromColumnById, { slideId: sourceSlideId, columnId: sourceColumnId }),
+		);
+	}
+
+	// jesli slajd jest przenoszony z biblioteki
+	private moveSlideFromLibraryToColumn(sourceSlideId: number): void {
+		this.store.pipe(
+			select(selectSlideFromLibraryById, { slideId: sourceSlideId }),
+			first(),
+		).subscribe((slide: Slide) => {
+			this.store.dispatch(new AddSlideFromLibraryToExistingColumn({
+				sourceSlide: slide,
+				targetColumnId: this.column.id,
+			}));
+		});
 	}
 }

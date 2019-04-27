@@ -3,7 +3,6 @@ import * as libraryEntitySelectors from 'src/app/modules/dashboard/store/reducer
 import { selectLibraryState } from 'src/app/modules/dashboard/store/selectors/dashboard.selectors';
 import { Slide } from 'src/app/shared/interfaces/slide';
 
-
 export const selectLibrarySlidesAmount = createSelector(
 	selectLibraryState,
 	libraryEntitySelectors.selectTotal,
@@ -16,11 +15,9 @@ export const selectLibrarySlides = createSelector(
 
 export const selectSlideFromLibraryById = createSelector(
 	selectLibrarySlides,
-	(slides: Slide[], props: { id: number }) => {
+	(slides: Slide[], props: { slideId: number }) => {
 		return slides.find((slide: Slide) => {
-			return slide.id === props.id;
+			return slide.id === props.slideId;
 		});
-	}
+	},
 );
-
-
