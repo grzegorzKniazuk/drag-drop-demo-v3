@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, NgZone, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, NgZone, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Store } from '@ngrx/store';
@@ -11,7 +11,7 @@ import { UpdateSlidePositionInColumn } from 'src/app/modules/dashboard/modules/p
 	styleUrls: [ './slide-thumbnail.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SlideThumbnailComponent extends DropZoneBase implements OnChanges {
+export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnChanges {
 
 	@Input() public slide: Slide;
 	@Input() public position: number;
@@ -23,8 +23,24 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnChanges {
 		super(ngZone);
 	}
 
+	ngOnInit() {
+		console.log('init');
+		this.initSLidePositionInColumn();
+	}
+
 	ngOnChanges(changes: SimpleChanges) {
 		this.updateSlidePositionInColumn(changes);
+	}
+
+	private initSLidePositionInColumn(): void {
+		this.store.dispatch(new UpdateSlidePositionInColumn({
+			slide: {
+				id: this.slide.id,
+				changes: {
+					position: this.position,
+				},
+			},
+		}));
 	}
 
 	private updateSlidePositionInColumn(changes: SimpleChanges): void {
@@ -44,6 +60,8 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnChanges {
 
 	public onDragStart(event: DragEvent): void {
 		event.stopImmediatePropagation();
+
+		console.log(this.slide.id);
 
 		event.dataTransfer.setData('string', JSON.stringify({
 			sourceSlideId: this.slide.id,

@@ -96,6 +96,7 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 					id: sourceSlideId,
 					changes: {
 						columnId: this.column.id,
+						position: numberOfSlidesInTargetColumn,
 					},
 				},
 			}));

@@ -8,6 +8,13 @@
 		@include size(200px);
 	}
 
+	.slide-id {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background: $white;
+	}
+
 	&.drag-over {
 		opacity: 0.65;
 	}
