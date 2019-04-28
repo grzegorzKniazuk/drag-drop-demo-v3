@@ -25,8 +25,8 @@ import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/sele
 })
 export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 
-	@Input() columnDividerSibilings: ColumnDividerSibilings; // {leftSideColumnPosition: 0, rightSideColumnPosition: 1}
-	@Input() numberOfColumns: number; // 2
+	@Input() columnDividerSibilings: ColumnDividerSibilings;
+	@Input() numberOfColumns: number;
 
 	constructor(
 		private componentFactoryService: ComponentFactoryService,

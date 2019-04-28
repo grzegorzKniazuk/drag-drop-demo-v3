@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Column } from 'src/app/shared/interfaces/column';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -6,7 +6,7 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { debounceTime, first } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { UpdateColumnTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+import { UpdateColumnsPosition, UpdateColumnTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { Observable } from 'rxjs';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import {
@@ -23,7 +23,7 @@ import { MoveSlideBetweenColumns } from 'src/app/modules/dashboard/modules/prese
 	styleUrls: [ './column.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
+export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, OnDestroy {
 
 	@Input() public column: Column;
 	@Input() public position: number;
@@ -43,6 +43,19 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 		this.buildForm();
 		this.watchFormChanges();
 		this.initColumnSlides();
+	}
+
+	ngOnChanges(changes: SimpleChanges) {
+		if (this.column.position !== this.position) {
+			this.store.dispatch(new UpdateColumnsPosition({
+				column: {
+					id: this.column.id,
+					changes: {
+						position: this.position,
+					},
+				},
+			}));
+		}
 	}
 
 	ngOnDestroy() {

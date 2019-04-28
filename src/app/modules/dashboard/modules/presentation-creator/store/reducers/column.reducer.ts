@@ -40,8 +40,8 @@ export function columnReducer(state = initialColumnState, action: ColumnActions)
 				...state,
 			};
 		}
-		case ColumnActionsTypes.UpdateColumnsPositions: {
-			return columnAdapter.updateMany(action.payload.columns, state);
+		case ColumnActionsTypes.UpdateColumnsPosition: {
+			return columnAdapter.updateOne(action.payload.column, state);
 		}
 		default: {
 			return {
