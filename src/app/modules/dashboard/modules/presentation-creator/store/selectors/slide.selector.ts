@@ -8,6 +8,15 @@ export const selectSlides = createSelector(
 	slideEntitySelectors.selectAll,
 );
 
+export const selectSlidesById = createSelector(
+	selectSlides,
+	((slides: Slide[], props: { slideId: number }) => {
+		return slides.find((slide: Slide) => {
+			return slide.id === props.slideId;
+		});
+	}),
+);
+
 export const selectColumnSlidesById = createSelector(
 	selectSlides,
 	(slides: Slide[], props: { columnId: number }) => {

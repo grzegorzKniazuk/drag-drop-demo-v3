@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
+	AddColumnBetweenExistingColumns,
 	AddColumnFromAnotherColumn,
 	AddColumnFromLibrary,
 	AddSlideFromLibraryToExistingColumn,
@@ -11,6 +12,7 @@ import { AppState } from 'src/app/store';
 import { map, switchMap } from 'rxjs/operators';
 import {
 	AddSlideToPresentation,
+	MoveSlideBetweenColumns,
 	MoveSlideToNewCreatedColumn,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { RemoveSlideFromLibrary } from 'src/app/modules/dashboard/store/actions/library.actions';
@@ -72,6 +74,22 @@ export class ColumnEffects {
 					sourceSlideId: action.payload.sourceSlide.id,
 				}),
 			];
+		}),
+	);
+
+	@Effect({ dispatch: true })
+	public addColumnBetweenExistingColumns$ = this.actions$.pipe(
+		ofType<AddColumnBetweenExistingColumns>(ColumnActionsTypes.AddColumnBetweenExistingColumns),
+		map((action: AddColumnBetweenExistingColumns) => {
+			return new MoveSlideBetweenColumns({
+				slide: {
+					id: action.payload.sourceSlide.id,
+					changes: {
+						columnId: action.payload.column.id,
+						position: 0,
+					},
+				},
+			});
 		}),
 	);
 

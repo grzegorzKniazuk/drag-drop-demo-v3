@@ -43,7 +43,7 @@ export class UpdateColumnTitle implements Action {
 export class AddColumnBetweenExistingColumns implements Action {
 	public readonly type = ColumnActionsTypes.AddColumnBetweenExistingColumns;
 
-	constructor(public payload: { column: Column }) {
+	constructor(public payload: { column: Column, sourceSlide: Slide }) {
 	}
 }
 

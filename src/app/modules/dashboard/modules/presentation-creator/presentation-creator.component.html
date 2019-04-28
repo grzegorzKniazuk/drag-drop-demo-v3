@@ -5,6 +5,7 @@
 		<app-column [column]="column" [position]="i"></app-column>
 		<app-column-divider
 			*ngIf="l !== i + 1"
+			[numberOfColumns]="l"
 			[columnDividerSibilings]="{ leftSideColumnPosition: i, rightSideColumnPosition: i + 1 }">
 		</app-column-divider>
 	</ng-container>
