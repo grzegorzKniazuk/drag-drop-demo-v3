@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
 	AddColumnBetweenExistingColumns,
+	AddColumnBetweenExistingColumnsByLibrarySlide,
 	AddColumnFromAnotherColumn,
 	AddColumnFromLibrary,
 	AddSlideFromLibraryToExistingColumn,
@@ -78,7 +79,7 @@ export class ColumnEffects {
 	);
 
 	@Effect({ dispatch: true })
-	public addColumnBetweenExistingColumns$ = this.actions$.pipe(
+	public addColumnBetweenExistingColumns$: Observable<MoveSlideBetweenColumns> = this.actions$.pipe(
 		ofType<AddColumnBetweenExistingColumns>(ColumnActionsTypes.AddColumnBetweenExistingColumns),
 		map((action: AddColumnBetweenExistingColumns) => {
 			return new MoveSlideBetweenColumns({
@@ -90,6 +91,25 @@ export class ColumnEffects {
 					},
 				},
 			});
+		}),
+	);
+
+	@Effect({ dispatch: true })
+	public addColumnBetweenExistingColumnsByLibrarySlide$: Observable<AddSlideToPresentation | RemoveSlideFromLibrary> = this.actions$.pipe(
+		ofType<AddColumnBetweenExistingColumnsByLibrarySlide>(ColumnActionsTypes.AddColumnBetweenExistingColumnsByLibrarySlide),
+		switchMap((action: AddColumnBetweenExistingColumnsByLibrarySlide) => {
+			return [
+				new AddSlideToPresentation({
+					slide: {
+						...action.payload.sourceSlide,
+						columnId: action.payload.column.id,
+						position: 0,
+					},
+				}),
+				new RemoveSlideFromLibrary({
+					sourceSlideId: action.payload.sourceSlide.id,
+				}),
+			];
 		}),
 	);
 

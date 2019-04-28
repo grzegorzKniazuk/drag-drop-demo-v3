@@ -26,6 +26,8 @@ export const initialColumnState: ColumnState = columnAdapter.getInitialState();
 
 export function columnReducer(state = initialColumnState, action: ColumnActions): ColumnState {
 	switch (action.type) {
+		case ColumnActionsTypes.AddColumnBetweenExistingColumns:
+		case ColumnActionsTypes.AddColumnBetweenExistingColumnsByLibrarySlide:
 		case ColumnActionsTypes.AddColumnFromAnotherColumn:
 		case ColumnActionsTypes.AddColumnFromLibrary: {
 			return columnAdapter.addOne(action.payload.column, state);
@@ -37,9 +39,6 @@ export function columnReducer(state = initialColumnState, action: ColumnActions)
 			return {
 				...state,
 			};
-		}
-		case ColumnActionsTypes.AddColumnBetweenExistingColumns: {
-			return columnAdapter.addOne(action.payload.column, state);
 		}
 		case ColumnActionsTypes.UpdateColumnsPositions: {
 			return columnAdapter.updateMany(action.payload.columns, state);

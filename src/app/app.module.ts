@@ -26,7 +26,7 @@ import { RouterErrorHandler } from 'src/app/shared/utils/router.error-handler';
 		environment.production ? [] : [ StoreDevtoolsModule.instrument() ],
 	],
 	providers: [
-		{ provide: ErrorHandler, useClass: RouterErrorHandler },
+		// { provide: ErrorHandler, useClass: RouterErrorHandler },
 	],
 	bootstrap: [ AppComponent ],
 })
