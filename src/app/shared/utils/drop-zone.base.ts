@@ -9,13 +9,13 @@ import { AppState } from 'src/app/store';
 
 export abstract class DropZoneBase {
 
+	public isElementOnDragOver: boolean;
+
 	protected constructor(
 		protected store: Store<AppState>,
 		protected ngZone: NgZone,
 	) {
 	}
-
-	public isElementOnDragOver: boolean;
 
 	public get dragOverCssClass(): string {
 		return this.isElementOnDragOver ? 'drag-over' : '';

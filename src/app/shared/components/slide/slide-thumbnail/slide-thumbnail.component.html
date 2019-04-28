@@ -1,5 +1,5 @@
-<div (dragover)="allowDrop($event)"
-	 (dragleave)="onDragLeave()"
+<div (dragleave)="onDragLeave()"
+	 (dragover)="allowDrop($event)"
 	 (dragstart)="onDragStart($event)"
 	 (drop)="onDrop($event)"
 	 [ngClass]="dragOverCssClass"

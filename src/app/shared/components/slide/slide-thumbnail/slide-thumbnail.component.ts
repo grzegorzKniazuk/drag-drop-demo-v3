@@ -12,7 +12,7 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { interval } from 'rxjs';
 import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { Update } from '@ngrx/entity';
-import { isNumber, isNull } from 'lodash';
+import { isNull, isNumber } from 'lodash';
 
 @AutoUnsubscribe()
 @Component({
@@ -54,12 +54,6 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 	ngOnDestroy() {
 	}
 
-	private detectPositionChangesOnSlideMove(): void {
-		interval(500).subscribe(() => {
-			this.changeDetectorRef.markForCheck();
-		});
-	}
-
 	public onDragStart(event: DragEvent): void {
 		event.stopImmediatePropagation();
 
@@ -84,6 +78,12 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		} else if (isNull(sourceSlidePosition)) {
 			this.moveSlideFromLibraryToColumn(sourceSlideId, this.slide.columnId); // jesli slajd przenoszony z bibloteki do dodaj go na dół kolumny
 		}
+	}
+
+	private detectPositionChangesOnSlideMove(): void {
+		interval(500).subscribe(() => {
+			this.changeDetectorRef.markForCheck();
+		});
 	}
 
 	private swapSlideInTheSameColumn(sourceSlideId: number, sourceSlidePosition: number): void {

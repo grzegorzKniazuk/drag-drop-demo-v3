@@ -15,7 +15,7 @@ export class SlideColumnDividerComponent extends DropZoneBase implements OnInit 
 		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
-		super(store,ngZone);
+		super(store, ngZone);
 	}
 
 	ngOnInit() {

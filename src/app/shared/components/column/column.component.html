@@ -9,7 +9,7 @@
 	</form>
 	<div>
 		<ng-container *ngFor="let slide of (columnSlides$ | async); let i = index">
-			<app-slide [slide]="slide" [position]="i"></app-slide>
+			<app-slide [position]="i" [slide]="slide"></app-slide>
 			<app-slide-column-divider></app-slide-column-divider>
 		</ng-container>
 	</div>
