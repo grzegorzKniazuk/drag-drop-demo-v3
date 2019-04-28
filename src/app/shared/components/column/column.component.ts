@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Column } from 'src/app/shared/interfaces/column';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -47,6 +47,9 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 		this.watchFormChanges();
 
 		this.columnSlides$ = this.store.pipe(select(selectColumnSlidesById, { columnId: this.column.id }));
+		this.columnSlides$.subscribe((slides) => {
+			console.log(slides);
+		});
 	}
 
 	ngOnDestroy() {

@@ -12,6 +12,7 @@ export class SlideEffects {
 	public updateSlideColumnPosition$ = this.actions$.pipe(
 		ofType<UpdateSlideColumnPosition>(SlideActionsTypes.UpdateSlideColumnPosition),
 		tap(() => {
+
 		}),
 	);
 
