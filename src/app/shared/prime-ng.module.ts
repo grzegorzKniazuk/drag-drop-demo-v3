@@ -1,5 +1,14 @@
 import { NgModule } from '@angular/core';
-import { ButtonModule, ChipsModule, DialogModule, DropdownModule, InputTextModule, MultiSelectModule, SidebarModule } from 'primeng/primeng';
+import {
+	ButtonModule,
+	ChipsModule,
+	ConfirmDialogModule,
+	DialogModule,
+	DropdownModule,
+	InputTextModule,
+	MultiSelectModule,
+	SidebarModule,
+} from 'primeng/primeng';
 
 const primeNGmodules = [
 	SidebarModule,
@@ -9,6 +18,7 @@ const primeNGmodules = [
 	DialogModule,
 	InputTextModule,
 	ChipsModule,
+	ConfirmDialogModule,
 ];
 
 @NgModule({

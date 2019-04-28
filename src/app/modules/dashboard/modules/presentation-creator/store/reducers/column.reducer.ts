@@ -43,6 +43,9 @@ export function columnReducer(state = initialColumnState, action: ColumnActions)
 		case ColumnActionsTypes.UpdateColumnsPosition: {
 			return columnAdapter.updateOne(action.payload.column, state);
 		}
+		case ColumnActionsTypes.RemoveColumn: {
+			return columnAdapter.removeOne(action.payload.columnId, state);
+		}
 		default: {
 			return {
 				...state,

@@ -11,6 +11,7 @@ export enum SlideActionsTypes {
 	SwapSlideInTheDifferentColumns = '[Slide] Swap Slide In The Different Column',
 	MoveBetweenSlidesInTheSameColumn = '[Slide] Move Between Slides In The Same Column',
 	MoveBetweenSlidesInTheDifferentColumn = '[Slide] Move Between Slides In The Different Column',
+	RemoveSlide = '[Slide] Remove Slide',
 }
 
 export class AddSlideToPresentation implements Action {
@@ -69,6 +70,13 @@ export class MoveBetweenSlidesInTheDifferentColumn implements Action {
 	}
 }
 
+export class RemoveSlide implements Action {
+	public readonly type = SlideActionsTypes.RemoveSlide;
+
+	constructor(public payload: { slideId: number }) {
+	}
+}
+
 export type SlideActions =
 	AddSlideToPresentation
 	| MoveSlideToNewCreatedColumn
@@ -77,4 +85,5 @@ export type SlideActions =
 	| SwapSlideInTheSameColumn
 	| SwapSlideInTheDifferentColumns
 	| MoveBetweenSlidesInTheSameColumn
-	| MoveBetweenSlidesInTheDifferentColumn;
+	| MoveBetweenSlidesInTheDifferentColumn
+	| RemoveSlide;

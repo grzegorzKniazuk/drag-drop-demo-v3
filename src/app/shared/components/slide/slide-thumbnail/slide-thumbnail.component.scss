@@ -15,6 +15,31 @@
 		background: $white;
 	}
 
+	i {
+		position: absolute;
+		background: $white;
+		color: $black;
+		cursor: pointer;
+
+		&:first-of-type {
+			top: 0;
+			right: 0;
+
+			&:hover {
+				color: $success;
+			}
+		}
+
+		&:last-of-type {
+			top: 20px;
+			right: 0;
+
+			&:hover {
+				color: $danger;
+			}
+		}
+	}
+
 	&.drag-over {
 		opacity: 0.65;
 	}

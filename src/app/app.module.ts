@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { RouterErrorHandler } from 'src/app/shared/utils/router.error-handler';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
 	declarations: [
@@ -26,6 +26,7 @@ import { RouterErrorHandler } from 'src/app/shared/utils/router.error-handler';
 		environment.production ? [] : [ StoreDevtoolsModule.instrument() ],
 	],
 	providers: [
+		ConfirmationService,
 		// { provide: ErrorHandler, useClass: RouterErrorHandler },
 	],
 	bootstrap: [ AppComponent ],

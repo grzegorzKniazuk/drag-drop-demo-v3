@@ -14,4 +14,4 @@ export const reducers: ActionReducerMap<PresentationCreatorState> = {
 	columns: columnReducer,
 };
 
-export const metaReducers: MetaReducer<PresentationCreatorState>[] = environment.production ? [ storeFreeze ] : [ storeFreeze ];
+export const metaReducers: MetaReducer<PresentationCreatorState>[] = environment.production ? [ ] : [ storeFreeze ];

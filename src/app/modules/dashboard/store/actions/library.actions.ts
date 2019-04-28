@@ -16,7 +16,7 @@ export class AddSlidesToLibrary implements Action {
 export class RemoveSlideFromLibrary implements Action {
 	public readonly type = LibraryActionsTypes.RemoveSlideFromLibrary;
 
-	constructor(public payload: { sourceSlideId: number }) {
+	constructor(public payload: { slideId: number }) {
 	}
 }
 

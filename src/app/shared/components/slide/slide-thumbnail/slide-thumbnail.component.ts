@@ -1,4 +1,16 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import {
+	ApplicationRef,
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	Component,
+	Input,
+	NgZone,
+	OnChanges,
+	OnDestroy,
+	OnInit,
+	SimpleChanges,
+	ViewContainerRef,
+} from '@angular/core';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Store } from '@ngrx/store';
@@ -13,6 +25,9 @@ import { interval } from 'rxjs';
 import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { Update } from '@ngrx/entity';
 import { isNull, isNumber } from 'lodash';
+import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
+import { first } from 'rxjs/operators';
+import { RemoveSlideFromLibrary } from 'src/app/modules/dashboard/store/actions/library.actions';
 
 @AutoUnsubscribe()
 @Component({
@@ -28,6 +43,8 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 
 	constructor(
 		private changeDetectorRef: ChangeDetectorRef,
+		private componentFactoryService: ComponentFactoryService,
+		private applicationRef: ApplicationRef,
 		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
@@ -126,5 +143,25 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		this.store.dispatch(new SwapSlideInTheDifferentColumns({
 			slides: [ sourceSlide, targetSlide ],
 		}));
+	}
+
+	public onRemoveSlide(): void {
+		if (isNumber(this.slide.columnId)) { // jesli usuwamy z prezentacji
+
+		} else if (isNull(this.slide.columnId)) { // jesli usuwamy z bibiloteki
+			this.componentFactoryService.createConfirmDialogComponent(
+				this.applicationRef.components[0].instance.viewContainerRef,
+				'Uwaga',
+				'Czy napewno chcesz usunąć ten slajd z biblioteki? Operacji nie można cofnąć',
+			).onAcceptOrConfirm$.pipe(
+				first(),
+			).subscribe((accepted: boolean) => {
+				if (accepted) {
+					this.store.dispatch(new RemoveSlideFromLibrary({
+						slideId: this.slide.id,
+					}));
+				}
+			});
+		}
 	}
 }

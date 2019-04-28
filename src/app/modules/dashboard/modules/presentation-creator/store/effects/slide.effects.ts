@@ -14,7 +14,7 @@ export class SlideEffects {
 		ofType<AddSlideToPresentation>(SlideActionsTypes.AddSlideToPresentation),
 		map((action: AddSlideToPresentation) => {
 			return new RemoveSlideFromLibrary({
-				sourceSlideId: action.payload.slide.id,
+				slideId: action.payload.slide.id,
 			});
 		}),
 	);

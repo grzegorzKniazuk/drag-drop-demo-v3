@@ -11,6 +11,7 @@ export enum ColumnActionsTypes {
 	AddColumnBetweenExistingColumns = '[Column] Add Column Between Existing Columns',
 	AddColumnBetweenExistingColumnsByLibrarySlide = '[Column] Add Column Between Existing Columns By Library Slide',
 	UpdateColumnsPosition = '[Column] Update Columns Position',
+	RemoveColumn = '[Column] Remove Column',
 }
 
 export class AddColumnFromAnotherColumn implements Action {
@@ -62,6 +63,13 @@ export class UpdateColumnsPosition implements Action {
 	}
 }
 
+export class RemoveColumn implements Action {
+	public readonly type = ColumnActionsTypes.RemoveColumn;
+
+	constructor(public payload: { columnId: number }) {
+	}
+}
+
 export type ColumnActions =
 	AddColumnFromAnotherColumn
 	| AddColumnFromLibrary
@@ -69,4 +77,5 @@ export type ColumnActions =
 	| AddSlideFromLibraryToExistingColumn
 	| AddColumnBetweenExistingColumns
 	| AddColumnBetweenExistingColumnsByLibrarySlide
-	| UpdateColumnsPosition;
+	| UpdateColumnsPosition
+	| RemoveColumn;
