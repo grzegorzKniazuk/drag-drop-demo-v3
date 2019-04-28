@@ -4,6 +4,7 @@ import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import {
+	SwapSlideInTheDifferentColumns,
 	SwapSlideInTheSameColumn,
 	UpdateSlideColumnPosition,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
@@ -11,7 +12,7 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { interval } from 'rxjs';
 import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { Update } from '@ngrx/entity';
-import { isNumber } from 'lodash';
+import { isNumber, isNull } from 'lodash';
 
 @AutoUnsubscribe()
 @Component({
@@ -78,8 +79,11 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 
 		if (sourceColumnId === this.slide.columnId && isNumber(sourceSlidePosition)) {
 			this.swapSlideInTheSameColumn(sourceSlideId, sourceSlidePosition);
-		}
+		} else if (sourceColumnId !== this.slide.columnId && isNumber(sourceSlidePosition)) {
+			this.swapSlideInTheDifferentColumns(sourceSlideId, sourceSlidePosition, sourceColumnId);
+		} else if (isNull(sourceSlidePosition)) {
 
+		}
 	}
 
 	private swapSlideInTheSameColumn(sourceSlideId: number, sourceSlidePosition: number): void {
@@ -98,6 +102,28 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		};
 
 		this.store.dispatch(new SwapSlideInTheSameColumn({
+			slides: [ sourceSlide, targetSlide ],
+		}));
+	}
+
+	private swapSlideInTheDifferentColumns(sourceSlideId: number, sourceColumnId: number, sourceSlidePosition: number): void {
+		const sourceSlide: Update<Slide> = {
+			id: sourceSlideId,
+			changes: {
+				columnId: this.slide.columnId,
+				position: this.position,
+			},
+		};
+
+		const targetSlide: Update<Slide> = {
+			id: this.slide.id,
+			changes: {
+				columnId: sourceColumnId,
+				position: sourceSlidePosition,
+			},
+		};
+
+		this.store.dispatch(new SwapSlideInTheDifferentColumns({
 			slides: [ sourceSlide, targetSlide ],
 		}));
 	}

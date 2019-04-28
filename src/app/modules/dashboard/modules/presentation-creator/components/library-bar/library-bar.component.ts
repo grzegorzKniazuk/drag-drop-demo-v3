@@ -16,7 +16,7 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 })
 export class LibraryBarComponent implements OnInit, OnDestroy {
 
-	public display: boolean;
+	public display: boolean = true;
 	public librarySlidesAmount$: Observable<number>;
 	public slidesInLibary$: Observable<Slide[]>;
 	@ViewChild('fileInputElement') protected fileInputElement: ElementRef;
