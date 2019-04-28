@@ -1,9 +1,12 @@
 <div (dragover)="allowDrop($event)"
 	 (drop)="onDrop($event)"
 	 class="presentation-creator-container">
-	<ng-container *ngFor="let column of (columns$ | async); let i = index">
+	<ng-container *ngFor="let column of (columns$ | async); let i = index; let l = count">
 		<app-column [column]="column" [position]="i"></app-column>
-		<app-column-divider></app-column-divider>
+		<app-column-divider
+			*ngIf="l !== i + 1"
+			[columnDividerSibilings]="{ leftSideColumnPosition: i, rightSideColumnPosition: i + 1 }">
+		</app-column-divider>
 	</ng-container>
 	<app-library-bar></app-library-bar>
 </div>
