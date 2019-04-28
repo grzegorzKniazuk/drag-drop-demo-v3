@@ -33,6 +33,10 @@ export function slideReducer(state = initialSlideState, action: SlideActions): S
 		case SlideActionsTypes.MoveSlideToNewCreatedColumn: {
 			return slideAdapter.updateOne(action.payload.slide, state);
 		}
+		case SlideActionsTypes.SwapSlideInTheSameColumn:
+		case SlideActionsTypes.SwapSlideInTheDifferentColumns: {
+			return slideAdapter.updateMany(action.payload.slides, state);
+		}
 		default: {
 			return {
 				...state,

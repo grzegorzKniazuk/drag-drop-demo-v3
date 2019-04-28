@@ -17,15 +17,6 @@ export const selectColumnSlidesById = createSelector(
 	},
 );
 
-export const selectSlideFromColumnById = createSelector(
-	selectSlides,
-	(slides: Slide[], props: { slideId: number, columnId: number }) => {
-		return slides.find((slide: Slide) => {
-			return slide.id === props.slideId && slide.columnId === props.columnId;
-		});
-	},
-);
-
 export const selectAmountOfSlidesInColumnById = createSelector(
 	selectSlides,
 	(slides: Slide[], props: { columnId: number }) => {
@@ -33,17 +24,4 @@ export const selectAmountOfSlidesInColumnById = createSelector(
 			return slide.columnId === props.columnId;
 		}).length;
 	},
-);
-
-export const selectSlidePositionById = createSelector(
-	selectSlides,
-	(slides: Slide[], props: { slideId: number}) => {
-		if (slides.length) {
-			return slides.find((slide: Slide) => {
-				return slide.id === props.slideId;
-			}).position;
-		} else {
-			return null;
-		}
-	}
 );
