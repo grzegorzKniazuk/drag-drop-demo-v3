@@ -13,7 +13,7 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { Column } from 'src/app/shared/interfaces/column';
-import { selectColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
+import { selectAmountOfColumns, selectColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { Slide } from 'src/app/shared/interfaces/slide';
 
@@ -54,11 +54,15 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 		this.componentFactoryService.createColumnTitleComponent(this.viewContainerRef).columnTitle$
 		    .pipe(
 			    first(),
-			    withLatestFrom(this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId }))),
+			    withLatestFrom(
+				    this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId })),
+				    this.store.pipe(select(selectAmountOfColumns)),
+			    ),
 		    )
-		    .subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
-			    const column = { // przygotuj nowa kolumne
+		    .subscribe(([ columnTitle, sourceSlide, amountOfColumnsInPresentation ]: [ string, Slide, number ]) => {
+			    const column: Column = { // przygotuj nowa kolumne
 				    id: Math.floor((Math.random() * 10000000) + 1),
+				    position: amountOfColumnsInPresentation,
 				    title: columnTitle,
 			    };
 

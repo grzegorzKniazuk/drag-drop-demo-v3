@@ -1,7 +1,7 @@
 @import "base.scss";
 
 .column-container {
-	@include flex(flex, flex-start, center, column);
+	@include flex(flex, flex-start, center, column, relative);
 	@include size(200px, 100%);
 	min-height: calc(90vh);
 	margin-top: 15px;
@@ -22,6 +22,13 @@
 		input {
 			width: 96%;
 		}
+	}
+
+	.column-id {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		background: $white;
 	}
 
 	&.drag-over {

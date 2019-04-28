@@ -26,6 +26,7 @@ import { MoveSlideBetweenColumns } from 'src/app/modules/dashboard/modules/prese
 export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 
 	@Input() public column: Column;
+	@Input() public position: number;
 	public columnSlides$: Observable<Slide[]>;
 	public columnTitleForm: FormGroup;
 
