@@ -4,7 +4,7 @@
 	@include flex(flex, flex-start, center, column);
 	@include size(200px, 100%);
 	min-height: calc(90vh);
-	margin: 15px;
+	margin-top: 15px;
 	z-index: 1;
 
 	.title-container {

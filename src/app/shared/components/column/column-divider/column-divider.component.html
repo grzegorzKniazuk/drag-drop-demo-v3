@@ -1,0 +1,5 @@
+<div (dragleave)="onDragLeave()"
+	 (dragover)="allowDrop($event)"
+	 (drop)="onDrop($event)"
+	 [ngClass]="dragOverCssClass"
+	 class="column-divider"></div>
