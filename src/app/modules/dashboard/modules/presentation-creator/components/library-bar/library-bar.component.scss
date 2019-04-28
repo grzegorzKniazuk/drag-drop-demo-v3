@@ -3,6 +3,7 @@
 .sidebar-content {
 	@include flex(flex, flex-start, flex-start, row);
 	@include size(100%, 100%);
+	user-select: none;
 
 	.slides-in-library {
 		@include flex(flex, flex-start, flex-start, row);
