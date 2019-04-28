@@ -8,7 +8,7 @@ export interface SlideState extends EntityState<Slide> {
 
 export const slideSortComparer: Comparer<Slide> = ((a: Slide, b: Slide): number => {
 	if (a.position === null || a.position > b.position) {
-		return  1;
+		return 1;
 	} else if (a.position < b.position) {
 		return -1;
 	} else {
@@ -28,8 +28,8 @@ export function slideReducer(state = initialSlideState, action: SlideActions): S
 		case SlideActionsTypes.AddSlideToPresentation: {
 			return slideAdapter.addOne(action.payload.slide, state);
 		}
-		case SlideActionsTypes.UpdateSlidePositionInColumn:
-		case SlideActionsTypes.UpdateSlideInPresentation: {
+		case SlideActionsTypes.MoveSlideBetweenColumns:
+		case SlideActionsTypes.MoveSlideToNewCreatedColumn: {
 			return slideAdapter.updateOne(action.payload.slide, state);
 		}
 		default: {

@@ -7,7 +7,7 @@ export enum ColumnActionsTypes {
 	AddColumnFromAnotherColumn = '[Column] Add Column From Another Column',
 	AddColumnFromLibrary = '[Column] Add Column From Library',
 	AddSlideFromLibraryToExistingColumn = '[Column] Add Slide From Library To Existing Column',
-	UpdateColumn = '[Column] Update Column Title',
+	UpdateColumnTitle = '[Column] Update Column Title',
 }
 
 export class AddColumnFromAnotherColumn implements Action {
@@ -31,11 +31,11 @@ export class AddSlideFromLibraryToExistingColumn implements Action {
 	}
 }
 
-export class UpdateColumn implements Action {
-	public readonly type = ColumnActionsTypes.UpdateColumn;
+export class UpdateColumnTitle implements Action {
+	public readonly type = ColumnActionsTypes.UpdateColumnTitle;
 
 	constructor(public payload: { targetColumn: Update<Column> }) {
 	}
 }
 
-export type ColumnActions = AddColumnFromAnotherColumn | AddColumnFromLibrary | UpdateColumn | AddSlideFromLibraryToExistingColumn;
+export type ColumnActions = AddColumnFromAnotherColumn | AddColumnFromLibrary | UpdateColumnTitle | AddSlideFromLibraryToExistingColumn;

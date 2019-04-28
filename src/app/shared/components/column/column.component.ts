@@ -8,17 +8,14 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import {
 	AddSlideFromLibraryToExistingColumn,
-	UpdateColumn,
+	UpdateColumnTitle,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { Observable } from 'rxjs';
 import { Slide } from 'src/app/shared/interfaces/slide';
-import {
-	selectAmountOfSlidesInColumnById,
-	selectColumnSlidesById,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
+import { selectColumnSlidesById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
-import { UpdateSlideInPresentation } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { MoveSlideBetweenColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 
 @AutoUnsubscribe()
 @Component({
@@ -36,7 +33,7 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 	constructor(
 		private formBuilder: FormBuilder,
 		private store: Store<AppState>,
-		ngZone: NgZone
+		ngZone: NgZone,
 	) {
 		super(ngZone);
 	}
@@ -74,7 +71,7 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 		this.columnTitleForm.valueChanges.pipe(
 			debounceTime(1500),
 		).subscribe((changes: { columnTitle: string }) => {
-			this.store.dispatch(new UpdateColumn({
+			this.store.dispatch(new UpdateColumnTitle({
 				targetColumn: {
 					id: this.column.id,
 					changes: {
@@ -85,25 +82,17 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 		});
 	}
 
-	// jesli slajd jest przenoszony z innej kolumny
 	private moveSlideFromColumnToColumn(sourceSlideId: number): void {
-		this.store.pipe(
-			select(selectAmountOfSlidesInColumnById, { columnId: this.column.id }),
-			first(),
-		).subscribe((numberOfSlidesInTargetColumn: number) => {
-			this.store.dispatch(new UpdateSlideInPresentation({
-				slide: {
-					id: sourceSlideId,
-					changes: {
-						columnId: this.column.id,
-						position: numberOfSlidesInTargetColumn,
-					},
+		this.store.dispatch(new MoveSlideBetweenColumns({
+			slide: {
+				id: sourceSlideId,
+				changes: {
+					columnId: this.column.id,
 				},
-			}));
-		});
+			},
+		}));
 	}
 
-	// jesli slajd jest przenoszony z biblioteki
 	private moveSlideFromLibraryToColumn(sourceSlideId: number): void {
 		this.store.pipe(
 			select(selectSlideFromLibraryById, { slideId: sourceSlideId }),

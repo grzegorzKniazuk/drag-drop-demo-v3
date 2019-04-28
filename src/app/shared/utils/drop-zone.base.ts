@@ -2,7 +2,7 @@ import { NgZone } from '@angular/core';
 
 export abstract class DropZoneBase {
 
-	constructor(
+	protected constructor(
 		protected ngZone: NgZone,
 	) {
 	}

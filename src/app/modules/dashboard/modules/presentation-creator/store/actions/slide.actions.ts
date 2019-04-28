@@ -4,8 +4,8 @@ import { Update } from '@ngrx/entity';
 
 export enum SlideActionsTypes {
 	AddSlideToPresentation = '[Slide] Add Slide In Presentation',
-	UpdateSlidePositionInColumn = '[Slide] Update Slide Position In Column',
-	UpdateSlideInPresentation = '[Slide] Update Slide In Presentation',
+	MoveSlideToNewCreatedColumn = '[Slide] Move Slide To New Created Column',
+	MoveSlideBetweenColumns = '[Slide] Move Slide Between Columns',
 }
 
 export class AddSlideToPresentation implements Action {
@@ -15,18 +15,18 @@ export class AddSlideToPresentation implements Action {
 	}
 }
 
-export class UpdateSlidePositionInColumn implements Action {
-	public readonly type = SlideActionsTypes.UpdateSlidePositionInColumn;
+export class MoveSlideToNewCreatedColumn implements Action {
+	public readonly type = SlideActionsTypes.MoveSlideToNewCreatedColumn;
 
 	constructor(public payload: { slide: Update<Slide> }) {
 	}
 }
 
-export class UpdateSlideInPresentation implements Action {
-	public readonly type = SlideActionsTypes.UpdateSlideInPresentation;
+export class MoveSlideBetweenColumns implements Action {
+	public readonly type = SlideActionsTypes.MoveSlideBetweenColumns;
 
 	constructor(public payload: { slide: Update<Slide> }) {
 	}
 }
 
-export type SlideActions = AddSlideToPresentation | UpdateSlidePositionInColumn | UpdateSlideInPresentation;
+export type SlideActions = AddSlideToPresentation | MoveSlideToNewCreatedColumn | MoveSlideBetweenColumns;

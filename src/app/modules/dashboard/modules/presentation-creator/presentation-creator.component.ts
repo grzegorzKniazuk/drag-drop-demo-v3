@@ -62,13 +62,13 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 				    title: columnTitle,
 			    };
 
-			    if (sourceColumnId) { // // jesli slajd jest przenoszony z innej kolumny
+			    if (sourceColumnId) {
 				    this.store.dispatch(new AddColumnFromAnotherColumn({
 					    column,
 					    sourceSlideId,
 					    sourceColumnId,
 				    }));
-			    } else { // jesli slajd jest przenoszony z biblioteki
+			    } else {
 				    this.store.dispatch(new AddColumnFromLibrary({
 					    column,
 					    sourceSlide,

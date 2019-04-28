@@ -11,7 +11,7 @@ import { AppState } from 'src/app/store';
 import { map, switchMap } from 'rxjs/operators';
 import {
 	AddSlideToPresentation,
-	UpdateSlideInPresentation,
+	MoveSlideToNewCreatedColumn,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { RemoveSlideFromLibrary } from 'src/app/modules/dashboard/store/actions/library.actions';
 import { Observable } from 'rxjs';
@@ -40,10 +40,10 @@ export class ColumnEffects {
 	);
 
 	@Effect({ dispatch: true })
-	public addColumnFromAnotherColumn$ = this.actions$.pipe(
+	public addColumnFromAnotherColumn$: Observable<MoveSlideToNewCreatedColumn> = this.actions$.pipe(
 		ofType<AddColumnFromAnotherColumn>(ColumnActionsTypes.AddColumnFromAnotherColumn),
 		map((action: AddColumnFromAnotherColumn) => {
-			return new UpdateSlideInPresentation({ // przenies slajd do nowo dodanej kolumny w prezentacji
+			return new MoveSlideToNewCreatedColumn({
 				slide: {
 					id: action.payload.sourceSlideId,
 					changes: {
