@@ -3,9 +3,15 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { UpdateSlideColumnPosition } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import {
+	SwapSlideInTheSameColumn,
+	UpdateSlideColumnPosition,
+} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { interval } from 'rxjs';
+import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
+import { Update } from '@ngrx/entity';
+import { isNumber } from 'lodash';
 
 @AutoUnsubscribe()
 @Component({
@@ -58,11 +64,41 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 
 		event.dataTransfer.setData('string', JSON.stringify({
 			sourceSlideId: this.slide.id,
+			sourceSlidePosition: this.slide.position,
 			sourceColumnId: this.slide.columnId,
 		}));
 	}
 
 	public onDrop(event: DragEvent): void {
 		event.stopImmediatePropagation();
+
+		this.isElementOnDragOver = false;
+
+		const { sourceSlideId, sourceSlidePosition, sourceColumnId }: SlideDataTransfer = JSON.parse(event.dataTransfer.getData('string'));
+
+		if (sourceColumnId === this.slide.columnId && isNumber(sourceSlidePosition)) {
+			this.swapSlideInTheSameColumn(sourceSlideId, sourceSlidePosition);
+		}
+
+	}
+
+	private swapSlideInTheSameColumn(sourceSlideId: number, sourceSlidePosition: number): void {
+		const sourceSlide: Update<Slide> = {
+			id: sourceSlideId,
+			changes: {
+				position: this.position,
+			},
+		};
+
+		const targetSlide: Update<Slide> = {
+			id: this.slide.id,
+			changes: {
+				position: sourceSlidePosition,
+			},
+		};
+
+		this.store.dispatch(new SwapSlideInTheSameColumn({
+			slides: [ sourceSlide, targetSlide ],
+		}));
 	}
 }

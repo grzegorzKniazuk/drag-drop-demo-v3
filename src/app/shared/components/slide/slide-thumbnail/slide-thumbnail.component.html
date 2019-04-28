@@ -1,6 +1,8 @@
 <div (dragover)="allowDrop($event)"
+	 (dragleave)="onDragLeave()"
 	 (dragstart)="onDragStart($event)"
 	 (drop)="onDrop($event)"
+	 [ngClass]="dragOverCssClass"
 	 class="slide-container">
 	<img [src]="slide.imageData" alt="">
 	<div class="slide-id">{{ slide.id }} {{ slide.position }}</div>
