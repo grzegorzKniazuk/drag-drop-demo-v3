@@ -9,9 +9,14 @@
 		<input formControlName="columnTitle" id="columnTitle" pInputText type="text">
 	</form>
 	<div>
-		<ng-container *ngFor="let slide of (columnSlides$ | async); let i = index">
+		<ng-container *ngFor="let slide of (columnSlides$ | async); let i = index; let l = count">
 			<app-slide [position]="i" [slide]="slide"></app-slide>
-			<app-slide-column-divider></app-slide-column-divider>
+			<app-slide-column-divider
+				*ngIf="l !== i + 1"
+				[numberOfSlidesInColumn]="l"
+				[columnId]="column.id"
+				[slideDividerSibilings]="{ topSlidePosition: i, bottomSlidePosition: i + 1 }">
+			</app-slide-column-divider>
 		</ng-container>
 	</div>
 </div>

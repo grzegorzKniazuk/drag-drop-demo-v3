@@ -10,13 +10,12 @@ import {
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import {
 	AddSlideToPresentation,
 	MoveSlideBetweenColumns,
 	MoveSlideToNewCreatedColumn,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
-import { RemoveSlideFromLibrary } from 'src/app/modules/dashboard/store/actions/library.actions';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -25,21 +24,16 @@ import { Observable } from 'rxjs';
 export class ColumnEffects {
 
 	@Effect({ dispatch: true })
-	public addColumnFromLibrary$: Observable<AddSlideToPresentation | RemoveSlideFromLibrary> = this.actions$.pipe(
+	public addColumnFromLibrary$: Observable<AddSlideToPresentation> = this.actions$.pipe(
 		ofType<AddColumnFromLibrary>(ColumnActionsTypes.AddColumnFromLibrary),
-		switchMap((action: AddColumnFromLibrary) => {
-			return [
-				new AddSlideToPresentation({
-					slide: {
-						...action.payload.sourceSlide,
-						columnId: action.payload.column.id,
-						position: 0,
-					},
-				}),
-				new RemoveSlideFromLibrary({
-					sourceSlideId: action.payload.sourceSlide.id,
-				}),
-			];
+		map((action: AddColumnFromLibrary) => {
+			return new AddSlideToPresentation({
+				slide: {
+					...action.payload.sourceSlide,
+					columnId: action.payload.column.id,
+					position: 0,
+				},
+			});
 		}),
 	);
 
@@ -60,21 +54,16 @@ export class ColumnEffects {
 	);
 
 	@Effect({ dispatch: true })
-	public addSlideFromLibraryToExistingColumn$: Observable<AddSlideToPresentation | RemoveSlideFromLibrary> = this.actions$.pipe(
+	public addSlideFromLibraryToExistingColumn$: Observable<AddSlideToPresentation> = this.actions$.pipe(
 		ofType<AddSlideFromLibraryToExistingColumn>(ColumnActionsTypes.AddSlideFromLibraryToExistingColumn),
-		switchMap((action: AddSlideFromLibraryToExistingColumn) => {
-			return [
-				new AddSlideToPresentation({
-					slide: {
-						...action.payload.sourceSlide,
-						columnId: action.payload.targetColumnId,
-						position: action.payload.targetSlidePosition,
-					},
-				}),
-				new RemoveSlideFromLibrary({
-					sourceSlideId: action.payload.sourceSlide.id,
-				}),
-			];
+		map((action: AddSlideFromLibraryToExistingColumn) => {
+			return new AddSlideToPresentation({
+				slide: {
+					...action.payload.sourceSlide,
+					columnId: action.payload.targetColumnId,
+					position: action.payload.targetSlidePosition,
+				},
+			});
 		}),
 	);
 
@@ -95,21 +84,16 @@ export class ColumnEffects {
 	);
 
 	@Effect({ dispatch: true })
-	public addColumnBetweenExistingColumnsByLibrarySlide$: Observable<AddSlideToPresentation | RemoveSlideFromLibrary> = this.actions$.pipe(
+	public addColumnBetweenExistingColumnsByLibrarySlide$: Observable<AddSlideToPresentation> = this.actions$.pipe(
 		ofType<AddColumnBetweenExistingColumnsByLibrarySlide>(ColumnActionsTypes.AddColumnBetweenExistingColumnsByLibrarySlide),
-		switchMap((action: AddColumnBetweenExistingColumnsByLibrarySlide) => {
-			return [
-				new AddSlideToPresentation({
-					slide: {
-						...action.payload.sourceSlide,
-						columnId: action.payload.column.id,
-						position: 0,
-					},
-				}),
-				new RemoveSlideFromLibrary({
-					sourceSlideId: action.payload.sourceSlide.id,
-				}),
-			];
+		map((action: AddColumnBetweenExistingColumnsByLibrarySlide) => {
+			return new AddSlideToPresentation({
+				slide: {
+					...action.payload.sourceSlide,
+					columnId: action.payload.column.id,
+					position: 0,
+				},
+			});
 		}),
 	);
 

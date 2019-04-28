@@ -22,10 +22,12 @@ export abstract class DropZoneBase {
 	}
 
 	public allowDrop(event: DragEvent): void {
-		event.preventDefault();
-		event.stopImmediatePropagation();
+		this.ngZone.runOutsideAngular(() => {
+			event.preventDefault();
+			event.stopImmediatePropagation();
 
-		this.isElementOnDragOver = true;
+			this.isElementOnDragOver = true;
+		});
 	}
 
 	public onDragLeave(): void {
