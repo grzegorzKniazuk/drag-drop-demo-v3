@@ -42,11 +42,14 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.buildForm();
 		this.watchFormChanges();
-
-		this.columnSlides$ = this.store.pipe(select(selectColumnSlidesById, { columnId: this.column.id }));
+		this.initColumnSlides();
 	}
 
 	ngOnDestroy() {
+	}
+
+	private initColumnSlides(): void {
+		this.columnSlides$ = this.store.pipe(select(selectColumnSlidesById, { columnId: this.column.id }));
 	}
 
 	public onDrop(event: DragEvent): void {

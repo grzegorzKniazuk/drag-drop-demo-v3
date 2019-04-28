@@ -6,7 +6,7 @@ import { AppState } from 'src/app/store';
 import {
 	SwapSlideInTheDifferentColumns,
 	SwapSlideInTheSameColumn,
-	UpdateSlideColumnPosition,
+	UpdateSlidePosition,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { interval } from 'rxjs';
@@ -40,7 +40,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 
 	ngOnChanges(changes: SimpleChanges) {
 		if (this.slide.position !== this.position) {
-			this.store.dispatch(new UpdateSlideColumnPosition({
+			this.store.dispatch(new UpdateSlidePosition({
 				slide: {
 					id: this.slide.id,
 					changes: {

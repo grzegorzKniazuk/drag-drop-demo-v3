@@ -8,6 +8,8 @@ export enum ColumnActionsTypes {
 	AddColumnFromLibrary = '[Column] Add Column From Library',
 	AddSlideFromLibraryToExistingColumn = '[Column] Add Slide From Library To Existing Column',
 	UpdateColumnTitle = '[Column] Update Column Title',
+	AddColumnBetweenExistingColumns = '[Column] Add Column Between Existing Columns',
+	UpdateColumnsPositions = '[Column] Update Columns Positions',
 }
 
 export class AddColumnFromAnotherColumn implements Action {
@@ -38,4 +40,22 @@ export class UpdateColumnTitle implements Action {
 	}
 }
 
-export type ColumnActions = AddColumnFromAnotherColumn | AddColumnFromLibrary | UpdateColumnTitle | AddSlideFromLibraryToExistingColumn;
+export class AddColumnBetweenExistingColumns implements Action {
+	public readonly type = ColumnActionsTypes.AddColumnBetweenExistingColumns;
+
+	constructor(public payload: { column: Column }) {
+	}
+}
+
+export class UpdateColumnsPositions implements Action {
+	public readonly type = ColumnActionsTypes.UpdateColumnsPositions;
+
+	constructor(public payload: { columns: Update<Column>[] }) {
+	}
+}
+
+export type ColumnActions =
+	AddColumnFromAnotherColumn
+	| AddColumnFromLibrary
+	| UpdateColumnTitle
+	| AddSlideFromLibraryToExistingColumn | AddColumnBetweenExistingColumns | UpdateColumnsPositions;
