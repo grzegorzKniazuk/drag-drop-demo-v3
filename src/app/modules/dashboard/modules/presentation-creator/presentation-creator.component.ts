@@ -32,10 +32,10 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 		private componentFactoryService: ComponentFactoryService,
 		private viewContainerRef: ViewContainerRef,
 		private title: Title,
-		private store: Store<AppState>,
+		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
-		super(ngZone);
+		super(store, ngZone);
 	}
 
 	ngOnInit() {

@@ -3,13 +3,10 @@ import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Column } from 'src/app/shared/interfaces/column';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { debounceTime, first, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, first } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import {
-	AddSlideFromLibraryToExistingColumn,
-	UpdateColumnTitle,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+import { UpdateColumnTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { Observable } from 'rxjs';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import {
@@ -17,7 +14,6 @@ import {
 	selectColumnSlidesById,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
-import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { MoveSlideBetweenColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 
 @AutoUnsubscribe()
@@ -35,11 +31,11 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 
 	constructor(
 		private formBuilder: FormBuilder,
-		private store: Store<AppState>,
 		private changeDetectorRef: ChangeDetectorRef,
+		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
-		super(ngZone);
+		super(store, ngZone);
 	}
 
 	ngOnInit() {
@@ -61,7 +57,7 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 		if (sourceColumnId) {
 			this.moveSlideFromColumnToColumn(sourceSlideId);
 		} else {
-			this.moveSlideFromLibraryToColumn(sourceSlideId);
+			this.moveSlideFromLibraryToColumn(sourceSlideId, this.column.id);
 		}
 	}
 
@@ -99,20 +95,6 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnDestroy {
 						position: amountOfSlidesInExsistingColumn,
 					},
 				},
-			}));
-		});
-	}
-
-	private moveSlideFromLibraryToColumn(sourceSlideId: number): void {
-		this.store.pipe(
-			select(selectSlideFromLibraryById, { slideId: sourceSlideId }),
-			withLatestFrom(this.store.pipe(select(selectAmountOfSlidesInColumnById, { columnId: this.column.id }))),
-			first(),
-		).subscribe(([ slideToMove, amountOfSlidesInExsistingColumn ]: [ Slide, number ]) => {
-			this.store.dispatch(new AddSlideFromLibraryToExistingColumn({
-				sourceSlide: slideToMove,
-				targetColumnId: this.column.id,
-				targetSlidePosition: amountOfSlidesInExsistingColumn,
 			}));
 		});
 	}

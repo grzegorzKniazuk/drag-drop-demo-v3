@@ -27,11 +27,11 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 	@Input() public position: number;
 
 	constructor(
-		private store: Store<AppState>,
 		private changeDetectorRef: ChangeDetectorRef,
+		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
-		super(ngZone);
+		super(store, ngZone);
 	}
 
 	ngOnInit() {
@@ -82,7 +82,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		} else if (sourceColumnId !== this.slide.columnId && isNumber(sourceSlidePosition)) {
 			this.swapSlideInTheDifferentColumns(sourceSlideId, sourceColumnId, sourceSlidePosition);
 		} else if (isNull(sourceSlidePosition)) {
-
+			this.moveSlideFromLibraryToColumn(sourceSlideId, this.slide.columnId); // jesli slajd przenoszony z bibloteki do dodaj go na dół kolumny
 		}
 	}
 
