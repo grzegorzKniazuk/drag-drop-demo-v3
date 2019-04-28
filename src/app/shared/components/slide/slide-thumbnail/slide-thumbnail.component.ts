@@ -80,7 +80,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		if (sourceColumnId === this.slide.columnId && isNumber(sourceSlidePosition)) {
 			this.swapSlideInTheSameColumn(sourceSlideId, sourceSlidePosition);
 		} else if (sourceColumnId !== this.slide.columnId && isNumber(sourceSlidePosition)) {
-			this.swapSlideInTheDifferentColumns(sourceSlideId, sourceSlidePosition, sourceColumnId);
+			this.swapSlideInTheDifferentColumns(sourceSlideId, sourceColumnId, sourceSlidePosition);
 		} else if (isNull(sourceSlidePosition)) {
 
 		}
