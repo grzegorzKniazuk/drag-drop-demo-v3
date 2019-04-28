@@ -6,6 +6,7 @@ export enum SlideActionsTypes {
 	AddSlideToPresentation = '[Slide] Add Slide In Presentation',
 	MoveSlideToNewCreatedColumn = '[Slide] Move Slide To New Created Column',
 	MoveSlideBetweenColumns = '[Slide] Move Slide Between Columns',
+	UpdateSlideColumnPosition = '[Slide] Update Slide Column Position'
 }
 
 export class AddSlideToPresentation implements Action {
@@ -29,4 +30,11 @@ export class MoveSlideBetweenColumns implements Action {
 	}
 }
 
-export type SlideActions = AddSlideToPresentation | MoveSlideToNewCreatedColumn | MoveSlideBetweenColumns;
+export class UpdateSlideColumnPosition implements Action {
+	public readonly type = SlideActionsTypes.UpdateSlideColumnPosition;
+
+	constructor(public payload: { slide: Update<Slide> }) {
+	}
+}
+
+export type SlideActions = AddSlideToPresentation | MoveSlideToNewCreatedColumn | MoveSlideBetweenColumns | UpdateSlideColumnPosition;

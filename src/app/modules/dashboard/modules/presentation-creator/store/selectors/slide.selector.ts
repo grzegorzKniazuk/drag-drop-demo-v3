@@ -34,3 +34,16 @@ export const selectAmountOfSlidesInColumnById = createSelector(
 		}).length;
 	},
 );
+
+export const selectSlidePositionById = createSelector(
+	selectSlides,
+	(slides: Slide[], props: { slideId: number}) => {
+		if (slides.length) {
+			return slides.find((slide: Slide) => {
+				return slide.id === props.slideId;
+			}).position;
+		} else {
+			return null;
+		}
+	}
+);

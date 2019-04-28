@@ -26,13 +26,14 @@ export class ColumnEffects {
 		ofType<AddColumnFromLibrary>(ColumnActionsTypes.AddColumnFromLibrary),
 		switchMap((action: AddColumnFromLibrary) => {
 			return [
-				new AddSlideToPresentation({ // dodaj slajd do nowo dodanej kolumny w prezentacji
+				new AddSlideToPresentation({
 					slide: {
 						...action.payload.sourceSlide,
-						columnId: action.payload.column.id, // docelowa kolumna dla slajdu
+						columnId: action.payload.column.id,
+						position: 0,
 					},
 				}),
-				new RemoveSlideFromLibrary({ // usun slajd z biblioteki
+				new RemoveSlideFromLibrary({
 					sourceSlideId: action.payload.sourceSlide.id,
 				}),
 			];
@@ -48,6 +49,7 @@ export class ColumnEffects {
 					id: action.payload.sourceSlideId,
 					changes: {
 						columnId: action.payload.column.id,
+						position: 0,
 					},
 				},
 			});
@@ -59,13 +61,14 @@ export class ColumnEffects {
 		ofType<AddSlideFromLibraryToExistingColumn>(ColumnActionsTypes.AddSlideFromLibraryToExistingColumn),
 		switchMap((action: AddSlideFromLibraryToExistingColumn) => {
 			return [
-				new AddSlideToPresentation({ // dodaj slajd do dodanej kolumny w prezentacji
+				new AddSlideToPresentation({
 					slide: {
 						...action.payload.sourceSlide,
-						columnId: action.payload.targetColumnId, // docelowa kolumna dla slajdu
+						columnId: action.payload.targetColumnId,
+						position: action.payload.targetSlidePosition,
 					},
 				}),
-				new RemoveSlideFromLibrary({ // usun slajd z biblioteki
+				new RemoveSlideFromLibrary({
 					sourceSlideId: action.payload.sourceSlide.id,
 				}),
 			];
