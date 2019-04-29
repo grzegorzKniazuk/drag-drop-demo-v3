@@ -147,7 +147,7 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 			if (accepted) {
 				this.store.dispatch(new RemoveColumn({
 					columnId: this.column.id,
-					slideIds: slideIds,
+					columnSlidesIds: slideIds,
 				}));
 			}
 		});
