@@ -7,14 +7,14 @@ import {
 	AddColumnFromLibrary,
 	AddSlideFromLibraryToExistingColumn,
 	ColumnActionsTypes,
+	RemoveColumn,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store';
 import { map } from 'rxjs/operators';
 import {
 	AddSlideToPresentation,
 	MoveSlideBetweenColumns,
 	MoveSlideToNewCreatedColumn,
+	RemoveSlidesByColumn,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { Observable } from 'rxjs';
 
@@ -97,8 +97,17 @@ export class ColumnEffects {
 		}),
 	);
 
+	@Effect({ dispatch: true })
+	public removeColumn$ = this.actions$.pipe(
+		ofType<RemoveColumn>(ColumnActionsTypes.RemoveColumn),
+		map((action: RemoveColumn) => {
+			return new RemoveSlidesByColumn({
+				slideIds: action.payload.slideIds,
+			});
+		}),
+	);
+
 	constructor(
-		private store: Store<AppState>,
 		private actions$: Actions,
 	) {
 	}

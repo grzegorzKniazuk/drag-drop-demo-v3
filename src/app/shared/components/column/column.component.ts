@@ -1,20 +1,37 @@
-import { ChangeDetectionStrategy, Component, HostListener, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import {
+	ApplicationRef,
+	ChangeDetectionStrategy,
+	Component,
+	HostListener,
+	Input,
+	NgZone,
+	OnChanges,
+	OnDestroy,
+	OnInit,
+	SimpleChanges,
+} from '@angular/core';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Column } from 'src/app/shared/interfaces/column';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { debounceTime, first } from 'rxjs/operators';
+import { debounceTime, first, withLatestFrom } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { UpdateColumnsPosition, UpdateColumnTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+import {
+	RemoveColumn,
+	UpdateColumnsPosition,
+	UpdateColumnTitle,
+} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { Observable } from 'rxjs';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import {
 	selectAmountOfSlidesInColumnById,
 	selectColumnSlidesById,
+	selectColumnSlidesIdsByColumnId,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { MoveSlideBetweenColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -32,6 +49,8 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 
 	constructor(
 		private formBuilder: FormBuilder,
+		private componentFactoryService: ComponentFactoryService,
+		private applicationRef: ApplicationRef,
 		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
@@ -64,7 +83,7 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 		this.columnSlides$ = this.store.pipe(select(selectColumnSlidesById, { columnId: this.column.id }));
 	}
 
-	@HostListener('drop', ['$event'])
+	@HostListener('drop', [ '$event' ])
 	public onDrop(event: DragEvent): void {
 		event.stopImmediatePropagation();
 		this.isElementOnDragOver = false;
@@ -113,6 +132,24 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 					},
 				},
 			}));
+		});
+	}
+
+	public onRemoveColumn(): void {
+		this.componentFactoryService.createConfirmDialogComponent(
+			this.applicationRef.components[0].instance.viewContainerRef,
+			'Uwaga',
+			'Czy napewno chcesz usunąć tą sekcję prezentacji?',
+		).onAcceptOrConfirm$.pipe(
+			first(),
+			withLatestFrom(this.store.pipe(select(selectColumnSlidesIdsByColumnId, { columnId: this.column.id }))),
+		).subscribe(([ accepted, slideIds ]: [ boolean, number[] ]) => {
+			if (accepted) {
+				this.store.dispatch(new RemoveColumn({
+					columnId: this.column.id,
+					slideIds: slideIds,
+				}));
+			}
 		});
 	}
 }

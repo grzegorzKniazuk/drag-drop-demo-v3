@@ -9,7 +9,7 @@
 	user-select: none;
 
 	.title-container {
-		@include flex(flex, center, center, column);
+		@include flex(flex, center, center, column, relative);
 		position: relative;
 		margin-bottom: 15px;
 		width: 100%;
@@ -21,6 +21,17 @@
 
 		input {
 			width: 96%;
+		}
+
+		i {
+			position: absolute;
+			top: 0;
+			right: 0;
+			cursor: pointer;
+
+			&:hover {
+				color: $danger;
+			}
 		}
 	}
 

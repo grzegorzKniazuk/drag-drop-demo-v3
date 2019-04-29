@@ -66,7 +66,7 @@ export class UpdateColumnsPosition implements Action {
 export class RemoveColumn implements Action {
 	public readonly type = ColumnActionsTypes.RemoveColumn;
 
-	constructor(public payload: { columnId: number }) {
+	constructor(public payload: { columnId: number, slideIds: number[] }) {
 	}
 }
 

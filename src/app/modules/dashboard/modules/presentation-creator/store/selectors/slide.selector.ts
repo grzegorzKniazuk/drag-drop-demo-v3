@@ -26,6 +26,13 @@ export const selectColumnSlidesById = createSelector(
 	},
 );
 
+export const selectColumnSlidesIdsByColumnId = createSelector(
+	selectColumnSlidesById,
+	(slides: Slide[]) => slides.map((slide: Slide) => {
+		return slide.id;
+	}),
+);
+
 export const selectAmountOfSlidesInColumnById = createSelector(
 	selectSlides,
 	(slides: Slide[], props: { columnId: number }) => {
