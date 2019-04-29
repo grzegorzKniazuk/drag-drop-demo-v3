@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostListener, Input, NgZone, OnDestroy, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input, NgZone, OnDestroy } from '@angular/core';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
@@ -30,7 +30,6 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 
 	constructor(
 		private componentFactoryService: ComponentFactoryService,
-		private viewContainerRef: ViewContainerRef,
 		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
@@ -40,7 +39,7 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 	ngOnDestroy() {
 	}
 
-	@HostListener('drop', ['$event'])
+	@HostListener('drop', [ '$event' ])
 	public onDrop(event: DragEvent): void {
 		event.stopImmediatePropagation();
 
@@ -56,7 +55,7 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 	}
 
 	private addColumnBetweenExistingColumns(sourceSlideId: number): void {
-		this.componentFactoryService.createColumnTitleComponent(this.viewContainerRef).columnTitle$.pipe(
+		this.componentFactoryService.createColumnTitleComponent().columnTitle$.pipe(
 			first(),
 			withLatestFrom(this.store.pipe(select(selectSlidesById, { slideId: sourceSlideId }))),
 		).subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
@@ -72,7 +71,7 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 	}
 
 	private addColumnBetweenExistingColumnsByLibrarySlide(sourceSlideId: number): void {
-		this.componentFactoryService.createColumnTitleComponent(this.viewContainerRef).columnTitle$.pipe(
+		this.componentFactoryService.createColumnTitleComponent().columnTitle$.pipe(
 			first(),
 			withLatestFrom(this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId }))),
 		).subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {

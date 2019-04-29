@@ -1,7 +1,8 @@
-<div [ngClass]="dragOverCssClass"
+<div (click)="showLightbox($event)"
+	 [ngClass]="dragOverCssClass"
 	 class="slide-container">
 	<img [src]="slide.imageData" alt="">
 	<i class="pi pi-pencil"></i>
-	<i class="pi pi-times" (click)="onRemoveSlide()"></i>
+	<i (click)="onRemoveSlide($event)" class="pi pi-times"></i>
 	<!-- <div class="slide-id">{{ slide.id }} {{ slide.position }}</div> -->
 </div>

@@ -1,15 +1,14 @@
 import {
-	ApplicationRef,
 	ChangeDetectionStrategy,
 	ChangeDetectorRef,
-	Component, HostListener,
+	Component,
+	HostListener,
 	Input,
 	NgZone,
 	OnChanges,
 	OnDestroy,
 	OnInit,
 	SimpleChanges,
-	ViewContainerRef,
 } from '@angular/core';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
@@ -22,7 +21,6 @@ import {
 	UpdateSlidePosition,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { interval } from 'rxjs';
 import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { Update } from '@ngrx/entity';
 import { isNull, isNumber } from 'lodash';
@@ -45,7 +43,6 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 	constructor(
 		private changeDetectorRef: ChangeDetectorRef,
 		private componentFactoryService: ComponentFactoryService,
-		private applicationRef: ApplicationRef,
 		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
@@ -72,7 +69,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 	ngOnDestroy() {
 	}
 
-	@HostListener('dragstart', ['$event'])
+	@HostListener('dragstart', [ '$event' ])
 	public onDragStart(event: DragEvent): void {
 		event.stopImmediatePropagation();
 
@@ -83,7 +80,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		}));
 	}
 
-	@HostListener('drop', ['$event'])
+	@HostListener('drop', [ '$event' ])
 	public onDrop(event: DragEvent): void {
 		event.stopImmediatePropagation();
 
@@ -95,7 +92,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 			this.swapSlideInTheSameColumn(sourceSlideId, sourceSlidePosition);
 		} else if (sourceColumnId !== this.slide.columnId && isNumber(sourceSlidePosition)) {
 			this.swapSlideInTheDifferentColumns(sourceSlideId, sourceColumnId, sourceSlidePosition);
-		} else if (isNull(sourceSlidePosition)) {
+		} else if (isNull(sourceSlidePosition) && sourceSlideId !== this.slide.id) {
 			this.moveSlideFromLibraryToColumn(sourceSlideId, this.slide.columnId); // jesli slajd przenoszony z bibloteki do dodaj go na dół kolumny
 		}
 	}
@@ -107,6 +104,35 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		});
 	}
 	*/
+
+	public onRemoveSlide(event: MouseEvent): void {
+		event.stopImmediatePropagation();
+
+		if (isNumber(this.slide.columnId)) { // jesli usuwamy z prezentacji
+			this.store.dispatch(new RemoveSlide({
+				slideId: this.slide.id,
+			}));
+		} else if (isNull(this.slide.columnId)) { // jesli usuwamy z bibiloteki
+			this.componentFactoryService.createConfirmDialogComponent(
+				'Uwaga',
+				'Czy napewno chcesz usunąć ten slajd z biblioteki? Operacji nie można cofnąć',
+			).onAcceptOrConfirm$.pipe(
+				first(),
+			).subscribe((accepted: boolean) => {
+				if (accepted) {
+					this.store.dispatch(new RemoveSlideFromLibrary({
+						slideId: this.slide.id,
+					}));
+				}
+			});
+		}
+	}
+
+	public showLightbox(event: MouseEvent): void {
+		event.stopImmediatePropagation();
+
+		this.componentFactoryService.createSlideLightboxComponent(this.slide.imageData);
+	}
 
 	private swapSlideInTheSameColumn(sourceSlideId: number, sourceSlidePosition: number): void {
 		const sourceSlide: Update<Slide> = {
@@ -148,27 +174,5 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		this.store.dispatch(new SwapSlideInTheDifferentColumns({
 			slides: [ sourceSlide, targetSlide ],
 		}));
-	}
-
-	public onRemoveSlide(): void {
-		if (isNumber(this.slide.columnId)) { // jesli usuwamy z prezentacji
-			this.store.dispatch(new RemoveSlide({
-				slideId: this.slide.id,
-			}));
-		} else if (isNull(this.slide.columnId)) { // jesli usuwamy z bibiloteki
-			this.componentFactoryService.createConfirmDialogComponent(
-				this.applicationRef.components[0].instance.viewContainerRef,
-				'Uwaga',
-				'Czy napewno chcesz usunąć ten slajd z biblioteki? Operacji nie można cofnąć',
-			).onAcceptOrConfirm$.pipe(
-				first(),
-			).subscribe((accepted: boolean) => {
-				if (accepted) {
-					this.store.dispatch(new RemoveSlideFromLibrary({
-						slideId: this.slide.id,
-					}));
-				}
-			});
-		}
 	}
 }

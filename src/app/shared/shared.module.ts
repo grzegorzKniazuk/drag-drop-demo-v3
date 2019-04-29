@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SlideColumnDividerComponent } from 'src/app/shared/components/slide/slide-column-divider/slide-column-divider.component';
 import { ColumnDividerComponent } from 'src/app/shared/components/column/column-divider/column-divider.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { SlideLightboxComponent } from 'src/app/shared/components/slide/slide-lightbox/slide-lightbox.component';
 
 const components = [
 	SlideThumbnailComponent,
@@ -18,11 +19,13 @@ const components = [
 	SlideColumnDividerComponent,
 	ColumnDividerComponent,
 	ConfirmDialogComponent,
+	SlideLightboxComponent,
 ];
 
 const entryComponents = [
 	ColumnTitleComponent,
 	ConfirmDialogComponent,
+	SlideLightboxComponent,
 ];
 
 const directives = [];

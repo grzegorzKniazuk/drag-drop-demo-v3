@@ -1,15 +1,4 @@
-import {
-	ApplicationRef,
-	ChangeDetectionStrategy,
-	Component,
-	HostListener,
-	Input,
-	NgZone,
-	OnChanges,
-	OnDestroy,
-	OnInit,
-	SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Column } from 'src/app/shared/interfaces/column';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -50,7 +39,6 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 	constructor(
 		private formBuilder: FormBuilder,
 		private componentFactoryService: ComponentFactoryService,
-		private applicationRef: ApplicationRef,
 		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
@@ -79,10 +67,6 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 	ngOnDestroy() {
 	}
 
-	private initColumnSlides(): void {
-		this.columnSlides$ = this.store.pipe(select(selectColumnSlidesById, { columnId: this.column.id }));
-	}
-
 	@HostListener('drop', [ '$event' ])
 	public onDrop(event: DragEvent): void {
 		event.stopImmediatePropagation();
@@ -95,6 +79,27 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 		} else {
 			this.moveSlideFromLibraryToColumn(sourceSlideId, this.column.id);
 		}
+	}
+
+	public onRemoveColumn(): void {
+		this.componentFactoryService.createConfirmDialogComponent(
+			'Uwaga',
+			'Czy napewno chcesz usunąć tą sekcję prezentacji?',
+		).onAcceptOrConfirm$.pipe(
+			first(),
+			withLatestFrom(this.store.pipe(select(selectColumnSlidesIdsByColumnId, { columnId: this.column.id }))),
+		).subscribe(([ accepted, slideIds ]: [ boolean, number[] ]) => {
+			if (accepted) {
+				this.store.dispatch(new RemoveColumn({
+					columnId: this.column.id,
+					columnSlidesIds: slideIds,
+				}));
+			}
+		});
+	}
+
+	private initColumnSlides(): void {
+		this.columnSlides$ = this.store.pipe(select(selectColumnSlidesById, { columnId: this.column.id }));
 	}
 
 	private buildForm(): void {
@@ -132,24 +137,6 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 					},
 				},
 			}));
-		});
-	}
-
-	public onRemoveColumn(): void {
-		this.componentFactoryService.createConfirmDialogComponent(
-			this.applicationRef.components[0].instance.viewContainerRef,
-			'Uwaga',
-			'Czy napewno chcesz usunąć tą sekcję prezentacji?',
-		).onAcceptOrConfirm$.pipe(
-			first(),
-			withLatestFrom(this.store.pipe(select(selectColumnSlidesIdsByColumnId, { columnId: this.column.id }))),
-		).subscribe(([ accepted, slideIds ]: [ boolean, number[] ]) => {
-			if (accepted) {
-				this.store.dispatch(new RemoveColumn({
-					columnId: this.column.id,
-					columnSlidesIds: slideIds,
-				}));
-			}
 		});
 	}
 }

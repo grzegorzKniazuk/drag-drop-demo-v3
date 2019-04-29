@@ -20,7 +20,7 @@ export abstract class DropZoneBase {
 		return this.isElementOnDragOver ? 'drag-over' : '';
 	}
 
-	@HostListener('dragover', ['$event'])
+	@HostListener('dragover', [ '$event' ])
 	public allowDrop(event: DragEvent): void {
 		this.ngZone.runOutsideAngular(() => {
 			event.preventDefault();
@@ -30,7 +30,7 @@ export abstract class DropZoneBase {
 		});
 	}
 
-	@HostListener('dragleave', ['$event'])
+	@HostListener('dragleave', [ '$event' ])
 	public onDragLeave(): void {
 		this.isElementOnDragOver = false;
 	}

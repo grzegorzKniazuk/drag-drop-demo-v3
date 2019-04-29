@@ -33,7 +33,7 @@ export class SlideColumnDividerComponent extends DropZoneBase {
 		super(store, ngZone);
 	}
 
-	@HostListener('drop', ['$event'])
+	@HostListener('drop', [ '$event' ])
 	public onDrop(event: DragEvent): void {
 		event.stopImmediatePropagation();
 
