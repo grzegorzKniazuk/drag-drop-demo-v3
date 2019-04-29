@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Column } from 'src/app/shared/interfaces/column';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -32,7 +32,6 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 
 	constructor(
 		private formBuilder: FormBuilder,
-		private changeDetectorRef: ChangeDetectorRef,
 		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
@@ -65,6 +64,7 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 		this.columnSlides$ = this.store.pipe(select(selectColumnSlidesById, { columnId: this.column.id }));
 	}
 
+	@HostListener('drop', ['$event'])
 	public onDrop(event: DragEvent): void {
 		event.stopImmediatePropagation();
 		this.isElementOnDragOver = false;

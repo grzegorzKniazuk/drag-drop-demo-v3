@@ -1,8 +1,4 @@
-<div (dragleave)="onDragLeave()"
-	 (dragover)="allowDrop($event)"
-	 (dragstart)="onDragStart($event)"
-	 (drop)="onDrop($event)"
-	 [ngClass]="dragOverCssClass"
+<div [ngClass]="dragOverCssClass"
 	 class="slide-container">
 	<img [src]="slide.imageData" alt="">
 	<i class="pi pi-pencil"></i>

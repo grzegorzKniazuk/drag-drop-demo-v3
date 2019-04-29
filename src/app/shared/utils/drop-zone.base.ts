@@ -1,4 +1,4 @@
-import { NgZone } from '@angular/core';
+import { HostListener, NgZone } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { first, withLatestFrom } from 'rxjs/operators';
@@ -8,7 +8,6 @@ import { AddSlideFromLibraryToExistingColumn } from 'src/app/modules/dashboard/m
 import { AppState } from 'src/app/store';
 
 export abstract class DropZoneBase {
-
 	public isElementOnDragOver: boolean;
 
 	protected constructor(
@@ -21,6 +20,7 @@ export abstract class DropZoneBase {
 		return this.isElementOnDragOver ? 'drag-over' : '';
 	}
 
+	@HostListener('dragover', ['$event'])
 	public allowDrop(event: DragEvent): void {
 		this.ngZone.runOutsideAngular(() => {
 			event.preventDefault();
@@ -30,6 +30,7 @@ export abstract class DropZoneBase {
 		});
 	}
 
+	@HostListener('dragleave', ['$event'])
 	public onDragLeave(): void {
 		this.isElementOnDragOver = false;
 	}

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, NgZone } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input, NgZone } from '@angular/core';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { AppState } from 'src/app/store';
 import { select, Store } from '@ngrx/store';
@@ -33,6 +33,7 @@ export class SlideColumnDividerComponent extends DropZoneBase {
 		super(store, ngZone);
 	}
 
+	@HostListener('drop', ['$event'])
 	public onDrop(event: DragEvent): void {
 		event.stopImmediatePropagation();
 

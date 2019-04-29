@@ -1,8 +1,4 @@
-<div (dragleave)="onDragLeave()"
-	 (dragover)="allowDrop($event)"
-	 (drop)="onDrop($event)"
-	 [ngClass]="dragOverCssClass"
-	 class="column-container">
+<div [ngClass]="dragOverCssClass" class="column-container">
 	<div class="column-id">{{ column.id }} {{ column.position }}</div>
 	<form [formGroup]="columnTitleForm" class="title-container">
 		<label for="columnTitle">Nazwa sekcji</label>

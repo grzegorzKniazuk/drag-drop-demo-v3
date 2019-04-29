@@ -2,7 +2,7 @@ import {
 	ApplicationRef,
 	ChangeDetectionStrategy,
 	ChangeDetectorRef,
-	Component,
+	Component, HostListener,
 	Input,
 	NgZone,
 	OnChanges,
@@ -71,6 +71,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 	ngOnDestroy() {
 	}
 
+	@HostListener('dragstart', ['$event'])
 	public onDragStart(event: DragEvent): void {
 		event.stopImmediatePropagation();
 
@@ -81,6 +82,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		}));
 	}
 
+	@HostListener('drop', ['$event'])
 	public onDrop(event: DragEvent): void {
 		event.stopImmediatePropagation();
 

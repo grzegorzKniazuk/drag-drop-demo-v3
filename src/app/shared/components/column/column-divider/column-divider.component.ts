@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, NgZone, OnDestroy, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input, NgZone, OnDestroy, ViewContainerRef } from '@angular/core';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
@@ -40,6 +40,7 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 	ngOnDestroy() {
 	}
 
+	@HostListener('drop', ['$event'])
 	public onDrop(event: DragEvent): void {
 		event.stopImmediatePropagation();
 

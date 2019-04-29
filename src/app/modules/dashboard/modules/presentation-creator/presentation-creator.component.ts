@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, NgZone, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, NgZone, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { select, Store } from '@ngrx/store';
@@ -46,6 +46,7 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	ngOnDestroy() {
 	}
 
+	@HostListener('drop', ['$event'])
 	public onDrop(event: DragEvent): void {
 		event.stopImmediatePropagation();
 
