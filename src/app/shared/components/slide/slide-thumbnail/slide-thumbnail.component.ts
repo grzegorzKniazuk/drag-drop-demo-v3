@@ -16,6 +16,7 @@ import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import {
+	RemoveSlide,
 	SwapSlideInTheDifferentColumns,
 	SwapSlideInTheSameColumn,
 	UpdateSlidePosition,
@@ -149,7 +150,9 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 
 	public onRemoveSlide(): void {
 		if (isNumber(this.slide.columnId)) { // jesli usuwamy z prezentacji
-
+			this.store.dispatch(new RemoveSlide({
+				slideId: this.slide.id,
+			}));
 		} else if (isNull(this.slide.columnId)) { // jesli usuwamy z bibiloteki
 			this.componentFactoryService.createConfirmDialogComponent(
 				this.applicationRef.components[0].instance.viewContainerRef,
