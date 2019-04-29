@@ -102,7 +102,7 @@ export class ColumnEffects {
 		ofType<RemoveColumn>(ColumnActionsTypes.RemoveColumn),
 		map((action: RemoveColumn) => {
 			return new RemoveSlidesByColumn({
-				slideIds: action.payload.slideIds,
+				slideIds: action.payload.columnSlidesIds,
 			});
 		}),
 	);

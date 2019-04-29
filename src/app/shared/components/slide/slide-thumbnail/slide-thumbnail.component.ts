@@ -53,7 +53,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 	}
 
 	ngOnInit() {
-		this.detectPositionChangesOnSlideMove();
+		// this.detectPositionChangesOnSlideMove();
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
@@ -100,11 +100,13 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		}
 	}
 
+	/*
 	private detectPositionChangesOnSlideMove(): void {
 		interval(500).subscribe(() => {
 			this.changeDetectorRef.markForCheck();
 		});
 	}
+	*/
 
 	private swapSlideInTheSameColumn(sourceSlideId: number, sourceSlidePosition: number): void {
 		const sourceSlide: Update<Slide> = {
