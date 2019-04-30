@@ -1,13 +1,12 @@
 @import "base.scss";
 
 .sidebar-content {
-	@include flex(flex, flex-start, flex-start, row);
 	@include size(100%, 100%);
 	user-select: none;
 
 	.slides-in-library {
-		@include flex(flex, flex-start, flex-start, row);
 		@include size(100%, 100%);
+		user-select: none;
 	}
 
 	.no-slides-in-library {
@@ -15,11 +14,11 @@
 		@include size(100%, 100%);
 		cursor: pointer;
 		user-select: none;
-		top: -30px;
+	}
 
-		input[type="file"] {
-			display: none;
-		}
+	input[type="file"] {
+		display: none;
+		z-index: -1;
 	}
 }
 
@@ -27,5 +26,5 @@ button {
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	@include font('small');
+	@include font('medium');
 }

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { PrimeNgModule } from 'src/app/shared/prime-ng.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { AutofocusDirective } from 'src/app/shared/directives/autofocus.directive';
+import { MaterialModule } from 'src/app/shared/material.module';
 
 const components = [
 	ConfirmDialogComponent,
@@ -12,11 +14,14 @@ const entryComponents = [
 	ConfirmDialogComponent,
 ];
 
-const directives = [];
+const directives = [
+	AutofocusDirective,
+];
 
 const modules = [
 	CommonModule,
 	PrimeNgModule,
+	MaterialModule,
 	FormsModule,
 	ReactiveFormsModule,
 ];

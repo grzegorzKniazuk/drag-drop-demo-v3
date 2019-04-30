@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostListener } from '@angular/core';
 
 @Component({
 	selector: 'app-column-title',
@@ -6,16 +6,11 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmi
 	styleUrls: [ './column-title.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ColumnTitleComponent implements AfterViewInit {
+export class ColumnTitleComponent {
 
 	public columnTitle$: EventEmitter<string> = new EventEmitter<string>();
 	public columnTitle: string;
 	public dialogVisibility = true;
-	@ViewChild('titleInput') private titleInput: ElementRef;
-
-	ngAfterViewInit() {
-		this.titleInput.nativeElement.focus();
-	}
 
 	@HostListener('document:keydown.enter')
 	public onSave(): void {

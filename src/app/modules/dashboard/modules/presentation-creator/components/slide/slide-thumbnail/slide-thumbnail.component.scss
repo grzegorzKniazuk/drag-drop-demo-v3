@@ -2,6 +2,7 @@
 
 .slide-container {
 	@include flex(flex, center, center, row, relative);
+	@include size(200px);
 	z-index: 2;
 
 	img {

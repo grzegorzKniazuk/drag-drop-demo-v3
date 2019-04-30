@@ -15,6 +15,7 @@ import { SlideColumnDividerComponent } from 'src/app/modules/dashboard/modules/p
 import { ColumnDividerComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/column/column-divider/column-divider.component';
 import { SlideLibraryDividerComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/library-bar/slide-library-divider/slide-library-divider.component';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
+import { AddMoreSlidesComponent } from './components/library-bar/add-more-slides/add-more-slides.component';
 
 @NgModule({
 	declarations: [
@@ -27,6 +28,7 @@ import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dash
 		SlideColumnDividerComponent,
 		ColumnDividerComponent,
 		SlideLightboxComponent,
+		AddMoreSlidesComponent,
 	],
 	entryComponents: [
 		ColumnTitleComponent,
