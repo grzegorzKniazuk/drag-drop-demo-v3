@@ -45,11 +45,11 @@ export class SlideColumnDividerComponent extends DropZoneBase {
 		} else if (sourceColumnId !== this.columnId && isNumber(sourceColumnId)) { // drag n drop z innej kolumny
 			this.moveBetweenSlidesInTheDifferentColumn(sourceSlideId);
 		} else if (isNull(sourceColumnId)) { // drag n drop z biblioteki
-			this.addSlideToPresentation(sourceSlideId);
+			this.addSlideToPresentationFromLibrary(sourceSlideId);
 		}
 	}
 
-	private addSlideToPresentation(sourceSlideId: number): void {
+	private addSlideToPresentationFromLibrary(sourceSlideId: number): void {
 		this.store.pipe(
 			select(selectSlideFromLibraryById, { slideId: sourceSlideId }),
 			first(),
@@ -57,6 +57,7 @@ export class SlideColumnDividerComponent extends DropZoneBase {
 			this.store.dispatch(new AddSlideToPresentation({
 				slide: {
 					...sourceSlide,
+					id: Math.floor((Math.random() * 10000000) + 1),
 					columnId: this.columnId,
 					position: this.slideDividerSibilings.bottomSlidePosition,
 				},

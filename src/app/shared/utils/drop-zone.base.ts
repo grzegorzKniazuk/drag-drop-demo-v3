@@ -44,7 +44,10 @@ export abstract class DropZoneBase {
 			withLatestFrom(this.store.pipe(select(selectAmountOfSlidesInColumnById, { columnId: targetColumnId }))),
 		).subscribe(([ slideToMove, amountOfSlidesInExsistingColumn ]: [ Slide, number ]) => {
 			this.store.dispatch(new AddSlideFromLibraryToExistingColumn({
-				sourceSlide: slideToMove,
+				sourceSlide: {
+					...slideToMove,
+					id: Math.floor((Math.random() * 10000000) + 1)
+				},
 				targetColumnId: targetColumnId,
 				targetSlidePosition: amountOfSlidesInExsistingColumn,
 			}));

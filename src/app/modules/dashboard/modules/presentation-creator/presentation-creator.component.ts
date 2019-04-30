@@ -74,7 +74,10 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 			    } else {
 				    this.store.dispatch(new AddColumnFromLibrary({
 					    column,
-					    sourceSlide,
+					    sourceSlide: {
+						    ...sourceSlide,
+						    id: Math.floor((Math.random() * 10000000) + 1),
+					    },
 				    }));
 			    }
 		    });

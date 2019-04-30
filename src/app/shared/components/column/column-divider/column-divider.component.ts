@@ -80,7 +80,10 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 					position: this.columnDividerSibilings.rightSideColumnPosition,
 					title: columnTitle,
 				},
-				sourceSlide,
+				sourceSlide: {
+					...sourceSlide,
+					id: Math.floor((Math.random() * 10000000) + 1),
+				}
 			}));
 		});
 	}
