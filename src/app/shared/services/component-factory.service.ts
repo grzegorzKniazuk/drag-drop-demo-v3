@@ -9,9 +9,9 @@ import { first } from 'rxjs/operators';
 })
 export class ComponentFactoryService {
 
-	private columnTitleComponentFactory: ComponentFactory<ColumnTitleComponent> = this.componentFactoryResolver.resolveComponentFactory(ColumnTitleComponent);
-	private confirmDialogComponentFactory: ComponentFactory<ConfirmDialogComponent> = this.componentFactoryResolver.resolveComponentFactory(ConfirmDialogComponent);
-	private slideLightboxComponentFactory: ComponentFactory<SlideLightboxComponent> = this.componentFactoryResolver.resolveComponentFactory(SlideLightboxComponent);
+	private readonly columnTitleComponentFactory: ComponentFactory<ColumnTitleComponent> = this.componentFactoryResolver.resolveComponentFactory(ColumnTitleComponent);
+	private readonly confirmDialogComponentFactory: ComponentFactory<ConfirmDialogComponent> = this.componentFactoryResolver.resolveComponentFactory(ConfirmDialogComponent);
+	private readonly slideLightboxComponentFactory: ComponentFactory<SlideLightboxComponent> = this.componentFactoryResolver.resolveComponentFactory(SlideLightboxComponent);
 	private columnTitleComponentRef: ComponentRef<ColumnTitleComponent>;
 	private confirmDialogComponentRef: ComponentRef<ConfirmDialogComponent>;
 	private slideLightboxComponentRef: ComponentRef<SlideLightboxComponent>;
@@ -41,7 +41,7 @@ export class ComponentFactoryService {
 		this.slideLightboxComponentRef = this.appViewContainerRef.createComponent(this.slideLightboxComponentFactory);
 		this.slideLightboxComponentRef.instance.imageData = imageData;
 		this.slideLightboxComponentRef.instance.onClick.pipe(
-			first()
+			first(),
 		).subscribe(() => {
 			this.appViewContainerRef.clear();
 		});

@@ -6,6 +6,8 @@ import { selectAmountOfSlidesInColumnById } from 'src/app/modules/dashboard/modu
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { AddSlideFromLibraryToExistingColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { AppState } from 'src/app/store';
+import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
+import { Memoize } from 'lodash-decorators';
 
 export abstract class DropZoneBase {
 	public isElementOnDragOver: boolean;
@@ -38,8 +40,8 @@ export abstract class DropZoneBase {
 	protected moveSlideFromLibraryToColumn(sourceSlideId: number, targetColumnId): void {
 		this.store.pipe(
 			select(selectSlideFromLibraryById, { slideId: sourceSlideId }),
-			withLatestFrom(this.store.pipe(select(selectAmountOfSlidesInColumnById, { columnId: targetColumnId }))),
 			first(),
+			withLatestFrom(this.store.pipe(select(selectAmountOfSlidesInColumnById, { columnId: targetColumnId }))),
 		).subscribe(([ slideToMove, amountOfSlidesInExsistingColumn ]: [ Slide, number ]) => {
 			this.store.dispatch(new AddSlideFromLibraryToExistingColumn({
 				sourceSlide: slideToMove,
@@ -47,5 +49,10 @@ export abstract class DropZoneBase {
 				targetSlidePosition: amountOfSlidesInExsistingColumn,
 			}));
 		});
+	}
+
+	@Memoize
+	protected parseDataTransferFromDropEvent(event: DragEvent): SlideDataTransfer {
+		return JSON.parse(event.dataTransfer.getData('string'));
 	}
 }

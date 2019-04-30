@@ -3,7 +3,6 @@ import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ColumnDividerSibilings } from 'src/app/shared/interfaces/column-divider-sibilings';
-import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { isNull, isNumber } from 'lodash';
 import {
 	AddColumnBetweenExistingColumns,
@@ -45,7 +44,7 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 
 		this.isElementOnDragOver = false;
 
-		const { sourceSlideId, sourceColumnId }: SlideDataTransfer = JSON.parse(event.dataTransfer.getData('string'));
+		const { sourceSlideId, sourceColumnId } = this.parseDataTransferFromDropEvent(event);
 
 		if (isNumber(sourceColumnId)) { // slajd z prezentacji
 			this.addColumnBetweenExistingColumns(sourceSlideId);

@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
-import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
@@ -49,7 +48,7 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	public onDrop(event: DragEvent): void {
 		event.stopImmediatePropagation();
 
-		const { sourceSlideId, sourceColumnId }: SlideDataTransfer = JSON.parse(event.dataTransfer.getData('string'));
+		const { sourceSlideId, sourceColumnId } = this.parseDataTransferFromDropEvent(event);
 
 		this.componentFactoryService.createColumnTitleComponent().columnTitle$
 		    .pipe(

@@ -21,7 +21,6 @@ import {
 	UpdateSlidePosition,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { Update } from '@ngrx/entity';
 import { isNull, isNumber } from 'lodash';
 import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
@@ -86,7 +85,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 
 		this.isElementOnDragOver = false;
 
-		const { sourceSlideId, sourceSlidePosition, sourceColumnId }: SlideDataTransfer = JSON.parse(event.dataTransfer.getData('string'));
+		const { sourceSlideId, sourceSlidePosition, sourceColumnId } = this.parseDataTransferFromDropEvent(event);
 
 		if (sourceColumnId === this.slide.columnId && isNumber(sourceSlidePosition)) {
 			this.swapSlideInTheSameColumn(sourceSlideId, sourceSlidePosition);

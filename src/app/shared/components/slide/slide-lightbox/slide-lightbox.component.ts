@@ -12,7 +12,7 @@ export class SlideLightboxComponent {
 
 	public imageData: string | ArrayBuffer;
 
-	@HostListener('click', ['$event'])
+	@HostListener('click', [ '$event' ])
 	public closeLightbox(event: MouseEvent): void {
 		event.stopImmediatePropagation();
 

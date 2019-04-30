@@ -18,7 +18,6 @@ import {
 	selectColumnSlidesById,
 	selectColumnSlidesIdsByColumnId,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
-import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { MoveSlideBetweenColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 
@@ -72,7 +71,7 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 		event.stopImmediatePropagation();
 		this.isElementOnDragOver = false;
 
-		const { sourceSlideId, sourceColumnId }: SlideDataTransfer = JSON.parse(event.dataTransfer.getData('string'));
+		const { sourceSlideId, sourceColumnId } = this.parseDataTransferFromDropEvent(event);
 
 		if (sourceColumnId) {
 			this.moveSlideFromColumnToColumn(sourceSlideId);

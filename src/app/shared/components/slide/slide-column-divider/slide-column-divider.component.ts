@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, HostListener, Input, NgZone } from 
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { AppState } from 'src/app/store';
 import { select, Store } from '@ngrx/store';
-import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { SlideDividerSibilings } from 'src/app/shared/interfaces/slide-divider-sibilings';
 import { isNull, isNumber } from 'lodash';
 import {
@@ -39,7 +38,7 @@ export class SlideColumnDividerComponent extends DropZoneBase {
 
 		this.isElementOnDragOver = false;
 
-		const { sourceSlideId, sourceColumnId }: SlideDataTransfer = JSON.parse(event.dataTransfer.getData('string'));
+		const { sourceSlideId, sourceColumnId } = this.parseDataTransferFromDropEvent(event);
 
 		if (sourceColumnId === this.columnId) { // drag n drop w tej samej kolumnie
 			this.moveBetweenSlidesInTheSameColumn(sourceSlideId);

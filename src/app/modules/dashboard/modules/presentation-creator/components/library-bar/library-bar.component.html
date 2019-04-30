@@ -1,4 +1,4 @@
-<p-sidebar (dragleave)="onDragLeave()" [(visible)]="display" [style]="{ height:'180px', 'z-index': '10' }"
+<p-sidebar [(visible)]="display" [style]="{ height:'180px', 'z-index': '10' }"
 		   position="bottom">
 	<div class="sidebar-content">
 		<div *ngIf="(librarySlidesAmount$ | async)" class="slides-in-library">

@@ -21,6 +21,15 @@
 	left: $left;
 }
 
+@function toRem($size) {
+	$remSize: $size / 16px;
+	@return $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+	font-size: toRem($size);
+}
+
 @mixin font($font-size, $font-weight: 400, $font-family: 'Roboto') {
 	line-height: 1.625rem;
 	@if ($font-size == 'ultra-small') {

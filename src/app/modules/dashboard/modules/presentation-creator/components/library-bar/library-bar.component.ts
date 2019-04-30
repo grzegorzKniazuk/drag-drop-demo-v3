@@ -16,10 +16,10 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 })
 export class LibraryBarComponent implements OnInit, OnDestroy {
 
+	@ViewChild('fileInputElement') protected fileInputElement: ElementRef;
 	public display: boolean = true;
 	public librarySlidesAmount$: Observable<number>;
 	public slidesInLibary$: Observable<Slide[]>;
-	@ViewChild('fileInputElement') protected fileInputElement: ElementRef;
 
 	constructor(
 		private fileUploadService: FileUploadService,
@@ -43,6 +43,7 @@ export class LibraryBarComponent implements OnInit, OnDestroy {
 		this.fileUploadService.uploadFiles(event);
 	}
 
+	@HostListener('dragleave')
 	public onDragLeave(): void {
 		this.display = false;
 	}
