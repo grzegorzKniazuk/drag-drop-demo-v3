@@ -1,6 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { SlideLightboxImageData } from 'src/app/shared/interfaces/slide-lightbox-image-data';
-import { Lightbox } from 'primeng/primeng';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostListener } from '@angular/core';
 
 @Component({
 	selector: 'app-slide-lightbox',
@@ -8,18 +6,16 @@ import { Lightbox } from 'primeng/primeng';
 	styleUrls: [ './slide-lightbox.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SlideLightboxComponent implements AfterViewInit {
+export class SlideLightboxComponent {
 
-	public slides: SlideLightboxImageData[] = [];
-	@ViewChild(Lightbox) private lightbox: Lightbox;
+	public onClick: EventEmitter<void> = new EventEmitter<void>();
 
-	constructor(
-		private changeDetectorRef: ChangeDetectorRef,
-	) {
-	}
+	public imageData: string | ArrayBuffer;
 
-	ngAfterViewInit() {
-		this.lightbox.el.nativeElement.children[0].children[0].children[0].click();
-		this.changeDetectorRef.detectChanges();
+	@HostListener('click', ['$event'])
+	public closeLightbox(event: MouseEvent): void {
+		event.stopImmediatePropagation();
+
+		this.onClick.emit();
 	}
 }

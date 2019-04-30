@@ -2,6 +2,7 @@ import { ApplicationRef, ComponentFactory, ComponentFactoryResolver, ComponentRe
 import { ColumnTitleComponent } from 'src/app/shared/components/column/column-title/column-title.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { SlideLightboxComponent } from 'src/app/shared/components/slide/slide-lightbox/slide-lightbox.component';
+import { first } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root',
@@ -38,6 +39,11 @@ export class ComponentFactoryService {
 
 	public createSlideLightboxComponent(imageData: string | ArrayBuffer): void {
 		this.slideLightboxComponentRef = this.appViewContainerRef.createComponent(this.slideLightboxComponentFactory);
-		this.slideLightboxComponentRef.instance.slides.push({ source: imageData, thumbnail: '', title: '' });
+		this.slideLightboxComponentRef.instance.imageData = imageData;
+		this.slideLightboxComponentRef.instance.onClick.pipe(
+			first()
+		).subscribe(() => {
+			this.appViewContainerRef.clear();
+		});
 	}
 }

@@ -6,7 +6,6 @@ import {
 	DialogModule,
 	DropdownModule,
 	InputTextModule,
-	LightboxModule,
 	MultiSelectModule,
 	SidebarModule,
 } from 'primeng/primeng';
@@ -20,7 +19,6 @@ const primeNGmodules = [
 	InputTextModule,
 	ChipsModule,
 	ConfirmDialogModule,
-	LightboxModule,
 ];
 
 @NgModule({

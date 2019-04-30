@@ -1,6 +1,14 @@
-.lightbox-container {
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: -1;
+@import "base.scss";
+
+.lightbox-background {
+	@include flex(flex, center, center, column, absolute);
+	@include size(100%, 100%);
+	@include position(0, auto, auto, 0);
+	background: rgba($black, 0.65);;
+	z-index: 1002;
+
+	img {
+		user-select: none;
+		z-index: 1003;
+	}
 }
