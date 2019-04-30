@@ -8,12 +8,12 @@ import {
 	AddColumnBetweenExistingColumns,
 	AddColumnBetweenExistingColumnsByLibrarySlide,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
-import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 import { first, withLatestFrom } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { selectSlidesById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
+import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -28,7 +28,7 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 	@Input() numberOfColumns: number;
 
 	constructor(
-		private componentFactoryService: ComponentFactoryService,
+		private presentationCreatorComponentFactoryService: PresentationCreatorComponentFactoryService,
 		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
@@ -54,7 +54,7 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 	}
 
 	private addColumnBetweenExistingColumns(sourceSlideId: number): void {
-		this.componentFactoryService.createColumnTitleComponent().columnTitle$.pipe(
+		this.presentationCreatorComponentFactoryService.createColumnTitleComponent().columnTitle$.pipe(
 			first(),
 			withLatestFrom(this.store.pipe(select(selectSlidesById, { slideId: sourceSlideId }))),
 		).subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
@@ -70,7 +70,7 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 	}
 
 	private addColumnBetweenExistingColumnsByLibrarySlide(sourceSlideId: number): void {
-		this.componentFactoryService.createColumnTitleComponent().columnTitle$.pipe(
+		this.presentationCreatorComponentFactoryService.createColumnTitleComponent().columnTitle$.pipe(
 			first(),
 			withLatestFrom(this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId }))),
 		).subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
@@ -83,7 +83,7 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 				sourceSlide: {
 					...sourceSlide,
 					id: Math.floor((Math.random() * 10000000) + 1),
-				}
+				},
 			}));
 		});
 	}

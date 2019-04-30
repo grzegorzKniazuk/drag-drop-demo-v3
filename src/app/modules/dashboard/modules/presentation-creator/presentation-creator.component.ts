@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, HostListener, NgZone, OnDestroy, On
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 import { first, withLatestFrom } from 'rxjs/operators';
 import {
 	AddColumnFromAnotherColumn,
@@ -15,6 +14,7 @@ import { Column } from 'src/app/shared/interfaces/column';
 import { selectAmountOfColumns, selectColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { Slide } from 'src/app/shared/interfaces/slide';
+import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -28,7 +28,7 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	public columns$: Observable<Column[]>;
 
 	constructor(
-		private componentFactoryService: ComponentFactoryService,
+		private presentationCreatorComponentFactoryService: PresentationCreatorComponentFactoryService,
 		private title: Title,
 		store: Store<AppState>,
 		ngZone: NgZone,
@@ -50,7 +50,7 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 
 		const { sourceSlideId, sourceColumnId } = this.parseDataTransferFromDropEvent(event);
 
-		this.componentFactoryService.createColumnTitleComponent().columnTitle$
+		this.presentationCreatorComponentFactoryService.createColumnTitleComponent().columnTitle$
 		    .pipe(
 			    first(),
 			    withLatestFrom(

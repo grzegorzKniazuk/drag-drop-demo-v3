@@ -23,9 +23,10 @@ import {
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Update } from '@ngrx/entity';
 import { isNull, isNumber } from 'lodash';
-import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
+import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 import { first } from 'rxjs/operators';
 import { RemoveSlideFromLibrary } from 'src/app/modules/dashboard/store/actions/library.actions';
+import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -41,7 +42,8 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 
 	constructor(
 		private changeDetectorRef: ChangeDetectorRef,
-		private componentFactoryService: ComponentFactoryService,
+		private componentFactoryBaseService: ComponentFactoryBaseService,
+		private presentationCreatorComponentFactoryService: PresentationCreatorComponentFactoryService,
 		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
@@ -112,7 +114,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 				slideId: this.slide.id,
 			}));
 		} else if (isNull(this.slide.columnId)) { // jesli usuwamy z bibiloteki
-			this.componentFactoryService.createConfirmDialogComponent(
+			this.componentFactoryBaseService.createConfirmDialogComponent(
 				'Uwaga',
 				'Czy napewno chcesz usunąć ten slajd z biblioteki? Operacji nie można cofnąć',
 			).onAcceptOrConfirm$.pipe(
@@ -130,7 +132,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 	public showLightbox(event: MouseEvent): void {
 		event.stopImmediatePropagation();
 
-		this.componentFactoryService.createSlideLightboxComponent(this.slide.imageData);
+		this.presentationCreatorComponentFactoryService.createSlideLightboxComponent(this.slide.imageData);
 	}
 
 	private swapSlideInTheSameColumn(sourceSlideId: number, sourceSlidePosition: number): void {

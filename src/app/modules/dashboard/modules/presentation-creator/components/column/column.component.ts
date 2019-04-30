@@ -19,7 +19,7 @@ import {
 	selectColumnSlidesIdsByColumnId,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { MoveSlideBetweenColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
-import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
+import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -37,7 +37,7 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 
 	constructor(
 		private formBuilder: FormBuilder,
-		private componentFactoryService: ComponentFactoryService,
+		private componentFactoryBaseService: ComponentFactoryBaseService,
 		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
@@ -81,7 +81,7 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 	}
 
 	public onRemoveColumn(): void {
-		this.componentFactoryService.createConfirmDialogComponent(
+		this.componentFactoryBaseService.createConfirmDialogComponent(
 			'Uwaga',
 			'Czy napewno chcesz usunąć tą sekcję prezentacji?',
 		).onAcceptOrConfirm$.pipe(
