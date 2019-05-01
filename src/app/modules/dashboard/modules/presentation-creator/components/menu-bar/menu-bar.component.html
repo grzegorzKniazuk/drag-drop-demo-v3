@@ -8,7 +8,7 @@
 	</div>
 	<div>
 		<button class="ui-button-raised ui-button-success" icon="pi pi-save" label="Zapisz" pButton
-				type="button" (click)="savePresentation()"></button>
+				type="button" (click)="savePresentation()" [disabled]="!(numberOfSlides$ | async)"></button>
 		<button class="ui-button-raised ui-button-secondary" icon="pi pi-sign-out" label="Wyjdź" pButton routerLink="./presentation-list"
 				type="button"></button>
 	</div>

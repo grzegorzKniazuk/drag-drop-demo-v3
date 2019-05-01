@@ -93,9 +93,10 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 
 	public confirmEditorLeave(): Observable<boolean> {
 		return this.store.pipe(select(selectIsEditorReadyToSave)).pipe(
+			withLatestFrom(this.store.pipe(select(selectAmountOfColumns))),
 			first(),
-			switchMap((isEditorReadyToSave: boolean) => {
-				if (!isEditorReadyToSave) {
+			switchMap(([ isEditorReadyToSave, selectAmountOfColumns ]: [ boolean, number ]) => {
+				if (!isEditorReadyToSave && selectAmountOfColumns) {
 					return this.componentFactoryBaseService.createConfirmDialogComponent(
 						'Uwaga',
 						'Czy napewno chcesz wyjść z edytora? Prezentacja nie została zapisana. Zapisz prezentację aby wyjść i zachować zmiany.',

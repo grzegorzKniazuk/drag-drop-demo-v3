@@ -14,7 +14,7 @@ import { SetPresentationTitle } from 'src/app/modules/dashboard/modules/presenta
 import { SavePresentation } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { selectCreatorMetadataState } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/module-base.selectors';
-import { selectSlides } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
+import { selectSlides, selectSlidesAmount } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { selectColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
 import { CreatorMetadata } from 'src/app/shared/interfaces/creator-metadata';
 import { Slide } from 'src/app/shared/interfaces/slide';
@@ -31,6 +31,7 @@ export class MenuBarComponent implements OnInit, OnDestroy {
 
 	public presentationTitle$: Observable<string>;
 	public menuItems: MenuItem[] = [];
+	public numberOfSlides$: Observable<number>;
 
 	constructor(
 		private store: Store<AppState>,
@@ -64,6 +65,7 @@ export class MenuBarComponent implements OnInit, OnDestroy {
 
 	private initObservables(): void {
 		this.presentationTitle$ = this.store.pipe(select(selectEditorPresentationTitle));
+		this.numberOfSlides$ = this.store.pipe(select(selectSlidesAmount));
 	}
 
 	public savePresentation(): void {
