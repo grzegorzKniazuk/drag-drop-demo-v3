@@ -5,7 +5,6 @@ import { Presentation } from 'src/app/shared/interfaces/presentation';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { selectPresentationList } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
-import { PresentationListComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-list/services/presentation-list-component-factory.service';
 import { first } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import {
@@ -13,6 +12,7 @@ import {
 	SetPresentationTitle,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
 import { Router } from '@angular/router';
+import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -28,7 +28,7 @@ export class PresentationListComponent implements OnInit, OnDestroy {
 	constructor(
 		private title: Title,
 		private store: Store<AppState>,
-		private presentationListComponentFactoryService: PresentationListComponentFactoryService,
+		private componentFactoryBaseService: ComponentFactoryBaseService,
 		private router: Router,
 	) {
 	}
@@ -42,7 +42,7 @@ export class PresentationListComponent implements OnInit, OnDestroy {
 	}
 
 	public createNewPresentation(): void {
-		this.presentationListComponentFactoryService.createPresentationTitleComponent().presentationTitle$
+		this.componentFactoryBaseService.createPresentationTitleComponent().presentationTitle$
 		    .pipe(first())
 		    .subscribe((presentationTitle: string) => {
 			    this.store.dispatch(new SetPresentationId({ presentationId: Math.floor((Math.random() * 10000000) + 1) }));

@@ -4,7 +4,7 @@
 	</div>
 	<div class="presentation-title">
 		<span>{{ presentationTitle$ | async }}</span>
-		<i class="pi pi-pencil"></i>
+		<i class="pi pi-pencil" (click)="changePresentationTitle()"></i>
 	</div>
 	<div>
 		<button pButton type="button" label="Zapisz" icon="pi pi-save" class="ui-button-raised ui-button-success"></button>
