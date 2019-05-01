@@ -5,3 +5,8 @@ export const selectIsLibrarySliderOpen = createSelector(
 	selectCreatorOptionsState,
 	state => state.isLibrarySliderOpen,
 );
+
+export const selectIsEditorReadyToSave = createSelector(
+	selectCreatorOptionsState,
+	state => state.isEditorReadyToSave,
+);

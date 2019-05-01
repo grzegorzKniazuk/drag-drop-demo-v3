@@ -15,7 +15,10 @@ import { selectAmountOfColumns, selectColumns } from 'src/app/modules/dashboard/
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
-import { selectIsLibrarySliderOpen } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-options.selectors';
+import {
+	selectIsEditorReadyToSave,
+	selectIsLibrarySliderOpen,
+} from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-options.selectors';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 
 @AutoUnsubscribe()
@@ -89,10 +92,10 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	}
 
 	public confirmEditorLeave(): Observable<boolean> {
-		return this.store.pipe(select(selectAmountOfColumns)).pipe(
+		return this.store.pipe(select(selectIsEditorReadyToSave)).pipe(
 			first(),
-			switchMap((numberOfPresentationColumns: number) => {
-				if (numberOfPresentationColumns) {
+			switchMap((isEditorReadyToSave: boolean) => {
+				if (!isEditorReadyToSave) {
 					return this.componentFactoryBaseService.createConfirmDialogComponent(
 						'Uwaga',
 						'Czy napewno chcesz wyjść z edytora? Prezentacja nie została zapisana. Zapisz prezentację aby wyjść i zachować zmiany.',
