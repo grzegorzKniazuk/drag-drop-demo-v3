@@ -7,6 +7,21 @@ div {
 		margin-left: 10px;
 	}
 
+	&.presentation-title {
+		@include font('medium');
+		user-select: none;
+
+		i {
+			margin-left: 5px;
+			cursor: pointer;
+			color: $secondary;
+
+			&:hover {
+				color: $primary;
+			}
+		}
+	}
+
 	&:last-of-type {
 		margin-right: 10px;
 

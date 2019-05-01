@@ -2,6 +2,10 @@
 	<div>
 		<button pButton (click)="openSlider()" type="button" label="Biblioteka" icon="pi pi-list"></button>
 	</div>
+	<div class="presentation-title">
+		<span>{{ presentationTitle$ | async }}</span>
+		<i class="pi pi-pencil"></i>
+	</div>
 	<div>
 		<button pButton type="button" label="Zapisz" icon="pi pi-save" class="ui-button-raised ui-button-success"></button>
 		<button pButton type="button" label="Wyjdź" icon="pi pi-sign-out" class="ui-button-raised ui-button-secondary" routerLink="./presentation-list"></button>

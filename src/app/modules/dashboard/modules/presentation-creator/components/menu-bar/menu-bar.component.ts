@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ShowLibrarySlider } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-options.actions';
+import { Observable } from 'rxjs';
+import { selectEditorPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-metadata.selectors';
 
 @Component({
 	selector: 'app-menu-bar',
@@ -12,6 +14,7 @@ import { ShowLibrarySlider } from 'src/app/modules/dashboard/modules/presentatio
 })
 export class MenuBarComponent implements OnInit {
 
+	public presentationTitle$: Observable<string>;
 	public menuItems: MenuItem[] = [];
 
 	constructor(
@@ -21,10 +24,15 @@ export class MenuBarComponent implements OnInit {
 
 	ngOnInit() {
 		this.buildMenu();
+		this.initObservables();
 	}
 
 	private buildMenu(): void {
 		this.menuItems = [];
+	}
+
+	private initObservables(): void {
+		this.presentationTitle$ = this.store.pipe(select(selectEditorPresentationTitle));
 	}
 
 	public openSlider(): void {

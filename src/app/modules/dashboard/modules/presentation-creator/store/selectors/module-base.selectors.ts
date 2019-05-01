@@ -17,3 +17,8 @@ export const selectCreatorOptionsState = createSelector(
 	selectPresentationCreatorState,
 	state => state.options,
 );
+
+export const selectCreatorMetadataState = createSelector(
+	selectPresentationCreatorState,
+	state => state.metadata,
+);
