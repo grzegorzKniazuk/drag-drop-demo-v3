@@ -1,5 +1,4 @@
-<p-sidebar [(visible)]="display" [style]="{ height:'100%', 'z-index': '10' }"
-		   position="left">
+<p-sidebar [(visible)]="display" [style]="{ height:'100%', 'z-index': '10' }" position="left" (onHide)="hideSlider()">
 	<div class="sidebar-content">
 		<app-add-more-slides *ngIf="librarySlidesAmount$ | async" (initFileUpload)="clickIntoFileInput()"></app-add-more-slides>
 		<cdk-virtual-scroll-viewport *ngIf="librarySlidesAmount$ | async" class="slides-in-library" orientation="vertical" itemSize="112">
@@ -17,5 +16,3 @@
 		<input #fileInputElement (change)="uploadFiles($event)" id="fileUpload" multiple type="file">
 	</div>
 </p-sidebar>
-<button (click)="openSlider($event, true)" icon="pi pi-list" iconPos="right" label="Biblioteka" pButton
-		type="button"></button>

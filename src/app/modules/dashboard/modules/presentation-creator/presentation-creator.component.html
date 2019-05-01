@@ -1,3 +1,4 @@
+<app-menu-bar></app-menu-bar>
 <div class="presentation-creator-container">
 	<ng-container *ngFor="let column of (columns$ | async); let i = index; let l = count">
 		<app-column [column]="column" [position]="i"></app-column>

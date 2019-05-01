@@ -2,5 +2,5 @@
 
 .presentation-creator-container {
 	@include flex(flex, flex-start, flex-start, row);
-	@include size(100%, 100%);
+	@include size(100%, calc(100% - 55px));
 }

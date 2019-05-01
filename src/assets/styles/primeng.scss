@@ -1,3 +1,17 @@
 .ui-sidebar-left {
 	width: 260px;
 }
+
+.ui-menubar {
+	@include flex(flex, center, center, row);
+	border-top: none;
+	width: 100%;
+	height: 55px;
+	border-bottom: 1px solid #c8c8c8;
+
+	.ui-menubar-custom {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+	}
+}

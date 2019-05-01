@@ -5,7 +5,7 @@ import {
 	ConfirmDialogModule,
 	DialogModule,
 	DropdownModule,
-	InputTextModule,
+	InputTextModule, MenubarModule,
 	MultiSelectModule,
 	SidebarModule,
 } from 'primeng/primeng';
@@ -19,6 +19,7 @@ const primeNGmodules = [
 	InputTextModule,
 	ChipsModule,
 	ConfirmDialogModule,
+	MenubarModule,
 ];
 
 @NgModule({

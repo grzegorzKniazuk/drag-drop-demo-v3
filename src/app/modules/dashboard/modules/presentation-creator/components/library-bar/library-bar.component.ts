@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { Observable } from 'rxjs';
@@ -6,6 +6,9 @@ import { selectLibrarySlides, selectLibrarySlidesAmount } from 'src/app/modules/
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { FileUploadService } from 'src/app/shared/services/file-upload.service';
 import { Slide } from 'src/app/shared/interfaces/slide';
+import { HideLibrarySlider } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-options.actions';
+import { selectIsLibrarySliderOpen } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-options.selectors';
+import { first } from 'rxjs/operators';
 
 @AutoUnsubscribe()
 @Component({
@@ -17,12 +20,13 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 export class LibraryBarComponent implements OnInit, OnDestroy {
 
 	@ViewChild('fileInputElement') protected fileInputElement: ElementRef;
-	public display: boolean = true;
+	public display: boolean;
 	public librarySlidesAmount$: Observable<number>;
 	public slidesInLibary$: Observable<Slide[]>;
 
 	constructor(
 		private fileUploadService: FileUploadService,
+		private changeDetectorRef: ChangeDetectorRef,
 		private store: Store<AppState>,
 	) {
 	}
@@ -30,6 +34,11 @@ export class LibraryBarComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.librarySlidesAmount$ = this.store.pipe(select(selectLibrarySlidesAmount));
 		this.slidesInLibary$ = this.store.pipe(select(selectLibrarySlides));
+
+		this.store.pipe(select(selectIsLibrarySliderOpen)).subscribe((isOpen: boolean) => {
+			this.display = isOpen;
+			this.changeDetectorRef.markForCheck();
+		});
 	}
 
 	ngOnDestroy() {
@@ -44,14 +53,13 @@ export class LibraryBarComponent implements OnInit, OnDestroy {
 	}
 
 	@HostListener('dragleave')
-	public onDragLeave(): void {
-		this.display = false;
-	}
-
-	@HostListener('document:keydown', [ '$event' ])
-	public openSlider(event: KeyboardEvent | MouseEvent | any, onClick: boolean = false): void {
-		if (event.key === 'ArrowUp' || onClick) {
-			this.display = true;
-		}
+	public hideSlider(): void {
+		this.store.pipe(select(selectIsLibrarySliderOpen)).pipe(
+			first(),
+		).subscribe((isOpen: boolean) => {
+			if (isOpen) {
+				this.store.dispatch(new HideLibrarySlider());
+			}
+		});
 	}
 }
