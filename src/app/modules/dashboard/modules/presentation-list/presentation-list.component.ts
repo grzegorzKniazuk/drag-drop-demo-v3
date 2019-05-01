@@ -6,8 +6,13 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { selectPresentationList } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
 import { PresentationListComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-list/services/presentation-list-component-factory.service';
-import { filter, first } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import {
+	SetPresentationId,
+	SetPresentationTitle,
+} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
+import { Router } from '@angular/router';
 
 @AutoUnsubscribe()
 @Component({
@@ -24,6 +29,7 @@ export class PresentationListComponent implements OnInit, OnDestroy {
 		private title: Title,
 		private store: Store<AppState>,
 		private presentationListComponentFactoryService: PresentationListComponentFactoryService,
+		private router: Router,
 	) {
 	}
 
@@ -37,12 +43,11 @@ export class PresentationListComponent implements OnInit, OnDestroy {
 
 	public createNewPresentation(): void {
 		this.presentationListComponentFactoryService.createPresentationTitleComponent().presentationTitle$
-		    .pipe(
-			    first(),
-			    filter((presentationTitle: string) => !!presentationTitle),
-		    )
+		    .pipe(first())
 		    .subscribe((presentationTitle: string) => {
-			    console.log(presentationTitle);
+			    this.store.dispatch(new SetPresentationId({ presentationId: Math.floor((Math.random() * 10000000) + 1) }));
+			    this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
+			    this.router.navigateByUrl('/dashboard/presentation-creator');
 		    });
 	}
 }

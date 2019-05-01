@@ -7,17 +7,23 @@ import {
 	creatorOptionsReducer,
 	CreatorOptionsState,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/reducers/creator-options.reducer';
+import {
+	creatorMetadataReducer,
+	CreatorMetadataState,
+} from 'src/app/modules/dashboard/modules/presentation-creator/store/reducers/creator-metadata.reducer';
 
 export interface PresentationCreatorState {
 	slides: SlideState,
 	columns: ColumnState,
 	options: CreatorOptionsState,
+	metadata: CreatorMetadataState,
 }
 
 export const reducers: ActionReducerMap<PresentationCreatorState> = {
 	slides: slideReducer,
 	columns: columnReducer,
 	options: creatorOptionsReducer,
+	metadata: creatorMetadataReducer,
 };
 
 export const metaReducers: MetaReducer<PresentationCreatorState>[] = environment.production ? [] : [ storeFreeze ];
