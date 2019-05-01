@@ -15,6 +15,7 @@ import { selectAmountOfColumns, selectColumns } from 'src/app/modules/dashboard/
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
+import { selectIsLibrarySliderOpen } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-options.selectors';
 
 @AutoUnsubscribe()
 @Component({
@@ -26,6 +27,7 @@ import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dash
 export class PresentationCreatorComponent extends DropZoneBase implements OnInit, OnDestroy {
 
 	public columns$: Observable<Column[]>;
+	public isLibrarySliderOpen$: Observable<boolean>;
 
 	constructor(
 		private presentationCreatorComponentFactoryService: PresentationCreatorComponentFactoryService,
@@ -39,6 +41,7 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	ngOnInit() {
 		this.title.setTitle('Kreator prezentacji');
 		this.columns$ = this.store.pipe(select(selectColumns));
+		this.isLibrarySliderOpen$ = this.store.pipe(select(selectIsLibrarySliderOpen));
 	}
 
 	ngOnDestroy() {
