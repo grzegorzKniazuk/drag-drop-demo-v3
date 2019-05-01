@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { RouterErrorHandler } from 'src/app/shared/utils/router.error-handler';
 
 @NgModule({
@@ -28,6 +28,7 @@ import { RouterErrorHandler } from 'src/app/shared/utils/router.error-handler';
 	],
 	providers: [
 		ConfirmationService,
+		MessageService,
 		// { provide: ErrorHandler, useClass: RouterErrorHandler },
 	],
 	bootstrap: [ AppComponent ],

@@ -9,6 +9,7 @@ import {
 	MultiSelectModule,
 	SidebarModule,
 } from 'primeng/primeng';
+import { ToastModule } from 'primeng/toast';
 
 const primeNGmodules = [
 	SidebarModule,
@@ -20,6 +21,7 @@ const primeNGmodules = [
 	ChipsModule,
 	ConfirmDialogModule,
 	MenubarModule,
+	ToastModule,
 ];
 
 @NgModule({
