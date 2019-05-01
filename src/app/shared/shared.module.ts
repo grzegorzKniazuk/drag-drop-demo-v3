@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { AutofocusDirective } from 'src/app/shared/directives/autofocus.directive';
 import { MaterialModule } from 'src/app/shared/material.module';
+import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 const components = [
 	ConfirmDialogComponent,
@@ -24,6 +26,8 @@ const modules = [
 	MaterialModule,
 	FormsModule,
 	ReactiveFormsModule,
+	RouterModule,
+	HttpClientModule,
 ];
 
 @NgModule({
