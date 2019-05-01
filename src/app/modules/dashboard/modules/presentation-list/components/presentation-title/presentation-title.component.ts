@@ -14,8 +14,10 @@ export class PresentationTitleComponent {
 
 	@HostListener('document:keydown.enter')
 	public onSave(): void {
-		this.dialogVisibility = false;
-		this.presentationTitle$.emit(this.presentationTitle);
+		if (this.presentationTitle && this.presentationTitle.length) {
+			this.presentationTitle$.emit(this.presentationTitle);
+			this.dialogVisibility = false;
+		}
 	}
 
 	@HostListener('document:keydown.escape')

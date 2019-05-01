@@ -1,0 +1,20 @@
+@import "base.scss";
+
+.presentation-list-container {
+	@include flex(flex, flex-start, flex-start, row, relative, wrap);
+	@include size(100%, 100%);
+
+	&.no-presentations {
+		@include flex(flex, center, center, column);
+
+		div {
+			@include flex(flex, center, center, column);
+			@include size(100%, 100%);
+			cursor: pointer;
+
+			strong, span {
+				user-select: none;
+			}
+		}
+	}
+}

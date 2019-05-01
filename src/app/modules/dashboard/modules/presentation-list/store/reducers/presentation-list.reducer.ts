@@ -24,3 +24,10 @@ export function presentationListReducer(state = initialPresentationListState, ac
 		}
 	}
 }
+
+export const {
+	selectIds,
+	selectEntities,
+	selectAll,
+	selectTotal,
+} = presentationListAdapter.getSelectors();

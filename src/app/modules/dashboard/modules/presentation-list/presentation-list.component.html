@@ -1,3 +1,7 @@
-<p>
-  presentation-list works!
-</p>
+<div class="presentation-list-container" *ngIf="presentationList$ | async as presentations"
+	 [ngClass]="{ 'no-presentations' : !presentations.length }">
+	<div *ngIf="!presentations.length" (click)="createNewPresentation()">
+		<strong>Brak prezentacji</strong>
+		<span>Kliknij, aby dodać</span>
+	</div>
+</div>

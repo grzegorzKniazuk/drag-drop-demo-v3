@@ -12,6 +12,9 @@ import { presentationListReducer } from 'src/app/modules/dashboard/modules/prese
 		PresentationListComponent,
 		PresentationTitleComponent,
 	],
+	entryComponents: [
+		PresentationTitleComponent,
+	],
 	imports: [
 		SharedModule,
 		StoreModule.forFeature('presentation-list', presentationListReducer),

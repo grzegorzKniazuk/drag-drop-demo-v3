@@ -14,7 +14,7 @@ export class PresentationListComponentFactoryService {
 	) {
 	}
 
-	private createPresentationTitleComponent(): PresentationTitleComponent {
+	public createPresentationTitleComponent(): PresentationTitleComponent {
 		this.presentationTitleComponentRef = this.appViewContainerRef.createComponent(this.presentationTitleComponentFactory);
 		return this.presentationTitleComponentRef.instance;
 	}
