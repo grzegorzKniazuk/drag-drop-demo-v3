@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
 	selector: 'app-presentation-list',
@@ -8,10 +9,13 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 export class PresentationListComponent implements OnInit {
 
-	constructor() {
+	constructor(
+		private title: Title,
+	) {
 	}
 
 	ngOnInit() {
+		this.title.setTitle('Lista prezentacji');
 	}
 
 }
