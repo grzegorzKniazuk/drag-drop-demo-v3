@@ -10,7 +10,7 @@ export interface CreatorMetadataState {
 
 export const initialCreatorMetadataState: CreatorMetadataState = {
 	presentationId: null,
-	presentationTitle: 'moja prezentacja',
+	presentationTitle: null,
 };
 
 export function creatorMetadataReducer(state = initialCreatorMetadataState, action: CreatorMetadataActions): CreatorMetadataState {
