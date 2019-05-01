@@ -28,6 +28,19 @@ export class PresentationTitleComponent implements OnInit {
 		this.setPresentationTitle();
 	}
 
+	@HostListener('document:keydown.enter')
+	public onSave(): void {
+		if (this.presentationTitle && this.presentationTitle.length) {
+			this.presentationTitle$.emit(this.presentationTitle);
+			this.dialogVisibility = false;
+		}
+	}
+
+	@HostListener('document:keydown.escape')
+	public onCancel(): void {
+		this.dialogVisibility = false;
+	}
+
 	private setPresentationTitle(): void {
 		if (this.isEditMode) {
 			this.store.pipe(
@@ -41,18 +54,5 @@ export class PresentationTitleComponent implements OnInit {
 
 	private setHeader(): void {
 		this.header = this.isEditMode ? 'Edytuj tytuł prezentacji' : 'Tytuł nowej prezentacji';
-	}
-
-	@HostListener('document:keydown.enter')
-	public onSave(): void {
-		if (this.presentationTitle && this.presentationTitle.length) {
-			this.presentationTitle$.emit(this.presentationTitle);
-			this.dialogVisibility = false;
-		}
-	}
-
-	@HostListener('document:keydown.escape')
-	public onCancel(): void {
-		this.dialogVisibility = false;
 	}
 }

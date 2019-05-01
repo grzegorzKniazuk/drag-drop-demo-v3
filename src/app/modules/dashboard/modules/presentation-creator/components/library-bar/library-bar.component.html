@@ -1,7 +1,9 @@
-<p-sidebar [(visible)]="display" [style]="{ height:'100%', 'z-index': '10' }" position="left" (onHide)="hideSlider()">
+<p-sidebar (onHide)="hideSlider()" [(visible)]="display" [style]="{ height:'100%', 'z-index': '10' }" position="left">
 	<div class="sidebar-content">
-		<app-add-more-slides *ngIf="librarySlidesAmount$ | async" (initFileUpload)="clickIntoFileInput()"></app-add-more-slides>
-		<cdk-virtual-scroll-viewport *ngIf="librarySlidesAmount$ | async" class="slides-in-library" orientation="vertical" itemSize="112">
+		<app-add-more-slides (initFileUpload)="clickIntoFileInput()"
+							 *ngIf="librarySlidesAmount$ | async"></app-add-more-slides>
+		<cdk-virtual-scroll-viewport *ngIf="librarySlidesAmount$ | async" class="slides-in-library"
+									 itemSize="112" orientation="vertical">
 			<ng-container *cdkVirtualFor="let slide of slidesInLibary$ | async">
 				<div>
 					<app-slide [slide]="slide"></app-slide>

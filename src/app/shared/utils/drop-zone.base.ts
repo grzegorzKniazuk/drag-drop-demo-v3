@@ -46,7 +46,7 @@ export abstract class DropZoneBase {
 			this.store.dispatch(new AddSlideFromLibraryToExistingColumn({
 				sourceSlide: {
 					...slideToMove,
-					id: Math.floor((Math.random() * 10000000) + 1)
+					id: Math.floor((Math.random() * 10000000) + 1),
 				},
 				targetColumnId: targetColumnId,
 				targetSlidePosition: amountOfSlidesInExsistingColumn,

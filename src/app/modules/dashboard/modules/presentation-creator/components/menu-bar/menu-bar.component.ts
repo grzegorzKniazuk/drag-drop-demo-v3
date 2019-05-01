@@ -31,14 +31,6 @@ export class MenuBarComponent implements OnInit {
 		this.initObservables();
 	}
 
-	private buildMenu(): void {
-		this.menuItems = [];
-	}
-
-	private initObservables(): void {
-		this.presentationTitle$ = this.store.pipe(select(selectEditorPresentationTitle));
-	}
-
 	public openSlider(): void {
 		this.store.dispatch(new ShowLibrarySlider());
 	}
@@ -49,5 +41,13 @@ export class MenuBarComponent implements OnInit {
 		    .subscribe((presentationTitle: string) => {
 			    this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
 		    });
+	}
+
+	private buildMenu(): void {
+		this.menuItems = [];
+	}
+
+	private initObservables(): void {
+		this.presentationTitle$ = this.store.pipe(select(selectEditorPresentationTitle));
 	}
 }

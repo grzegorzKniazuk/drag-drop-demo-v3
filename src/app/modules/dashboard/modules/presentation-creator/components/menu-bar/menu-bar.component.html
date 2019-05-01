@@ -1,13 +1,15 @@
 <p-menubar [model]="menuItems">
 	<div>
-		<button pButton (click)="openSlider()" type="button" label="Biblioteka" icon="pi pi-list"></button>
+		<button (click)="openSlider()" icon="pi pi-list" label="Biblioteka" pButton type="button"></button>
 	</div>
 	<div class="presentation-title">
 		<span>{{ presentationTitle$ | async }}</span>
-		<i class="pi pi-pencil" (click)="changePresentationTitle()"></i>
+		<i (click)="changePresentationTitle()" class="pi pi-pencil"></i>
 	</div>
 	<div>
-		<button pButton type="button" label="Zapisz" icon="pi pi-save" class="ui-button-raised ui-button-success"></button>
-		<button pButton type="button" label="Wyjdź" icon="pi pi-sign-out" class="ui-button-raised ui-button-secondary" routerLink="./presentation-list"></button>
+		<button class="ui-button-raised ui-button-success" icon="pi pi-save" label="Zapisz" pButton
+				type="button"></button>
+		<button class="ui-button-raised ui-button-secondary" icon="pi pi-sign-out" label="Wyjdź" pButton routerLink="./presentation-list"
+				type="button"></button>
 	</div>
 </p-menubar>

@@ -108,7 +108,7 @@ export class ColumnEffects {
 		}),
 		tap(() => {
 			this.toastService.success('Usunięto sekcję');
-		})
+		}),
 	);
 
 	constructor(

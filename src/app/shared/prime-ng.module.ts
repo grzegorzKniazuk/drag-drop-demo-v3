@@ -5,7 +5,8 @@ import {
 	ConfirmDialogModule,
 	DialogModule,
 	DropdownModule,
-	InputTextModule, MenubarModule,
+	InputTextModule,
+	MenubarModule,
 	MultiSelectModule,
 	SidebarModule,
 } from 'primeng/primeng';

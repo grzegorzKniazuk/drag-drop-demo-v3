@@ -11,6 +11,7 @@ export class SetPresentationTitle implements Action {
 	constructor(public payload: { presentationTitle: string }) {
 	}
 }
+
 export class SetPresentationId implements Action {
 	public readonly type = CreatorMetadataActionsTypes.SetPresentationId;
 

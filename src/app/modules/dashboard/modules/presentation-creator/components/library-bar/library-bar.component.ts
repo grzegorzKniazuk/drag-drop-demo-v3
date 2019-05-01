@@ -19,10 +19,10 @@ import { first } from 'rxjs/operators';
 })
 export class LibraryBarComponent implements OnInit, OnDestroy {
 
-	@ViewChild('fileInputElement') protected fileInputElement: ElementRef;
 	public display: boolean;
 	public librarySlidesAmount$: Observable<number>;
 	public slidesInLibary$: Observable<Slide[]>;
+	@ViewChild('fileInputElement') protected fileInputElement: ElementRef;
 
 	constructor(
 		private fileUploadService: FileUploadService,

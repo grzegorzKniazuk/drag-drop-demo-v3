@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostListener, NgZone, OnDestroy, On
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { first, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { first, switchMap, withLatestFrom } from 'rxjs/operators';
 import {
 	AddColumnFromAnotherColumn,
 	AddColumnFromLibrary,
@@ -100,7 +100,7 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 				} else {
 					return of(true);
 				}
-			})
+			}),
 		);
 	}
 }

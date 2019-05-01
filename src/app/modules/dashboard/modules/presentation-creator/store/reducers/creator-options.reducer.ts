@@ -1,5 +1,6 @@
 import {
-	CreatorOptionsActions, CreatorOptionsActionsTypes,
+	CreatorOptionsActions,
+	CreatorOptionsActionsTypes,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-options.actions';
 
 export interface CreatorOptionsState {
