@@ -9,7 +9,7 @@ import {
 	ColumnActionsTypes,
 	RemoveColumn,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import {
 	AddSlideToPresentation,
 	MoveSlideBetweenColumns,
@@ -17,6 +17,7 @@ import {
 	RemoveSlidesByColumn,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { Observable } from 'rxjs';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -105,9 +106,13 @@ export class ColumnEffects {
 				slideIds: action.payload.columnSlidesIds,
 			});
 		}),
+		tap(() => {
+			this.toastService.success('Usunięto sekcję');
+		})
 	);
 
 	constructor(
+		private toastService: ToastService,
 		private actions$: Actions,
 	) {
 	}
