@@ -21,10 +21,19 @@
 		background: $white;
 		color: $black;
 		cursor: pointer;
+		font-size: 25px;
+		right: -25px;
 
 		&:first-of-type {
 			top: 0;
-			right: 0;
+
+			&:hover {
+				color: $primary;
+			}
+		}
+
+		&:nth-of-type(2) {
+			top: 25px;
 
 			&:hover {
 				color: $success;
@@ -32,8 +41,7 @@
 		}
 
 		&:last-of-type {
-			top: 20px;
-			right: 0;
+			top: 50px;
 
 			&:hover {
 				color: $danger;

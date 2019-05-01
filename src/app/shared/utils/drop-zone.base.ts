@@ -11,6 +11,7 @@ import { Memoize } from 'lodash-decorators';
 
 export abstract class DropZoneBase {
 	public isElementOnDragOver: boolean;
+	public isElementOnMouseEnter: boolean;
 
 	protected constructor(
 		protected store: Store<AppState>,
@@ -32,7 +33,7 @@ export abstract class DropZoneBase {
 		});
 	}
 
-	@HostListener('dragleave', [ '$event' ])
+	@HostListener('dragleave')
 	public onDragLeave(): void {
 		this.isElementOnDragOver = false;
 	}
@@ -51,6 +52,22 @@ export abstract class DropZoneBase {
 				targetColumnId: targetColumnId,
 				targetSlidePosition: amountOfSlidesInExsistingColumn,
 			}));
+		});
+	}
+
+	@HostListener('mouseenter')
+	public onMouseEnter(): void {
+		this.ngZone.runOutsideAngular(() => {
+			event.stopPropagation();
+			this.isElementOnMouseEnter = true;
+		});
+	}
+
+	@HostListener('mouseleave')
+	public onMouseLeave(): void {
+		this.ngZone.runOutsideAngular(() => {
+			event.stopPropagation();
+			this.isElementOnMouseEnter = false;
 		});
 	}
 

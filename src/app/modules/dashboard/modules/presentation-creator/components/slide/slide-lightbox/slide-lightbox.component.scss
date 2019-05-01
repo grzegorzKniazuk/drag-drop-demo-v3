@@ -4,7 +4,7 @@
 	@include flex(flex, center, center, column, absolute);
 	@include size(100%, 100%);
 	@include position(0, auto, auto, 0);
-	background: rgba($black, 0.65);;
+	background: rgba($black, 0.65);
 	z-index: 1002;
 
 	img {
