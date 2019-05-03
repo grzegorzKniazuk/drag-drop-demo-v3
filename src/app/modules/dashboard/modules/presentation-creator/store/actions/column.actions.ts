@@ -6,6 +6,7 @@ import { Update } from '@ngrx/entity';
 export enum ColumnActionsTypes {
 	AddColumnFromAnotherColumn = '[Column] Add Column From Another Column',
 	AddColumnFromLibrary = '[Column] Add Column From Library',
+	AddColumns = '[Column] Add Columns',
 	AddSlideFromLibraryToExistingColumn = '[Column] Add Slide From Library To Existing Column',
 	UpdateColumnTitle = '[Column] Update Column Title',
 	AddColumnBetweenExistingColumns = '[Column] Add Column Between Existing Columns',
@@ -26,6 +27,13 @@ export class AddColumnFromLibrary implements Action {
 	public readonly type = ColumnActionsTypes.AddColumnFromLibrary;
 
 	constructor(public payload: { column: Column, sourceSlide: Slide }) {
+	}
+}
+
+export class AddColumns implements Action {
+	public readonly type = ColumnActionsTypes.AddColumns;
+
+	constructor(public payload: { columns: Column[] }) {
 	}
 }
 
@@ -78,6 +86,7 @@ export class ClearColumns implements Action {
 export type ColumnActions =
 	AddColumnFromAnotherColumn
 	| AddColumnFromLibrary
+	| AddColumns
 	| UpdateColumnTitle
 	| AddSlideFromLibraryToExistingColumn
 	| AddColumnBetweenExistingColumns

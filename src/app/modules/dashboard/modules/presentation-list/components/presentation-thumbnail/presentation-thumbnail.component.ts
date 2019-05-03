@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 import { filter, first } from 'rxjs/operators';
-import { RemovePresentation } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
+import { RemovePresentation, UpdatePresentation } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
 
 @Component({
 	selector: 'app-presentation-thumbnail',
@@ -23,6 +23,15 @@ export class PresentationThumbnailComponent implements OnInit {
 	}
 
 	ngOnInit() {
+	}
+
+	public updatePresentation(): void {
+		this.store.dispatch(new UpdatePresentation({
+			id: this.presentation.id,
+			title: this.presentation.title,
+			slides: this.presentation.slides,
+			columns: this.presentation.columns,
+		}));
 	}
 
 	public deletePresentation(): void {

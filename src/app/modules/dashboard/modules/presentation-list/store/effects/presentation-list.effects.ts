@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
-import { PresentationListActionsTypes, RemovePresentation, SavePresentation } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
+import { PresentationListActionsTypes, SavePresentation, UpdatePresentation } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
 import { concatMap, map, tap } from 'rxjs/operators';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { fromPromise } from 'rxjs/internal-compatibility';
 import { Observable } from 'rxjs';
-import { ClearPresentationMetadata } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
-import { ClearColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
-import { ClearSlides } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { ClearPresentationMetadata, SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
+import { AddColumns, ClearColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+import { AddSlides, ClearSlides } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 
 @Injectable()
 export class PresentationListEffects {
@@ -31,10 +31,27 @@ export class PresentationListEffects {
 	);
 
 	@Effect({ dispatch: false })
-	public removePresentation$ = this.actions$.pipe(
+	public removePresentation$: Observable<void> = this.actions$.pipe(
 		ofType(PresentationListActionsTypes.RemovePresentation),
 		tap(() => {
 			this.toastService.success('Prezentacja została usunięta');
+		}),
+	);
+
+	@Effect({ dispatch: true })
+	public updatePresentation$: Observable<SetPresentationId | SetPresentationTitle | AddSlides | AddColumns> = this.actions$.pipe(
+		ofType(PresentationListActionsTypes.UpdatePresentation),
+		tap(() => {
+			return fromPromise(this.router.navigateByUrl('/dashboard/presentation-creator'));
+		}),
+		concatMap((action: UpdatePresentation) => {
+			console.log(action.payload);
+			return [
+				new SetPresentationId({ presentationId: action.payload.id }),
+				new SetPresentationTitle({ presentationTitle: action.payload.title }),
+				new AddSlides({ slides: action.payload.slides }),
+				new AddColumns({ columns: action.payload.columns }),
+			];
 		}),
 	);
 

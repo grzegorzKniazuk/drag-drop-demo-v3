@@ -4,6 +4,7 @@ import { Update } from '@ngrx/entity';
 
 export enum SlideActionsTypes {
 	AddSlideToPresentation = '[Slide] Add Slide In Presentation',
+	AddSlides = '[Slide] Add Slides',
 	MoveSlideToNewCreatedColumn = '[Slide] Move Slide To New Created Column',
 	MoveSlideBetweenColumns = '[Slide] Move Slide Between Columns',
 	UpdateSlidePosition = '[Slide] Update Slide Position',
@@ -20,6 +21,13 @@ export class AddSlideToPresentation implements Action {
 	public readonly type = SlideActionsTypes.AddSlideToPresentation;
 
 	constructor(public payload: { slide: Slide }) {
+	}
+}
+
+export class AddSlides implements Action {
+	public readonly type = SlideActionsTypes.AddSlides;
+
+	constructor(public payload: { slides: Slide[] }) {
 	}
 }
 
@@ -92,6 +100,7 @@ export class ClearSlides implements Action {
 
 export type SlideActions =
 	AddSlideToPresentation
+	| AddSlides
 	| MoveSlideToNewCreatedColumn
 	| MoveSlideBetweenColumns
 	| UpdateSlidePosition
