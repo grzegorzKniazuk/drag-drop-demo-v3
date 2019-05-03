@@ -1,6 +1,9 @@
+import { SlideCoordinates } from 'src/app/shared/interfaces/slide-coordinates';
+
 export interface Slide {
 	id: number;
-	position: number | null;
 	columnId: number | null;
+	position: number | null;
+	coordinates: SlideCoordinates;
 	imageData: string | ArrayBuffer;
 }

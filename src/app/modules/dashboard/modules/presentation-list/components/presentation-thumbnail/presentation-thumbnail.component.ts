@@ -5,6 +5,7 @@ import { AppState } from 'src/app/store';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 import { filter, first } from 'rxjs/operators';
 import { RemovePresentation, UpdatePresentation } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-presentation-thumbnail',
@@ -19,6 +20,7 @@ export class PresentationThumbnailComponent implements OnInit {
 	constructor(
 		private componentFactoryBaseService: ComponentFactoryBaseService,
 		private store: Store<AppState>,
+		private router: Router,
 	) {
 	}
 
@@ -46,4 +48,7 @@ export class PresentationThumbnailComponent implements OnInit {
 		});
 	}
 
+	public showPresentation(): void {
+		this.router.navigateByUrl(`/dashboard/presentation-viewer/${this.presentation.id}`);
+	}
 }
