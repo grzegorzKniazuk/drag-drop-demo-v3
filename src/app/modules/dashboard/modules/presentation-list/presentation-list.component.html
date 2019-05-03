@@ -4,4 +4,5 @@
 		<strong>Brak prezentacji</strong>
 		<span>Kliknij, aby dodać</span>
 	</div>
+	<app-presentation-thumbnail *ngFor="let presentation of (presentationList$ | async);trackBy: trackByPresentationId;"></app-presentation-thumbnail>
 </div>

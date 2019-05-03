@@ -8,6 +8,7 @@
 	z-index: 1010;
 
 	img {
+		@include size(80%);
 		user-select: none;
 		z-index: 1003;
 	}

@@ -7,12 +7,10 @@ import { AppState } from 'src/app/store';
 import { selectPresentationList } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
 import { first } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import {
-	SetPresentationId,
-	SetPresentationTitle,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
+import { SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
 import { Router } from '@angular/router';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
+import { Memoize } from 'lodash-decorators';
 
 @AutoUnsubscribe()
 @Component({
@@ -49,5 +47,10 @@ export class PresentationListComponent implements OnInit, OnDestroy {
 			    this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
 			    this.router.navigateByUrl('/dashboard/presentation-creator');
 		    });
+	}
+
+	@Memoize
+	public trackByPresentationId(index: number, presentation: Presentation): number {
+		return presentation.id;
 	}
 }
