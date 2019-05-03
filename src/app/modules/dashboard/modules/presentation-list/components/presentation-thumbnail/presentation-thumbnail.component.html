@@ -1,3 +1,10 @@
-<p>
-  presentation-thumbnail works!
-</p>
+<p-card [header]="presentation.title" styleClass="ui-card-shadow" [style]="{width: '360px', margin: '15px'}">
+	<p-header>
+		<img [src]="presentation.thumbnail" alt="">
+	</p-header>
+	<p-footer>
+		<button pButton type="button" label="Odtwórz" icon="pi pi-caret-right" class="ui-button-raised ui-button-success"></button>
+		<button pButton type="button" label="Edytuj" icon="pi pi-pencil" class="ui-button-raised ui-button-info"></button>
+		<button pButton type="button" label="Usuń" icon="pi pi-times" class="ui-button-raised ui-button-warning"></button>
+	</p-footer>
+</p-card>

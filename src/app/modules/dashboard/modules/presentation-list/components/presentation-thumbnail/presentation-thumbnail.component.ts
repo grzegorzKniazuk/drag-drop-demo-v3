@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Presentation } from '../../../../../../shared/interfaces/presentation';
 
 @Component({
 	selector: 'app-presentation-thumbnail',
@@ -7,6 +8,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PresentationThumbnailComponent implements OnInit {
+
+	@Input() presentation: Presentation;
 
 	constructor() {
 	}
