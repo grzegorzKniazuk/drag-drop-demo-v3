@@ -27,6 +27,11 @@ export function creatorMetadataReducer(state = initialCreatorMetadataState, acti
 				presentationTitle: action.payload.presentationTitle,
 			};
 		}
+		case CreatorMetadataActionsTypes.ClearPresentationMetadata: {
+			return {
+				...initialCreatorMetadataState,
+			};
+		}
 		default: {
 			return {
 				...state,

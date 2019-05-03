@@ -5,12 +5,10 @@ import {
 
 export interface CreatorOptionsState {
 	isLibrarySliderOpen: boolean;
-	isEditorReadyToSave: boolean;
 }
 
 export const initialCreatorOptionsState: CreatorOptionsState = {
 	isLibrarySliderOpen: false,
-	isEditorReadyToSave: false,
 };
 
 export function creatorOptionsReducer(state = initialCreatorOptionsState, action: CreatorOptionsActions): CreatorOptionsState {
@@ -27,10 +25,9 @@ export function creatorOptionsReducer(state = initialCreatorOptionsState, action
 				isLibrarySliderOpen: false,
 			};
 		}
-		case CreatorOptionsActionsTypes.SetEditorReadyToSave: {
+		case CreatorOptionsActionsTypes.LeaveEditor: {
 			return {
-				...state,
-				isEditorReadyToSave: true,
+				...initialCreatorOptionsState,
 			};
 		}
 		default: {

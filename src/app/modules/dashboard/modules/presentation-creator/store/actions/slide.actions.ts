@@ -12,7 +12,8 @@ export enum SlideActionsTypes {
 	MoveBetweenSlidesInTheSameColumn = '[Slide] Move Between Slides In The Same Column',
 	MoveBetweenSlidesInTheDifferentColumn = '[Slide] Move Between Slides In The Different Column',
 	RemoveSlide = '[Slide] Remove Slide',
-	RemoveSlidesByColumn = '[Slide] Remove Slides By Column'
+	RemoveSlidesByColumn = '[Slide] Remove Slides By Column',
+	ClearSlides = '[Slide] Clear Slides',
 }
 
 export class AddSlideToPresentation implements Action {
@@ -85,6 +86,10 @@ export class RemoveSlidesByColumn implements Action {
 	}
 }
 
+export class ClearSlides implements Action {
+	public readonly type = SlideActionsTypes.ClearSlides;
+}
+
 export type SlideActions =
 	AddSlideToPresentation
 	| MoveSlideToNewCreatedColumn
@@ -95,4 +100,5 @@ export type SlideActions =
 	| MoveBetweenSlidesInTheSameColumn
 	| MoveBetweenSlidesInTheDifferentColumn
 	| RemoveSlide
-	| RemoveSlidesByColumn;
+	| RemoveSlidesByColumn
+	| ClearSlides;

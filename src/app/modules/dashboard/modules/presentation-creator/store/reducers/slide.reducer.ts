@@ -45,6 +45,9 @@ export function slideReducer(state = initialSlideState, action: SlideActions): S
 		case SlideActionsTypes.RemoveSlidesByColumn: {
 			return slideAdapter.removeMany(action.payload.slideIds, state);
 		}
+		case SlideActionsTypes.ClearSlides: {
+			return slideAdapter.removeAll(state);
+		}
 		default: {
 			return {
 				...state,

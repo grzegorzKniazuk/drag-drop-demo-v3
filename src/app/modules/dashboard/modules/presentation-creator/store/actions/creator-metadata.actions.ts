@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 export enum CreatorMetadataActionsTypes {
 	SetPresentationTitle = '[Metadata] Set Presentation Title',
 	SetPresentationId = '[Metadata] Set Presentation Id',
+	ClearPresentationMetadata = '[Metadata] Clear Presentation Metadata'
 }
 
 export class SetPresentationTitle implements Action {
@@ -19,4 +20,8 @@ export class SetPresentationId implements Action {
 	}
 }
 
-export type CreatorMetadataActions = SetPresentationTitle | SetPresentationId;
+export class ClearPresentationMetadata implements Action {
+	public readonly type = CreatorMetadataActionsTypes.ClearPresentationMetadata;
+}
+
+export type CreatorMetadataActions = SetPresentationTitle | SetPresentationId | ClearPresentationMetadata;

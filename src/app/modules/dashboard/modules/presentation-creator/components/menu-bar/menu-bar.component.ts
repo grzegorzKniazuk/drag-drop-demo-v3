@@ -2,14 +2,11 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { MenuItem } from 'primeng/api';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import {
-	SetEditorReadyToSave,
-	ShowLibrarySlider,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-options.actions';
+import { LeaveEditor, ShowLibrarySlider } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-options.actions';
 import { combineLatest, Observable } from 'rxjs';
 import { selectEditorPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-metadata.selectors';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
-import { first, tap } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
 import { SavePresentation } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
@@ -53,10 +50,10 @@ export class MenuBarComponent implements OnInit, OnDestroy {
 
 	public changePresentationTitle(): void {
 		this.componentFactoryBaseService.createEditPresentationTitleComponent().presentationTitle$
-		    .pipe(first())
-		    .subscribe((presentationTitle: string) => {
-			    this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
-		    });
+		.pipe(first())
+		.subscribe((presentationTitle: string) => {
+			this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
+		});
 	}
 
 	private buildMenu(): void {
@@ -74,12 +71,7 @@ export class MenuBarComponent implements OnInit, OnDestroy {
 			this.store.pipe(select(selectSlides)),
 			this.store.pipe(select(selectColumns)),
 		)
-		.pipe(
-			first(),
-			tap(() => {
-				this.store.dispatch(new SetEditorReadyToSave());
-			}),
-		)
+		.pipe(first())
 		.subscribe(([ metadata, slides, columns ]: [ CreatorMetadata, Slide[], Column[] ]) => {
 			this.store.dispatch(new SavePresentation({
 				presentation: {
@@ -91,5 +83,9 @@ export class MenuBarComponent implements OnInit, OnDestroy {
 				},
 			}));
 		});
+	}
+
+	public leaveEditor(): void {
+		this.store.dispatch(new LeaveEditor());
 	}
 }

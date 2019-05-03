@@ -17,6 +17,7 @@ import { SlideLibraryDividerComponent } from 'src/app/modules/dashboard/modules/
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { AddMoreSlidesComponent } from './components/library-bar/add-more-slides/add-more-slides.component';
 import { MenuBarComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/menu-bar/menu-bar.component';
+import { CreatorOptionsEffects } from './store/effects/creator-options.effects';
 
 @NgModule({
 	declarations: [
@@ -39,7 +40,7 @@ import { MenuBarComponent } from 'src/app/modules/dashboard/modules/presentation
 	imports: [
 		SharedModule,
 		StoreModule.forFeature('presentation-creator', fromPresentationCreator.reducers, { metaReducers: fromPresentationCreator.metaReducers }),
-		EffectsModule.forFeature([ ColumnEffects, SlideEffects ]),
+		EffectsModule.forFeature([ CreatorOptionsEffects, ColumnEffects, SlideEffects ]),
 	],
 	providers: [
 		PresentationCreatorComponentFactoryService,

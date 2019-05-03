@@ -12,6 +12,7 @@ export enum ColumnActionsTypes {
 	AddColumnBetweenExistingColumnsByLibrarySlide = '[Column] Add Column Between Existing Columns By Library Slide',
 	UpdateColumnsPosition = '[Column] Update Columns Position',
 	RemoveColumn = '[Column] Remove Column',
+	ClearColumns = '[Column] Clear Columns',
 }
 
 export class AddColumnFromAnotherColumn implements Action {
@@ -70,6 +71,10 @@ export class RemoveColumn implements Action {
 	}
 }
 
+export class ClearColumns implements Action {
+	public readonly type = ColumnActionsTypes.ClearColumns;
+}
+
 export type ColumnActions =
 	AddColumnFromAnotherColumn
 	| AddColumnFromLibrary
@@ -78,4 +83,5 @@ export type ColumnActions =
 	| AddColumnBetweenExistingColumns
 	| AddColumnBetweenExistingColumnsByLibrarySlide
 	| UpdateColumnsPosition
-	| RemoveColumn;
+	| RemoveColumn
+	| ClearColumns;
