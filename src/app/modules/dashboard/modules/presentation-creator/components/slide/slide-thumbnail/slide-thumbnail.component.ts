@@ -1,25 +1,9 @@
-import {
-	ChangeDetectionStrategy,
-	ChangeDetectorRef,
-	Component,
-	HostListener,
-	Input,
-	NgZone,
-	OnChanges,
-	OnDestroy,
-	OnInit,
-	SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import {
-	RemoveSlide,
-	SwapSlideInTheDifferentColumns,
-	SwapSlideInTheSameColumn,
-	UpdateSlidePosition,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { RemoveSlide, SwapSlideInTheDifferentColumns, SwapSlideInTheSameColumn, UpdateSlidePosition } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Update } from '@ngrx/entity';
 import { isNull, isNumber } from 'lodash';
@@ -27,6 +11,7 @@ import { ComponentFactoryBaseService } from 'src/app/shared/services/component-f
 import { first } from 'rxjs/operators';
 import { RemoveSlideFromLibrary } from 'src/app/modules/dashboard/store/actions/library.actions';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
+import { SlidePosition } from 'src/app/shared/interfaces/slide-position';
 
 @AutoUnsubscribe()
 @Component({
@@ -38,7 +23,7 @@ import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dash
 export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnChanges, OnDestroy {
 
 	@Input() public slide: Slide;
-	@Input() public position: number;
+	@Input() public position: SlidePosition;
 
 	constructor(
 		private changeDetectorRef: ChangeDetectorRef,
@@ -55,7 +40,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
-		if (this.slide.position !== this.position) {
+		if (this.slide.position && this.isPositionOrderChanged) {
 			this.store.dispatch(new UpdateSlidePosition({
 				slide: {
 					id: this.slide.id,
@@ -68,6 +53,10 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 	}
 
 	ngOnDestroy() {
+	}
+
+	private get isPositionOrderChanged(): boolean {
+		return this.slide.position.order !== this.position.order;
 	}
 
 	@HostListener('dragstart', [ '$event' ])
@@ -135,7 +124,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		this.presentationCreatorComponentFactoryService.createSlideLightboxComponent(this.slide.imageData);
 	}
 
-	private swapSlideInTheSameColumn(sourceSlideId: number, sourceSlidePosition: number): void {
+	private swapSlideInTheSameColumn(sourceSlideId: number, sourceSlidePosition: SlidePosition): void {
 		const sourceSlide: Update<Slide> = {
 			id: sourceSlideId,
 			changes: {
@@ -155,7 +144,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		}));
 	}
 
-	private swapSlideInTheDifferentColumns(sourceSlideId: number, sourceColumnId: number, sourceSlidePosition: number): void {
+	private swapSlideInTheDifferentColumns(sourceSlideId: number, sourceColumnId: number, sourceSlidePosition: SlidePosition): void {
 		const sourceSlide: Update<Slide> = {
 			id: sourceSlideId,
 			changes: {
