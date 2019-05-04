@@ -12,6 +12,7 @@ import { first } from 'rxjs/operators';
 import { RemoveSlideFromLibrary } from 'src/app/modules/dashboard/store/actions/library.actions';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { SlidePosition } from 'src/app/shared/interfaces/slide-position';
+import { interval } from 'rxjs';
 
 @AutoUnsubscribe()
 @Component({
@@ -36,7 +37,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 	}
 
 	ngOnInit() {
-		// this.detectPositionChangesOnSlideMove();
+		this.detectPositionChangesOnSlideMove();
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
@@ -87,13 +88,11 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		}
 	}
 
-	/*
 	private detectPositionChangesOnSlideMove(): void {
 		interval(500).subscribe(() => {
 			this.changeDetectorRef.markForCheck();
 		});
 	}
-	*/
 
 	public onRemoveSlide(event: MouseEvent): void {
 		event.stopImmediatePropagation();

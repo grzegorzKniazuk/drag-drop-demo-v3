@@ -53,47 +53,25 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 		const { sourceSlideId, sourceColumnId, sourceSlidePosition } = this.parseDataTransferFromDropEvent(event);
 
 		if (sourceColumnId) {
-			this.addColumnFromAnotherColumn();
+			this.addColumnFromAnotherColumn(sourceSlideId, sourceColumnId);
 		} else {
 			this.addColumnFromLibrary(sourceSlideId);
 		}
-		/*
+	}
+
+	private addColumnFromAnotherColumn(sourceSlideId: number, sourceColumnId: number): void {
 		this.presentationCreatorComponentFactoryService.createColumnTitleComponent().columnTitle$
 		.pipe(
 			first(),
-			withLatestFrom(
-				this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId })),
-				this.store.pipe(select(selectAmountOfColumns)),
-			),
+			withLatestFrom(this.store.pipe(select(selectAmountOfColumns))),
 		)
-		.subscribe(([ columnTitle, sourceSlide, amountOfColumnsInPresentation ]: [ string, Slide, number ]) => {
-			const column: Column = { // przygotuj nowa kolumne
-				id: Math.floor((Math.random() * 10000000) + 1),
-				position: amountOfColumnsInPresentation,
-				title: columnTitle,
-			};
-
-			if (sourceColumnId) {
-				this.store.dispatch(new AddColumnFromAnotherColumn({
-					column,
-					sourceSlideId,
-					sourceColumnId,
-				}));
-			} else {
-				this.store.dispatch(new AddColumnFromLibrary({
-					column,
-					sourceSlide: {
-						...sourceSlide,
-						id: Math.floor((Math.random() * 10000000) + 1),
-					},
-				}));
-			}
+		.subscribe(([ columnTitle, amountOfColumnsInPresentation ]: [ string, number ]) => {
+			this.store.dispatch(new AddColumnFromAnotherColumn({
+				column: this.prepareNewColumn(columnTitle, amountOfColumnsInPresentation),
+				sourceSlideId,
+				sourceColumnId,
+			}));
 		});
-		*/
-	}
-
-	private addColumnFromAnotherColumn(): void {
-
 	}
 
 	private addColumnFromLibrary(sourceSlideId: number): void {
