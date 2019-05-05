@@ -3,7 +3,10 @@ import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { first, withLatestFrom } from 'rxjs/operators';
-import { AddColumnFromAnotherColumn, AddColumnFromLibrary } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+import {
+	AddColumnFromAnotherColumn,
+	AddColumnFromLibrary,
+} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
@@ -50,7 +53,7 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	public onDrop(event: DragEvent): void {
 		event.stopImmediatePropagation();
 
-		const { sourceSlideId, sourceColumnId, sourceSlidePosition } = this.parseDataTransferFromDropEvent(event);
+		const { sourceSlideId, sourceColumnId } = this.parseDataTransferFromDropEvent(event);
 
 		if (sourceColumnId) {
 			this.addColumnFromAnotherColumn(sourceSlideId, sourceColumnId);
@@ -61,41 +64,41 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 
 	private addColumnFromAnotherColumn(sourceSlideId: number, sourceColumnId: number): void {
 		this.presentationCreatorComponentFactoryService.createColumnTitleComponent().columnTitle$
-		.pipe(
-			first(),
-			withLatestFrom(this.store.pipe(select(selectAmountOfColumns))),
-		)
-		.subscribe(([ columnTitle, amountOfColumnsInPresentation ]: [ string, number ]) => {
-			this.store.dispatch(new AddColumnFromAnotherColumn({
-				column: this.prepareNewColumn(columnTitle, amountOfColumnsInPresentation),
-				sourceSlideId,
-				sourceColumnId,
-			}));
-		});
+		    .pipe(
+			    first(),
+			    withLatestFrom(this.store.pipe(select(selectAmountOfColumns))),
+		    )
+		    .subscribe(([ columnTitle, amountOfColumnsInPresentation ]: [ string, number ]) => {
+			    this.store.dispatch(new AddColumnFromAnotherColumn({
+				    column: this.prepareNewColumn(columnTitle, amountOfColumnsInPresentation),
+				    sourceSlideId,
+				    sourceColumnId,
+			    }));
+		    });
 	}
 
 	private addColumnFromLibrary(sourceSlideId: number): void {
 		this.presentationCreatorComponentFactoryService.createColumnTitleComponent().columnTitle$
-		.pipe(
-			first(),
-			withLatestFrom(
-				this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId })),
-				this.store.pipe(select(selectAmountOfColumns)),
-			),
-		)
-		.subscribe(([ columnTitle, sourceSlide, amountOfColumnsInPresentation ]: [ string, Slide, number ]) => {
-			this.store.dispatch(new AddColumnFromLibrary({
-				column: this.prepareNewColumn(columnTitle, amountOfColumnsInPresentation),
-				sourceSlide: {
-					...sourceSlide,
-					id: Math.floor((Math.random() * 10000000) + 1),
-					position: {
-						column: amountOfColumnsInPresentation,
-						order: 0,
-					}
-				},
-			}));
-		});
+		    .pipe(
+			    first(),
+			    withLatestFrom(
+				    this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId })),
+				    this.store.pipe(select(selectAmountOfColumns)),
+			    ),
+		    )
+		    .subscribe(([ columnTitle, sourceSlide, amountOfColumnsInPresentation ]: [ string, Slide, number ]) => {
+			    this.store.dispatch(new AddColumnFromLibrary({
+				    column: this.prepareNewColumn(columnTitle, amountOfColumnsInPresentation),
+				    sourceSlide: {
+					    ...sourceSlide,
+					    id: Math.floor((Math.random() * 10000000) + 1),
+					    position: {
+						    column: amountOfColumnsInPresentation,
+						    order: 0,
+					    },
+				    },
+			    }));
+		    });
 	}
 
 	private prepareNewColumn(columnTitle: string, amountOfColumnsInPresentation: number): Column {

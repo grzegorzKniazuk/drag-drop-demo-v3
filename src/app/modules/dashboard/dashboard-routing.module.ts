@@ -10,11 +10,8 @@ const routes: Routes = [
 		path: '', component: DashboardComponent, children: [
 			{ path: '', redirectTo: 'presentation-list', pathMatch: 'full' },
 			{ path: 'presentation-list', component: PresentationListComponent },
-			{
-				path: 'presentation-creator', component: PresentationCreatorComponent, children: [
-					{ path: 'view/:id', component: PresentationViewerComponent },
-				],
-			},
+			{ path: 'presentation-viewer/:id', component: PresentationViewerComponent },
+			{ path: 'presentation-creator', component: PresentationCreatorComponent },
 		],
 	},
 ];

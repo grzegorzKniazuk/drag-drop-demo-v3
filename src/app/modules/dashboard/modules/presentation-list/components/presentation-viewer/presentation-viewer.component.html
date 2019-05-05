@@ -1,8 +1,10 @@
 <div class="canvas-container">
 	<canvas #canvas>Twoja przegladarka nie wspiera elementów canvas</canvas>
-	<i class="pi pi-chevron-up"></i>
-	<i class="pi pi-chevron-right"></i>
-	<i class="pi pi-chevron-down"></i>
-	<i class="pi pi-chevron-left"></i>
-	<!--<div *ngIf="backgroundImageStyle" [style]="backgroundImageStyle" class="background-image"></div>-->
+	<ng-container *ngIf="presentation">
+		<i class="pi pi-chevron-up top" *ngIf="isArrowUpAvailable" (click)="switchSlideToTop()"></i>
+		<i class="pi pi-chevron-right right" *ngIf="isArrowRightAvailable" (click)="switchSlideToRight()"></i>
+		<i class="pi pi-chevron-down bottom" *ngIf="isArrowDownAvailable" (click)="switchSlideToBottom()"></i>
+		<i class="pi pi-chevron-left left" *ngIf="isArrowLeftAvailable" (click)="switchSlideToLeft()"></i>
+	</ng-container>
+	<div *ngIf="backgroundImageStyle" [style]="backgroundImageStyle" class="background-image"></div>
 </div>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Presentation } from 'src/app/shared/interfaces/presentation';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 	styleUrls: [ './presentation-thumbnail.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PresentationThumbnailComponent implements OnInit {
+export class PresentationThumbnailComponent {
 
 	@Input() presentation: Presentation;
 
@@ -22,9 +22,6 @@ export class PresentationThumbnailComponent implements OnInit {
 		private store: Store<AppState>,
 		private router: Router,
 	) {
-	}
-
-	ngOnInit() {
 	}
 
 	public updatePresentation(): void {
@@ -39,7 +36,7 @@ export class PresentationThumbnailComponent implements OnInit {
 	public deletePresentation(): void {
 		this.componentFactoryBaseService.createConfirmDialogComponent(
 			'Uwaga',
-			'Czy napewno chcesz usunąć tą prezentację? Operacji nie można cofnać'
+			'Czy napewno chcesz usunąć tą prezentację? Operacji nie można cofnać',
 		).onAcceptOrConfirm$.pipe(
 			first(),
 			filter((isAccepted) => isAccepted),
@@ -49,6 +46,6 @@ export class PresentationThumbnailComponent implements OnInit {
 	}
 
 	public showPresentation(): void {
-		this.router.navigateByUrl(`/view/${this.presentation.id}`);
+		this.router.navigateByUrl(`/dashboard/presentation-viewer/${this.presentation.id}`);
 	}
 }

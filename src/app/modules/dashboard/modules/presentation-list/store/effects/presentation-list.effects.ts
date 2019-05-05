@@ -9,15 +9,17 @@ import { Observable } from 'rxjs';
 import { ClearPresentationMetadata, SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
 import { AddColumns, ClearColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { AddSlides, ClearSlides } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { LocalStorage } from '@ngx-pwa/local-storage';
 
 @Injectable()
 export class PresentationListEffects {
 
 	@Effect({ dispatch: true })
 	public savePresentation$: Observable<ClearPresentationMetadata | ClearColumns | ClearSlides> = this.actions$.pipe(
-		ofType<SavePresentation>(PresentationListActionsTypes.SavePresentation),
-		map(() => {
+		ofType(PresentationListActionsTypes.SavePresentation),
+		map((action: SavePresentation) => {
 			return fromPromise(this.router.navigateByUrl('/dashboard/presentation-list').then(() => {
+				this.localStorage.setItemSubscribe('presentation', action.payload.presentation);
 				this.toastService.success('Prezentacja została zapisana');
 			}));
 		}),
@@ -45,7 +47,6 @@ export class PresentationListEffects {
 			return fromPromise(this.router.navigateByUrl('/dashboard/presentation-creator'));
 		}),
 		concatMap((action: UpdatePresentation) => {
-			console.log(action.payload);
 			return [
 				new SetPresentationId({ presentationId: action.payload.id }),
 				new SetPresentationTitle({ presentationTitle: action.payload.title }),
@@ -59,6 +60,7 @@ export class PresentationListEffects {
 		private actions$: Actions,
 		private router: Router,
 		private toastService: ToastService,
+		private localStorage: LocalStorage,
 	) {
 	}
 }

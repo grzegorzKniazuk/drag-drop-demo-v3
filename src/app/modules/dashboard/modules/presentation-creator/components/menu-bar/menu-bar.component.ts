@@ -50,10 +50,10 @@ export class MenuBarComponent implements OnInit, OnDestroy {
 
 	public changePresentationTitle(): void {
 		this.componentFactoryBaseService.createEditPresentationTitleComponent().presentationTitle$
-		.pipe(first())
-		.subscribe((presentationTitle: string) => {
-			this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
-		});
+		    .pipe(first())
+		    .subscribe((presentationTitle: string) => {
+			    this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
+		    });
 	}
 
 	private buildMenu(): void {
