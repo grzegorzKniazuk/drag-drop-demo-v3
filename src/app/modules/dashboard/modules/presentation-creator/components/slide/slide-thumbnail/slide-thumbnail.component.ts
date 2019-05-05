@@ -37,7 +37,9 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 	}
 
 	ngOnInit() {
-		this.detectPositionChangesOnSlideMove();
+		// this.detectPositionChangesOnSlideMove();
+		console.log(this.slide);
+		console.log(this.position);
 	}
 
 	ngOnChanges(changes: SimpleChanges) {

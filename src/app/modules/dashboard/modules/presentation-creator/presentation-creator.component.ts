@@ -89,6 +89,10 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 				sourceSlide: {
 					...sourceSlide,
 					id: Math.floor((Math.random() * 10000000) + 1),
+					position: {
+						column: amountOfColumnsInPresentation,
+						order: 0,
+					}
 				},
 			}));
 		});
