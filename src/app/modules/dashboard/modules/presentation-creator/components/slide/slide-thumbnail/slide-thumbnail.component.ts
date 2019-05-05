@@ -38,8 +38,6 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 
 	ngOnInit() {
 		// this.detectPositionChangesOnSlideMove();
-		console.log(this.slide);
-		console.log(this.position);
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
@@ -81,11 +79,11 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 
 		const { sourceSlideId, sourceSlidePosition, sourceColumnId } = this.parseDataTransferFromDropEvent(event);
 
-		if (sourceColumnId === this.slide.columnId && isNumber(sourceSlidePosition)) {
+		if (sourceColumnId === this.slide.columnId && isNumber(sourceSlidePosition.column)) {
 			this.swapSlideInTheSameColumn(sourceSlideId, sourceSlidePosition);
-		} else if (sourceColumnId !== this.slide.columnId && isNumber(sourceSlidePosition)) {
+		} else if (sourceColumnId !== this.slide.columnId && isNumber(sourceSlidePosition.column)) {
 			this.swapSlideInTheDifferentColumns(sourceSlideId, sourceColumnId, sourceSlidePosition);
-		} else if (isNull(sourceSlidePosition) && sourceSlideId !== this.slide.id) {
+		} else if (isNull(sourceSlidePosition.column) && sourceSlideId !== this.slide.id) {
 			this.moveSlideFromLibraryToColumn(sourceSlideId, this.slide.columnId); // jesli slajd przenoszony z bibloteki do dodaj go na dół kolumny
 		}
 	}
