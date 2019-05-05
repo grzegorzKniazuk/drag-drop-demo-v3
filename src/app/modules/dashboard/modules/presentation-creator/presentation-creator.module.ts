@@ -18,6 +18,8 @@ import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dash
 import { AddMoreSlidesComponent } from './components/library-bar/add-more-slides/add-more-slides.component';
 import { EditorMenuBarComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/editor-menu-bar/editor-menu-bar.component';
 import { CreatorOptionsEffects } from './store/effects/creator-options.effects';
+import { SlideEditComponent } from './components/slide/slide-edit/slide-edit.component';
+import { SlideEditMenuBarComponent } from './components/slide/slide-edit/slide-edit-menu-bar/slide-edit-menu-bar.component';
 
 @NgModule({
 	declarations: [
@@ -32,6 +34,8 @@ import { CreatorOptionsEffects } from './store/effects/creator-options.effects';
 		SlideLightboxComponent,
 		AddMoreSlidesComponent,
 		EditorMenuBarComponent,
+		SlideEditComponent,
+		SlideEditMenuBarComponent,
 	],
 	entryComponents: [
 		ColumnTitleComponent,

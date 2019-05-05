@@ -28,6 +28,7 @@ import { first } from 'rxjs/operators';
 import { RemoveSlideFromLibrary } from 'src/app/modules/dashboard/store/actions/library.actions';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { SlidePosition } from 'src/app/shared/interfaces/slide-position';
+import { Router } from '@angular/router';
 
 @AutoUnsubscribe()
 @Component({
@@ -45,6 +46,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		private changeDetectorRef: ChangeDetectorRef,
 		private componentFactoryBaseService: ComponentFactoryBaseService,
 		private presentationCreatorComponentFactoryService: PresentationCreatorComponentFactoryService,
+		private router: Router,
 		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
@@ -110,6 +112,12 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		});
 	}
 	*/
+
+	public onEditSlide(event: MouseEvent): void {
+		event.stopImmediatePropagation();
+
+		this.router.navigateByUrl(`/dashboard/presentation-creator/edit-slide/${this.slide.id}`);
+	}
 
 	public onRemoveSlide(event: MouseEvent): void {
 		event.stopImmediatePropagation();

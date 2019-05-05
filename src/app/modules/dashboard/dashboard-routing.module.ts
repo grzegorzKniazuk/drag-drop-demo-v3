@@ -4,6 +4,7 @@ import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.componen
 import { PresentationCreatorComponent } from 'src/app/modules/dashboard/modules/presentation-creator/presentation-creator.component';
 import { PresentationListComponent } from 'src/app/modules/dashboard/modules/presentation-list/presentation-list.component';
 import { PresentationViewerComponent } from 'src/app/modules/dashboard/modules/presentation-list/components/presentation-viewer/presentation-viewer.component';
+import { SlideEditComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/slide-edit.component';
 
 const routes: Routes = [
 	{
@@ -12,6 +13,7 @@ const routes: Routes = [
 			{ path: 'presentation-list', component: PresentationListComponent },
 			{ path: 'presentation-viewer/:id', component: PresentationViewerComponent },
 			{ path: 'presentation-creator', component: PresentationCreatorComponent },
+			{ path: 'presentation-creator/edit-slide/:id', component: SlideEditComponent },
 		],
 	},
 ];

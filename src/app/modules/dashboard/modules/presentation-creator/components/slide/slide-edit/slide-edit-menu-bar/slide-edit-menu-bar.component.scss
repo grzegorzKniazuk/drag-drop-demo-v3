@@ -1,0 +1,15 @@
+@import "base.scss";
+
+div {
+	@include flex(inline-flex, flex-end, center, row);
+	@include size(100%, 100%);
+
+	button {
+		&:first-of-type {
+			margin-right: 10px;
+		}
+		&:last-of-type {
+			margin-right: 15px;
+		}
+	}
+}
