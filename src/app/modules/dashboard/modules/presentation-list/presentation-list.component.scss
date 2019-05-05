@@ -2,10 +2,11 @@
 
 .presentation-list-container {
 	@include flex(flex, flex-start, flex-start, row, relative, wrap);
-	@include size(100%, 100%);
+	@include size(100%, calc(100% - 55px));
 
 	&.no-presentations {
 		@include flex(flex, center, center, column);
+		@include size(100%, 100%);
 
 		div {
 			@include flex(flex, center, center, column);

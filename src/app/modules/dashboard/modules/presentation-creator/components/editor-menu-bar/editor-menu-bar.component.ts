@@ -20,11 +20,11 @@ import { Column } from 'src/app/shared/interfaces/column';
 @AutoUnsubscribe()
 @Component({
 	selector: 'app-menu-bar',
-	templateUrl: './menu-bar.component.html',
-	styleUrls: [ './menu-bar.component.scss' ],
+	templateUrl: './editor-menu-bar.component.html',
+	styleUrls: [ './editor-menu-bar.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MenuBarComponent implements OnInit, OnDestroy {
+export class EditorMenuBarComponent implements OnInit, OnDestroy {
 
 	public presentationTitle$: Observable<string>;
 	public menuItems: MenuItem[] = [];

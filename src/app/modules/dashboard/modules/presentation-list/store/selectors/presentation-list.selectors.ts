@@ -8,6 +8,11 @@ export const selectPresentationList = createSelector(
 	presentationListEntitySelectors.selectAll,
 );
 
+export const selectAmountOfPresentations = createSelector(
+	selectPresentationListState,
+	presentationListEntitySelectors.selectTotal,
+);
+
 export const selectPresentationById = createSelector(
 	selectPresentationList,
 	(presentation: Presentation[], props: { id: number }) => {

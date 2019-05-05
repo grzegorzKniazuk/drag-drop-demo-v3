@@ -1,10 +1,9 @@
-<div *ngIf="presentationList$ | async as presentations" [ngClass]="{ 'no-presentations' : !presentations.length }"
-	 class="presentation-list-container">
+<app-list-menu-bar (onInitNewPresentation)="createNewPresentation()" *ngIf="amountOfPresentations$ | async"></app-list-menu-bar>
+<div *ngIf="presentationList$ | async as presentations" [ngClass]="{ 'no-presentations' : !presentations.length }" class="presentation-list-container">
 	<div (click)="createNewPresentation()" *ngIf="!presentations.length">
 		<i class="pi pi-info-circle"></i>
 		<strong>Brak prezentacji</strong>
-		<span>Kliknij, aby dodać</span>
+		<span>Kliknij, aby stworzyć</span>
 	</div>
-	<app-presentation-thumbnail *ngFor="let presentation of (presentationList$ | async)"
-								[presentation]="presentation"></app-presentation-thumbnail>
+	<app-presentation-thumbnail *ngFor="let presentation of (presentationList$ | async)" [presentation]="presentation"></app-presentation-thumbnail>
 </div>

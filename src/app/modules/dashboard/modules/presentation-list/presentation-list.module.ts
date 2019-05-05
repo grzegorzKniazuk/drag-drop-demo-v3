@@ -7,12 +7,14 @@ import { presentationListReducer } from 'src/app/modules/dashboard/modules/prese
 import { PresentationListEffects } from 'src/app/modules/dashboard/modules/presentation-list/store/effects/presentation-list.effects';
 import { PresentationThumbnailComponent } from './components/presentation-thumbnail/presentation-thumbnail.component';
 import { PresentationViewerComponent } from 'src/app/modules/dashboard/modules/presentation-list/components/presentation-viewer/presentation-viewer.component';
+import { ListMenuBarComponent } from './components/list-menu-bar/list-menu-bar.component';
 
 @NgModule({
 	declarations: [
 		PresentationListComponent,
 		PresentationThumbnailComponent,
 		PresentationViewerComponent,
+		ListMenuBarComponent,
 	],
 	imports: [
 		SharedModule,

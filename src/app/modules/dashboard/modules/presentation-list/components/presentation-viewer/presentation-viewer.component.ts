@@ -20,6 +20,7 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 import { Memoize } from 'lodash-decorators';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { selectPresentationById } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
+import { Title } from '@angular/platform-browser';
 
 @Component({
 	selector: 'app-presentation-viewer',
@@ -42,6 +43,7 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit {
 		private changeDetectorRef: ChangeDetectorRef,
 		private renderer2: Renderer2,
 		private toastService: ToastService,
+		private title: Title,
 	) {
 	}
 
@@ -62,12 +64,17 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit() {
+		this.initTitle();
 		this.showOpeningToast();
 	}
 
 	ngAfterViewInit() {
 		this.initCanvasContext();
 		this.fetchPresentation();
+	}
+
+	private initTitle(): void {
+		this.title.setTitle('Przeglądarka prezentacji');
 	}
 
 	@HostListener('document:keydown.arrowup')

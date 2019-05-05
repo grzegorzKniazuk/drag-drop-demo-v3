@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Presentation } from 'src/app/shared/interfaces/presentation';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { selectPresentationList } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
+import { selectAmountOfPresentations, selectPresentationList } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
 import { first } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import {
@@ -24,6 +24,7 @@ import { ComponentFactoryBaseService } from 'src/app/shared/services/component-f
 export class PresentationListComponent implements OnInit, OnDestroy {
 
 	public presentationList$: Observable<Presentation[]>;
+	public amountOfPresentations$: Observable<number>;
 
 	constructor(
 		private title: Title,
@@ -38,11 +39,20 @@ export class PresentationListComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		this.title.setTitle('Lista prezentacji');
-		this.presentationList$ = this.store.pipe(select(selectPresentationList));
+		this.initTitle();
+		this.initObserbables();
 	}
 
 	ngOnDestroy() {
+	}
+
+	private initTitle(): void {
+		this.title.setTitle('Lista prezentacji');
+	}
+
+	private initObserbables(): void {
+		this.presentationList$ = this.store.pipe(select(selectPresentationList));
+		this.amountOfPresentations$ = this.store.pipe(select(selectAmountOfPresentations));
 	}
 
 	public createNewPresentation(): void {
