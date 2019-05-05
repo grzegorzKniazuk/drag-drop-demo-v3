@@ -9,6 +9,8 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 import { HideLibrarySlider } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-options.actions';
 import { selectIsLibrarySliderOpen } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-options.selectors';
 import { first } from 'rxjs/operators';
+import { AddSlidesToLibrary } from 'src/app/modules/dashboard/store/actions/library.actions';
+import { demoSlide1, demoSlide2, demoSlide3, demoSlide4, demoSlide5 } from 'src/app/shared/utils/demo-slides';
 
 @AutoUnsubscribe()
 @Component({
@@ -32,13 +34,9 @@ export class LibraryBarComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		this.librarySlidesAmount$ = this.store.pipe(select(selectLibrarySlidesAmount));
-		this.slidesInLibary$ = this.store.pipe(select(selectLibrarySlides));
-
-		this.store.pipe(select(selectIsLibrarySliderOpen)).subscribe((isOpen: boolean) => {
-			this.display = isOpen;
-			this.changeDetectorRef.markForCheck();
-		});
+		this.initObservables();
+		this.initAndWatchSliderState();
+		this.initDemoSlides();
 	}
 
 	ngOnDestroy() {
@@ -61,5 +59,21 @@ export class LibraryBarComponent implements OnInit, OnDestroy {
 				this.store.dispatch(new HideLibrarySlider());
 			}
 		});
+	}
+
+	private initObservables(): void {
+		this.librarySlidesAmount$ = this.store.pipe(select(selectLibrarySlidesAmount));
+		this.slidesInLibary$ = this.store.pipe(select(selectLibrarySlides));
+	}
+
+	private initAndWatchSliderState(): void {
+		this.store.pipe(select(selectIsLibrarySliderOpen)).subscribe((isOpen: boolean) => {
+			this.display = isOpen;
+			this.changeDetectorRef.markForCheck();
+		});
+	}
+
+	private initDemoSlides(): void {
+		this.store.dispatch(new AddSlidesToLibrary({ slides: [ demoSlide1, demoSlide2, demoSlide3, demoSlide4, demoSlide5 ] }));
 	}
 }

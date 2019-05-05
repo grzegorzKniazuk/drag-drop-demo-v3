@@ -56,15 +56,6 @@ export class MenuBarComponent implements OnInit, OnDestroy {
 		    });
 	}
 
-	private buildMenu(): void {
-		this.menuItems = [];
-	}
-
-	private initObservables(): void {
-		this.presentationTitle$ = this.store.pipe(select(selectEditorPresentationTitle));
-		this.numberOfSlides$ = this.store.pipe(select(selectSlidesAmount));
-	}
-
 	public savePresentation(): void {
 		combineLatest(
 			this.store.pipe(select(selectCreatorMetadataState)),
@@ -87,5 +78,14 @@ export class MenuBarComponent implements OnInit, OnDestroy {
 
 	public leaveEditor(): void {
 		this.store.dispatch(new LeaveEditor());
+	}
+
+	private buildMenu(): void {
+		this.menuItems = [];
+	}
+
+	private initObservables(): void {
+		this.presentationTitle$ = this.store.pipe(select(selectEditorPresentationTitle));
+		this.numberOfSlides$ = this.store.pipe(select(selectSlidesAmount));
 	}
 }

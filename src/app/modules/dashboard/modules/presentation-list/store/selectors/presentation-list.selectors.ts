@@ -14,5 +14,5 @@ export const selectPresentationById = createSelector(
 		return presentation.find((presentation: Presentation) => {
 			return presentation.id === props.id;
 		});
-	}
+	},
 );

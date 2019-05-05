@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import {
 	ButtonModule,
+	CardModule,
 	ChipsModule,
 	ConfirmDialogModule,
 	DialogModule,
@@ -9,7 +10,6 @@ import {
 	MenubarModule,
 	MultiSelectModule,
 	SidebarModule,
-	CardModule,
 } from 'primeng/primeng';
 import { ToastModule } from 'primeng/toast';
 

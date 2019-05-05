@@ -3,7 +3,7 @@
 	<form [formGroup]="columnTitleForm" class="title-container">
 		<label for="columnTitle">Nazwa sekcji</label>
 		<input formControlName="columnTitle" id="columnTitle" pInputText type="text">
-		<i (click)="onRemoveColumn()" class="pi pi-times" *ngIf="isElementOnMouseEnter"></i>
+		<i (click)="onRemoveColumn()" *ngIf="isElementOnMouseEnter" class="pi pi-times"></i>
 	</form>
 	<div>
 		<ng-container *ngFor="let slide of (columnSlides$ | async); let i = index; let l = count">
@@ -11,8 +11,8 @@
 			<app-slide-column-divider
 				*ngIf="l !== i + 1"
 				[columnId]="column.id"
-				[numberOfSlidesInColumn]="l"
 				[columnPosition]="position"
+				[numberOfSlidesInColumn]="l"
 				[slideDividerSibilings]="{ topSlidePosition: i, bottomSlidePosition: i + 1 }">
 			</app-slide-column-divider>
 		</ng-container>

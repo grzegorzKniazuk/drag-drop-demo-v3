@@ -24,6 +24,14 @@ export abstract class DropZoneBase {
 		return this.isElementOnDragOver ? 'drag-over' : '';
 	}
 
+	protected get generateSlideId(): number {
+		return Math.floor((Math.random() * 10000000) + 1);
+	}
+
+	protected get generateColumnId(): number {
+		return Math.floor((Math.random() * 10000000) + 1);
+	}
+
 	@HostListener('dragover', [ '$event' ])
 	public allowDrop(event: DragEvent): void {
 		this.ngZone.runOutsideAngular(() => {
@@ -37,30 +45,6 @@ export abstract class DropZoneBase {
 	@HostListener('dragleave')
 	public onDragLeave(): void {
 		this.isElementOnDragOver = false;
-	}
-
-	protected moveSlideFromLibraryToColumn(sourceSlideId: number, targetColumnId): void {
-		combineLatest(
-			this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId })),
-			this.store.pipe(select(selectColumnPositionById, { columnId: targetColumnId })),
-			this.store.pipe(select(selectAmountOfSlidesInColumnById, { columnId: targetColumnId }))
-		)
-		.pipe(
-			first(),
-		)
-		.subscribe(([ slideToMove, columnPosition, amountOfSlidesInExsistingColumn ]: [ Slide, number, number ]) => {
-			this.store.dispatch(new AddSlideFromLibraryToExistingColumn({
-				sourceSlide: {
-					...slideToMove,
-					id: Math.floor((Math.random() * 10000000) + 1),
-					columnId: targetColumnId,
-					position: {
-						column: columnPosition,
-						order: amountOfSlidesInExsistingColumn,
-					}
-				},
-			}));
-		});
 	}
 
 	@HostListener('mouseenter')
@@ -79,15 +63,31 @@ export abstract class DropZoneBase {
 		});
 	}
 
+	protected moveSlideFromLibraryToColumn(sourceSlideId: number, targetColumnId): void {
+		combineLatest(
+			this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId })),
+			this.store.pipe(select(selectColumnPositionById, { columnId: targetColumnId })),
+			this.store.pipe(select(selectAmountOfSlidesInColumnById, { columnId: targetColumnId })),
+		)
+		.pipe(
+			first(),
+		)
+		.subscribe(([ slideToMove, columnPosition, amountOfSlidesInExsistingColumn ]: [ Slide, number, number ]) => {
+			this.store.dispatch(new AddSlideFromLibraryToExistingColumn({
+				sourceSlide: {
+					...slideToMove,
+					id: Math.floor((Math.random() * 10000000) + 1),
+					columnId: targetColumnId,
+					position: {
+						column: columnPosition,
+						order: amountOfSlidesInExsistingColumn,
+					},
+				},
+			}));
+		});
+	}
+
 	protected parseDataTransferFromDropEvent(event: DragEvent): SlideDataTransfer {
 		return JSON.parse(event.dataTransfer.getData('string'));
-	}
-
-	protected get generateSlideId(): number {
-		return Math.floor((Math.random() * 10000000) + 1);
-	}
-
-	protected get generateColumnId(): number {
-		return Math.floor((Math.random() * 10000000) + 1);
 	}
 }

@@ -7,7 +7,10 @@ import { AppState } from 'src/app/store';
 import { selectPresentationList } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
 import { first } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
+import {
+	SetPresentationId,
+	SetPresentationTitle,
+} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
 import { Router } from '@angular/router';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 
@@ -30,6 +33,10 @@ export class PresentationListComponent implements OnInit, OnDestroy {
 	) {
 	}
 
+	private get generatePresentationId(): number {
+		return Math.floor((Math.random() * 10000000) + 1);
+	}
+
 	ngOnInit() {
 		this.title.setTitle('Lista prezentacji');
 		this.presentationList$ = this.store.pipe(select(selectPresentationList));
@@ -40,16 +47,12 @@ export class PresentationListComponent implements OnInit, OnDestroy {
 
 	public createNewPresentation(): void {
 		this.componentFactoryBaseService.createPresentationTitleComponent().presentationTitle$
-		.pipe(first())
-		.subscribe((presentationTitle: string) => {
-			this.router.navigateByUrl('/dashboard/presentation-creator').then(() => {
-				this.store.dispatch(new SetPresentationId({ presentationId: this.generatePresentationId }));
-				this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
-			});
-		});
-	}
-
-	private get generatePresentationId(): number {
-		return Math.floor((Math.random() * 10000000) + 1);
+		    .pipe(first())
+		    .subscribe((presentationTitle: string) => {
+			    this.router.navigateByUrl('/dashboard/presentation-creator').then(() => {
+				    this.store.dispatch(new SetPresentationId({ presentationId: this.generatePresentationId }));
+				    this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
+			    });
+		    });
 	}
 }

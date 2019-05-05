@@ -5,7 +5,8 @@
 		  [modal]="true">
 	<input [(ngModel)]="presentationTitle" appAutofocus pInputText size="30" type="text">
 	<p-footer>
-		<button (click)="onSave()" [disabled]="!this.presentationTitle || !this.presentationTitle.length" [label]="isEditMode ? 'Zapisz' : 'Utwórz'" icon="pi pi-check" pButton
+		<button (click)="onSave()" [disabled]="!this.presentationTitle || !this.presentationTitle.length"
+				[label]="isEditMode ? 'Zapisz' : 'Utwórz'" icon="pi pi-check" pButton
 				type="button"></button>
 		<button (click)="onCancel()" class="ui-button-secondary" icon="pi pi-times" label="Anuluj" pButton
 				type="button"></button>

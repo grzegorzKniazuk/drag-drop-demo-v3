@@ -6,10 +6,18 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { debounceTime, first, withLatestFrom } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { RemoveColumn, UpdateColumnsPosition, UpdateColumnTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+import {
+	RemoveColumn,
+	UpdateColumnsPosition,
+	UpdateColumnTitle,
+} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { Observable } from 'rxjs';
 import { Slide } from 'src/app/shared/interfaces/slide';
-import { selectAmountOfSlidesInColumnById, selectColumnSlidesById, selectColumnSlidesIdsByColumnId } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
+import {
+	selectAmountOfSlidesInColumnById,
+	selectColumnSlidesById,
+	selectColumnSlidesIdsByColumnId,
+} from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { MoveSlideBetweenColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 

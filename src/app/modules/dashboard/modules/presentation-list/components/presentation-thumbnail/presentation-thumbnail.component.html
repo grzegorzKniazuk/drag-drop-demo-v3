@@ -1,10 +1,16 @@
-<p-card [header]="presentation.title" styleClass="ui-card-shadow" [style]="{width: '360px', margin: '15px'}">
+<p-card [header]="presentation.title" [style]="{width: '360px', margin: '15px'}" styleClass="ui-card-shadow">
 	<p-header>
 		<img [src]="presentation.thumbnail" alt="">
 	</p-header>
 	<p-footer>
-		<button pButton type="button" label="Odtwórz" icon="pi pi-caret-right" class="ui-button-raised ui-button-success" (click)="showPresentation()"></button>
-		<button pButton type="button" label="Edytuj" icon="pi pi-pencil" class="ui-button-raised ui-button-info" (click)="updatePresentation()"></button>
-		<button pButton type="button" label="Usuń" icon="pi pi-times" class="ui-button-raised ui-button-warning" (click)="deletePresentation()"></button>
+		<button (click)="showPresentation()" class="ui-button-raised ui-button-success" icon="pi pi-caret-right"
+				label="Odtwórz"
+				pButton type="button"></button>
+		<button (click)="updatePresentation()" class="ui-button-raised ui-button-info" icon="pi pi-pencil"
+				label="Edytuj" pButton
+				type="button"></button>
+		<button (click)="deletePresentation()" class="ui-button-raised ui-button-warning" icon="pi pi-times"
+				label="Usuń" pButton
+				type="button"></button>
 	</p-footer>
 </p-card>

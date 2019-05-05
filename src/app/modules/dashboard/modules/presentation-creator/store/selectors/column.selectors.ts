@@ -19,5 +19,5 @@ export const selectColumnPositionById = createSelector(
 		return columns.find((column: Column) => {
 			return column.id === props.columnId;
 		}).position;
-	}
+	},
 );

@@ -63,7 +63,7 @@ export class ColumnEffects {
 				return new AddSlideToPresentation({
 					slide: action.payload.sourceSlide,
 				});
-			}
+			},
 		),
 	);
 

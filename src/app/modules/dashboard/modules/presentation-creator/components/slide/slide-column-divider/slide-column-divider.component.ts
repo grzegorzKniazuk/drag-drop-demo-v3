@@ -62,7 +62,7 @@ export class SlideColumnDividerComponent extends DropZoneBase {
 					columnId: this.columnId,
 					position: {
 						column: this.columnPosition,
-						order: this.slideDividerSibilings.bottomSlidePosition
+						order: this.slideDividerSibilings.bottomSlidePosition,
 					},
 				},
 			}));
@@ -76,7 +76,7 @@ export class SlideColumnDividerComponent extends DropZoneBase {
 				changes: {
 					position: {
 						column: this.columnPosition,
-						order: this.slideDividerSibilings.bottomSlidePosition
+						order: this.slideDividerSibilings.bottomSlidePosition,
 					},
 				},
 			},
@@ -91,7 +91,7 @@ export class SlideColumnDividerComponent extends DropZoneBase {
 					columnId: this.columnId,
 					position: {
 						column: this.columnPosition,
-						order: this.slideDividerSibilings.bottomSlidePosition
+						order: this.slideDividerSibilings.bottomSlidePosition,
 					},
 				},
 			},

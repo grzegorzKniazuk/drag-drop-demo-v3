@@ -1,14 +1,25 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import {
+	AfterViewInit,
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	Component,
+	ElementRef,
+	HostListener,
+	OnInit,
+	Renderer2,
+	ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { first } from 'rxjs/operators';
 import { Presentation } from 'src/app/shared/interfaces/presentation';
 import { LocalStorage } from '@ngx-pwa/local-storage';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { SlidePosition } from 'src/app/shared/interfaces/slide-position';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { Memoize } from 'lodash-decorators';
+import { ToastService } from 'src/app/shared/services/toast.service';
+import { selectPresentationById } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
 
 @Component({
 	selector: 'app-presentation-viewer',
@@ -16,72 +27,47 @@ import { Memoize } from 'lodash-decorators';
 	styleUrls: [ './presentation-viewer.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PresentationViewerComponent implements AfterViewInit {
+export class PresentationViewerComponent implements OnInit, AfterViewInit {
 
-	@ViewChild('canvas') private canvas: ElementRef;
-	private context: CanvasRenderingContext2D;
-	private presentation: Presentation;
-	public backgroundImageStyle: SafeStyle;
 	public viewerPosition = { column: 0, order: 0 };
+	public presentation: Presentation;
+	@ViewChild('canvas') private canvas: ElementRef;
+	@ViewChild('backgroundElement') private backgroundElement: ElementRef;
+	private context: CanvasRenderingContext2D;
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
 		private store: Store<AppState>,
 		private localStorage: LocalStorage,
-		private domSanitizer: DomSanitizer,
 		private changeDetectorRef: ChangeDetectorRef,
+		private renderer2: Renderer2,
+		private toastService: ToastService,
 	) {
+	}
+
+	public get isArrowUpAvailable(): boolean {
+		return !!this.findSlideByPosition({ column: this.viewerPosition.column, order: this.viewerPosition.order - 1 });
+	}
+
+	public get isArrowRightAvailable(): boolean {
+		return !!this.findSlideByPosition({ column: this.viewerPosition.column + 1, order: this.viewerPosition.order });
+	}
+
+	public get isArrowDownAvailable(): boolean {
+		return !!this.findSlideByPosition({ column: this.viewerPosition.column, order: this.viewerPosition.order + 1 });
+	}
+
+	public get isArrowLeftAvailable(): boolean {
+		return !!this.findSlideByPosition({ column: this.viewerPosition.column - 1, order: this.viewerPosition.order });
+	}
+
+	ngOnInit() {
+		this.showOpeningToast();
 	}
 
 	ngAfterViewInit() {
 		this.initCanvasContext();
 		this.fetchPresentation();
-	}
-
-	private initCanvasContext(): void {
-		this.context = this.canvas.nativeElement.getContext('2d');
-	}
-
-	private fetchPresentation(): void {
-		const presentationId = +this.activatedRoute.snapshot.paramMap.get('id');
-
-		this.localStorage.getItem('presentation').pipe(
-			first(),
-		).subscribe((presentation: Presentation) => {
-			this.presentation = presentation;
-			this.initPresentation();
-		});
-
-		/*
-		this.store.pipe(
-			select(selectPresentationById, { id: presentationId }),
-			first(),
-		).subscribe((presentation: Presentation) => {
-			this.presentation = presentation;
-		});
-		*/
-	}
-
-	private initPresentation(): void {
-		this.setBackgroundImageStyle(this.findSlideByPosition(this.viewerPosition).imageData);
-	};
-
-	private setBackgroundImageStyle(imageData: string | ArrayBuffer) {
-		this.backgroundImageStyle = this.domSanitizer.bypassSecurityTrustStyle(`background-image: url(${imageData})`);
-		this.changeDetectorRef.detectChanges();
-	}
-
-	@Memoize
-	private findSlideByPosition(position: SlidePosition): Slide {
-		console.log(position);
-		return this.presentation.slides.find((slide: Slide) => {
-			return slide.position.column === position.column && slide.position.order === position.order;
-		});
-	}
-
-	private switchSlide(params: SlidePosition): void {
-		this.viewerPosition = params;
-		this.setBackgroundImageStyle(this.findSlideByPosition(params).imageData);
 	}
 
 	@HostListener('document:keydown.arrowup')
@@ -112,19 +98,53 @@ export class PresentationViewerComponent implements AfterViewInit {
 		}
 	}
 
-	public get isArrowUpAvailable(): boolean {
-		return !!this.findSlideByPosition({ column: this.viewerPosition.column, order: this.viewerPosition.order - 1 });
+	private showOpeningToast(): void {
+		this.toastService.information('Poruszać się po prezentacji możesz również za pomocą strzałek na klawiaturze :)');
 	}
 
-	public get isArrowRightAvailable(): boolean {
-		return !!this.findSlideByPosition({ column: this.viewerPosition.column + 1, order: this.viewerPosition.order });
+	private initCanvasContext(): void {
+		this.context = this.canvas.nativeElement.getContext('2d');
 	}
 
-	public get isArrowDownAvailable(): boolean {
-		return !!this.findSlideByPosition({ column: this.viewerPosition.column, order: this.viewerPosition.order + 1 });
+	private fetchPresentation(): void {
+		const presentationId = +this.activatedRoute.snapshot.paramMap.get('id');
+
+		/*
+		this.localStorage.getItem('presentation').pipe(
+			first(),
+		).subscribe((presentation: Presentation) => {
+			this.presentation = presentation;
+			this.initPresentation();
+		});
+		*/
+
+		this.store.pipe(
+			select(selectPresentationById, { id: presentationId }),
+			first(),
+		).subscribe((presentation: Presentation) => {
+			this.presentation = presentation;
+			this.initPresentation();
+		});
 	}
 
-	public get isArrowLeftAvailable(): boolean {
-		return !!this.findSlideByPosition({ column: this.viewerPosition.column - 1, order: this.viewerPosition.order });
+	private initPresentation(): void {
+		this.setBackgroundImage(this.findSlideByPosition(this.viewerPosition).imageData);
+	};
+
+	private setBackgroundImage(imageData: string | ArrayBuffer) {
+		this.renderer2.setAttribute(this.backgroundElement.nativeElement, 'src', <string>imageData);
+		this.changeDetectorRef.detectChanges();
+	}
+
+	@Memoize
+	private findSlideByPosition(position: SlidePosition): Slide {
+		return this.presentation.slides.find((slide: Slide) => {
+			return slide.position.column === position.column && slide.position.order === position.order;
+		});
+	}
+
+	private switchSlide(params: SlidePosition): void {
+		this.viewerPosition = params;
+		this.setBackgroundImage(this.findSlideByPosition(params).imageData);
 	}
 }

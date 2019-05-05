@@ -7,8 +7,11 @@
 		<i (click)="changePresentationTitle()" class="pi pi-pencil"></i>
 	</div>
 	<div>
-		<button class="ui-button-raised ui-button-success" icon="pi pi-save" label="Zapisz" pButton
-				type="button" (click)="savePresentation()" [disabled]="!(numberOfSlides$ | async)"></button>
-		<button class="ui-button-raised ui-button-secondary" icon="pi pi-sign-out" label="Wyjdź" pButton type="button" (click)="leaveEditor()"></button>
+		<button (click)="savePresentation()" [disabled]="!(numberOfSlides$ | async)"
+				class="ui-button-raised ui-button-success" icon="pi pi-save"
+				label="Zapisz" pButton type="button"></button>
+		<button (click)="leaveEditor()" class="ui-button-raised ui-button-secondary" icon="pi pi-sign-out" label="Wyjdź"
+				pButton
+				type="button"></button>
 	</div>
 </p-menubar>

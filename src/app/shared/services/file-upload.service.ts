@@ -17,6 +17,10 @@ export class FileUploadService {
 	) {
 	}
 
+	private get generateLibrarySlideId(): number {
+		return Math.floor((Math.random() * 10000000) + 1);
+	}
+
 	public uploadFiles(event: any): void {
 		this.files = event.target.files || event.dataTransfer.files;
 
@@ -55,9 +59,5 @@ export class FileUploadService {
 				}
 			}
 		}));
-	}
-
-	private get generateLibrarySlideId(): number {
-		return Math.floor((Math.random() * 10000000) + 1);
 	}
 }
