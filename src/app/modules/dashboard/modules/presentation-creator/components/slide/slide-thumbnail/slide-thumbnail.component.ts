@@ -57,7 +57,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 	}
 
 	private get isPositionOrderChanged(): boolean {
-		return this.slide.position.order !== this.position.order;
+		return this.slide.position.order !== this.position.order || this.slide.position.column !== this.position.column;
 	}
 
 	@HostListener('dragstart', [ '$event' ])
@@ -88,11 +88,13 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		}
 	}
 
+	/*
 	private detectPositionChangesOnSlideMove(): void {
 		interval(500).subscribe(() => {
 			this.changeDetectorRef.markForCheck();
 		});
 	}
+	*/
 
 	public onRemoveSlide(event: MouseEvent): void {
 		event.stopImmediatePropagation();

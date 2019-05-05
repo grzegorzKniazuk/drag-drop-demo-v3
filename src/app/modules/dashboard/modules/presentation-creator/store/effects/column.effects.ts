@@ -76,7 +76,10 @@ export class ColumnEffects {
 					id: action.payload.sourceSlide.id,
 					changes: {
 						columnId: action.payload.column.id,
-						position: 0,
+						position: {
+							column: action.payload.column.position,
+							order: 0,
+						},
 					},
 				},
 			});
@@ -91,7 +94,10 @@ export class ColumnEffects {
 				slide: {
 					...action.payload.sourceSlide,
 					columnId: action.payload.column.id,
-					position: 0,
+					position: {
+						column: action.payload.column.position,
+						order: 0,
+					},
 				},
 			});
 		}),

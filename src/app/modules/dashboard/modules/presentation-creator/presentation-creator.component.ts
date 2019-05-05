@@ -100,8 +100,8 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 
 	private prepareNewColumn(columnTitle: string, amountOfColumnsInPresentation: number): Column {
 		return {
-			id: Math.floor((Math.random() * 10000000) + 1),
-				position: amountOfColumnsInPresentation,
+			id: this.generateColumnId,
+			position: amountOfColumnsInPresentation,
 			title: columnTitle,
 		};
 	}

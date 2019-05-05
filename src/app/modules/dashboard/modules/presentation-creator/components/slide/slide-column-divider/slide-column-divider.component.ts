@@ -57,7 +57,7 @@ export class SlideColumnDividerComponent extends DropZoneBase {
 			this.store.dispatch(new AddSlideToPresentation({
 				slide: {
 					...sourceSlide,
-					id: Math.floor((Math.random() * 10000000) + 1),
+					id: this.generateSlideId,
 					columnId: this.columnId,
 					position: this.slideDividerSibilings.bottomSlidePosition,
 				},

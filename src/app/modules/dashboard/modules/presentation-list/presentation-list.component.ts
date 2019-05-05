@@ -42,9 +42,14 @@ export class PresentationListComponent implements OnInit, OnDestroy {
 		this.componentFactoryBaseService.createPresentationTitleComponent().presentationTitle$
 		.pipe(first())
 		.subscribe((presentationTitle: string) => {
-			this.store.dispatch(new SetPresentationId({ presentationId: Math.floor((Math.random() * 10000000) + 1) }));
-			this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
-			this.router.navigateByUrl('/dashboard/presentation-creator');
+			this.router.navigateByUrl('/dashboard/presentation-creator').then(() => {
+				this.store.dispatch(new SetPresentationId({ presentationId: this.generatePresentationId }));
+				this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
+			});
 		});
+	}
+
+	private get generatePresentationId(): number {
+		return Math.floor((Math.random() * 10000000) + 1);
 	}
 }

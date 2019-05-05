@@ -7,7 +7,6 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 import { AddSlideFromLibraryToExistingColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { AppState } from 'src/app/store';
 import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
-import { Memoize } from 'lodash-decorators';
 import { selectColumnPositionById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
 import { first } from 'rxjs/operators';
 
@@ -80,8 +79,15 @@ export abstract class DropZoneBase {
 		});
 	}
 
-	@Memoize
 	protected parseDataTransferFromDropEvent(event: DragEvent): SlideDataTransfer {
 		return JSON.parse(event.dataTransfer.getData('string'));
+	}
+
+	protected get generateSlideId(): number {
+		return Math.floor((Math.random() * 10000000) + 1);
+	}
+
+	protected get generateColumnId(): number {
+		return Math.floor((Math.random() * 10000000) + 1);
 	}
 }

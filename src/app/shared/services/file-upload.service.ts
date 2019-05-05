@@ -39,7 +39,7 @@ export class FileUploadService {
 						const imageBuffer = fileReader.result;
 
 						this.slides.push({
-							id: Math.floor((Math.random() * 10000000) + 1),
+							id: this.generateLibrarySlideId,
 							columnId: null,
 							position: {
 								column: null,
@@ -55,5 +55,9 @@ export class FileUploadService {
 				}
 			}
 		}));
+	}
+
+	private get generateLibrarySlideId(): number {
+		return Math.floor((Math.random() * 10000000) + 1);
 	}
 }

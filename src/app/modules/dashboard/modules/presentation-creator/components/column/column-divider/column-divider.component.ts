@@ -14,6 +14,7 @@ import { selectSlidesById } from 'src/app/modules/dashboard/modules/presentation
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
+import { Column } from 'src/app/shared/interfaces/column';
 
 @AutoUnsubscribe()
 @Component({
@@ -55,15 +56,11 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 
 	private addColumnBetweenExistingColumns(sourceSlideId: number): void {
 		this.presentationCreatorComponentFactoryService.createColumnTitleComponent().columnTitle$.pipe(
-			first(),
 			withLatestFrom(this.store.pipe(select(selectSlidesById, { slideId: sourceSlideId }))),
+			first(),
 		).subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
 			this.store.dispatch(new AddColumnBetweenExistingColumns({
-				column: {
-					id: Math.floor((Math.random() * 10000000) + 1),
-					position: this.columnDividerSibilings.rightSideColumnPosition,
-					title: columnTitle,
-				},
+				column: this.prepareNewColumn(columnTitle),
 				sourceSlide,
 			}));
 		});
@@ -75,16 +72,20 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 			withLatestFrom(this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId }))),
 		).subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
 			this.store.dispatch(new AddColumnBetweenExistingColumnsByLibrarySlide({
-				column: {
-					id: Math.floor((Math.random() * 10000000) + 1),
-					position: this.columnDividerSibilings.rightSideColumnPosition,
-					title: columnTitle,
-				},
+				column: this.prepareNewColumn(columnTitle),
 				sourceSlide: {
 					...sourceSlide,
-					id: Math.floor((Math.random() * 10000000) + 1),
+					id: this.generateSlideId,
 				},
 			}));
 		});
+	}
+
+	private prepareNewColumn(columnTitle: string): Column {
+		return {
+			id: this.generateSlideId,
+			position: this.columnDividerSibilings.rightSideColumnPosition,
+			title: columnTitle,
+		};
 	}
 }
