@@ -9,7 +9,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { EffectsModule } from '@ngrx/effects';
 import { PresentationListModule } from 'src/app/modules/dashboard/modules/presentation-list/presentation-list.module';
 import { LibraryEffects } from 'src/app/modules/dashboard/store/effects/library.effects';
-import { PresentationViewerModule } from 'src/app/modules/dashboard/modules/presentation-viewer/presentation-viewer.module';
 
 @NgModule({
 	declarations: [
@@ -20,7 +19,6 @@ import { PresentationViewerModule } from 'src/app/modules/dashboard/modules/pres
 		DashboardRoutingModule,
 		PresentationCreatorModule,
 		PresentationListModule,
-		PresentationViewerModule,
 		StoreModule.forFeature('dashboard', fromDashboard.reducers, { metaReducers: fromDashboard.metaReducers }),
 		EffectsModule.forFeature([ LibraryEffects ]),
 	],

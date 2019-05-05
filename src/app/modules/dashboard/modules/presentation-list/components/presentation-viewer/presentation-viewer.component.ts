@@ -1,7 +1,10 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
+import { selectPresentationById } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
+import { first } from 'rxjs/operators';
+import { Presentation } from 'src/app/shared/interfaces/presentation';
 
 @Component({
 	selector: 'app-presentation-viewer',
@@ -13,6 +16,7 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit {
 
 	@ViewChild('canvas') private canvas: ElementRef;
 	private context: CanvasRenderingContext2D;
+	public presentation: Presentation;
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
@@ -33,6 +37,13 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit {
 	}
 
 	private fetchPresentation(): void {
-		const presentationId = this.activatedRoute.snapshot.paramMap.get('id');
+		const presentationId = +this.activatedRoute.snapshot.paramMap.get('id');
+
+		this.store.pipe(
+			select(selectPresentationById, { id: presentationId }),
+			first(),
+		).subscribe((presentation: Presentation) => {
+			this.presentation = presentation;
+		});
 	}
 }

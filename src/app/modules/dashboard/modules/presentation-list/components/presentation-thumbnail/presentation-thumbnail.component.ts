@@ -49,6 +49,6 @@ export class PresentationThumbnailComponent implements OnInit {
 	}
 
 	public showPresentation(): void {
-		this.router.navigateByUrl(`/dashboard/presentation-viewer/${this.presentation.id}`);
+		this.router.navigateByUrl(`/view/${this.presentation.id}`);
 	}
 }
