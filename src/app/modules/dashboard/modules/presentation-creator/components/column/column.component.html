@@ -12,6 +12,7 @@
 				*ngIf="l !== i + 1"
 				[columnId]="column.id"
 				[numberOfSlidesInColumn]="l"
+				[columnPosition]="position"
 				[slideDividerSibilings]="{ topSlidePosition: i, bottomSlidePosition: i + 1 }">
 			</app-slide-column-divider>
 		</ng-container>

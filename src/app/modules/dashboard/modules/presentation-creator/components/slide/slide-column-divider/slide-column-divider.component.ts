@@ -24,6 +24,7 @@ export class SlideColumnDividerComponent extends DropZoneBase {
 	@Input() public slideDividerSibilings: SlideDividerSibilings;
 	@Input() public numberOfSlidesInColumn: number;
 	@Input() public columnId: number;
+	@Input() public columnPosition: number;
 
 	constructor(
 		store: Store<AppState>,
@@ -59,7 +60,10 @@ export class SlideColumnDividerComponent extends DropZoneBase {
 					...sourceSlide,
 					id: this.generateSlideId,
 					columnId: this.columnId,
-					position: this.slideDividerSibilings.bottomSlidePosition,
+					position: {
+						column: this.columnPosition,
+						order: this.slideDividerSibilings.bottomSlidePosition
+					},
 				},
 			}));
 		});
@@ -70,7 +74,10 @@ export class SlideColumnDividerComponent extends DropZoneBase {
 			slide: {
 				id: sourceSlideId,
 				changes: {
-					position: this.slideDividerSibilings.bottomSlidePosition,
+					position: {
+						column: this.columnPosition,
+						order: this.slideDividerSibilings.bottomSlidePosition
+					},
 				},
 			},
 		}));
@@ -82,7 +89,10 @@ export class SlideColumnDividerComponent extends DropZoneBase {
 				id: sourceSlideId,
 				changes: {
 					columnId: this.columnId,
-					position: this.slideDividerSibilings.bottomSlidePosition,
+					position: {
+						column: this.columnPosition,
+						order: this.slideDividerSibilings.bottomSlidePosition
+					},
 				},
 			},
 		}));
