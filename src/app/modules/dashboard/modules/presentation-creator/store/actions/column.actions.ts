@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { Column } from 'src/app/shared/interfaces/column';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { Update } from '@ngrx/entity';
+import { SlidePosition } from 'src/app/shared/interfaces/slide-position';
 
 export enum ColumnActionsTypes {
 	AddColumnFromAnotherColumn = '[Column] Add Column From Another Column',
@@ -40,7 +41,7 @@ export class AddColumns implements Action {
 export class AddSlideFromLibraryToExistingColumn implements Action {
 	public readonly type = ColumnActionsTypes.AddSlideFromLibraryToExistingColumn;
 
-	constructor(public payload: { sourceSlide: Slide, targetColumnId: number, targetSlidePosition: number }) {
+	constructor(public payload: { sourceSlide: Slide }) {
 	}
 }
 

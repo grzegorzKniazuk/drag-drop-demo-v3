@@ -124,7 +124,10 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 					id: sourceSlideId,
 					changes: {
 						columnId: this.column.id,
-						position: amountOfSlidesInExsistingColumn,
+						position: {
+							column: this.column.position,
+							order: amountOfSlidesInExsistingColumn,
+						},
 					},
 				},
 			}));

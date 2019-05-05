@@ -60,14 +60,11 @@ export class ColumnEffects {
 	public addSlideFromLibraryToExistingColumn$: Observable<AddSlideToPresentation> = this.actions$.pipe(
 		ofType<AddSlideFromLibraryToExistingColumn>(ColumnActionsTypes.AddSlideFromLibraryToExistingColumn),
 		map((action: AddSlideFromLibraryToExistingColumn) => {
-			return new AddSlideToPresentation({
-				slide: {
-					...action.payload.sourceSlide,
-					columnId: action.payload.targetColumnId,
-					position: action.payload.targetSlidePosition,
-				},
-			});
-		}),
+				return new AddSlideToPresentation({
+					slide: action.payload.sourceSlide,
+				});
+			}
+		),
 	);
 
 	@Effect({ dispatch: true })

@@ -1,13 +1,15 @@
 import { HostListener, NgZone } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
-import { first, withLatestFrom } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
 import { selectAmountOfSlidesInColumnById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { AddSlideFromLibraryToExistingColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { AppState } from 'src/app/store';
 import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { Memoize } from 'lodash-decorators';
+import { selectColumnPositionById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
+import { first } from 'rxjs/operators';
 
 export abstract class DropZoneBase {
 	public isElementOnDragOver: boolean;
@@ -39,18 +41,25 @@ export abstract class DropZoneBase {
 	}
 
 	protected moveSlideFromLibraryToColumn(sourceSlideId: number, targetColumnId): void {
-		this.store.pipe(
-			select(selectSlideFromLibraryById, { slideId: sourceSlideId }),
+		combineLatest(
+			this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId })),
+			this.store.pipe(select(selectColumnPositionById, { columnId: targetColumnId })),
+			this.store.pipe(select(selectAmountOfSlidesInColumnById, { columnId: targetColumnId }))
+		)
+		.pipe(
 			first(),
-			withLatestFrom(this.store.pipe(select(selectAmountOfSlidesInColumnById, { columnId: targetColumnId }))),
-		).subscribe(([ slideToMove, amountOfSlidesInExsistingColumn ]: [ Slide, number ]) => {
+		)
+		.subscribe(([ slideToMove, columnPosition, amountOfSlidesInExsistingColumn ]: [ Slide, number, number ]) => {
 			this.store.dispatch(new AddSlideFromLibraryToExistingColumn({
 				sourceSlide: {
 					...slideToMove,
 					id: Math.floor((Math.random() * 10000000) + 1),
+					columnId: targetColumnId,
+					position: {
+						column: columnPosition,
+						order: amountOfSlidesInExsistingColumn,
+					}
 				},
-				targetColumnId: targetColumnId,
-				targetSlidePosition: amountOfSlidesInExsistingColumn,
 			}));
 		});
 	}

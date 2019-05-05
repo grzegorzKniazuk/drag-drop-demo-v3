@@ -7,9 +7,9 @@ export interface SlideState extends EntityState<Slide> {
 }
 
 export const slideSortComparer: Comparer<Slide> = ((a: Slide, b: Slide): number => {
-	if (a.position === null || a.position > b.position) {
+	if (a.position.order === null || a.position.order > b.position.order) {
 		return 1;
-	} else if (a.position < b.position) {
+	} else if (a.position.order < b.position.order) {
 		return -1;
 	} else {
 		return 0;
