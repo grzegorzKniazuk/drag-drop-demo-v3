@@ -10,4 +10,14 @@
 		padding-left: 275px;
 		transition: padding-left 250ms;
 	}
+
+	.no-content {
+		@include flex(flex, center, center, column);
+		@include size(100%, 100%);
+		user-select: none;
+
+		i {
+			font-size: 50px;
+		}
+	}
 }

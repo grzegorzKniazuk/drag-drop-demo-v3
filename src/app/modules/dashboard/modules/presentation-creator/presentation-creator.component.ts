@@ -28,6 +28,7 @@ import { ComponentFactoryBaseService } from 'src/app/shared/services/component-f
 export class PresentationCreatorComponent extends DropZoneBase implements OnInit, OnDestroy {
 
 	public columns$: Observable<Column[]>;
+	public amountOfColumns$: Observable<number>;
 	public isLibrarySliderOpen$: Observable<boolean>;
 
 	constructor(
@@ -41,12 +42,21 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	}
 
 	ngOnInit() {
-		this.title.setTitle('Kreator prezentacji');
-		this.columns$ = this.store.pipe(select(selectColumns));
-		this.isLibrarySliderOpen$ = this.store.pipe(select(selectIsLibrarySliderOpen));
+		this.setTitle();
+		this.initObservables();
 	}
 
 	ngOnDestroy() {
+	}
+
+	private setTitle(): void {
+		this.title.setTitle('Kreator prezentacji');
+	}
+
+	private initObservables(): void {
+		this.columns$ = this.store.pipe(select(selectColumns));
+		this.amountOfColumns$ = this.store.pipe(select(selectAmountOfColumns));
+		this.isLibrarySliderOpen$ = this.store.pipe(select(selectIsLibrarySliderOpen));
 	}
 
 	@HostListener('drop', [ '$event' ])

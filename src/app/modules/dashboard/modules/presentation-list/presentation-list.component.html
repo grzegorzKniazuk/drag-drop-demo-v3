@@ -1,6 +1,7 @@
 <div *ngIf="presentationList$ | async as presentations" [ngClass]="{ 'no-presentations' : !presentations.length }"
 	 class="presentation-list-container">
 	<div (click)="createNewPresentation()" *ngIf="!presentations.length">
+		<i class="pi pi-info-circle"></i>
 		<strong>Brak prezentacji</strong>
 		<span>Kliknij, aby dodać</span>
 	</div>

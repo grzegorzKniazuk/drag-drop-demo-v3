@@ -8,5 +8,9 @@
 			[numberOfColumns]="l">
 		</app-column-divider>
 	</ng-container>
+	<div class="no-content" *ngIf="!(amountOfColumns$ | async)">
+		<i class="pi pi-info-circle"></i>
+		<h1>Brak slajdów w prezentacji, przeciągnij slajdy z biblioteki</h1>
+	</div>
 	<app-library-bar></app-library-bar>
 </div>
