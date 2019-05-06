@@ -2,22 +2,22 @@ import { Action } from '@ngrx/store';
 import { Slide } from 'src/app/shared/interfaces/slide';
 
 export enum LibraryActionsTypes {
-	AddSlidesToLibrary = '[Library] Add Elements',
-	RemoveSlideFromLibrary = '[Slide] Remove Slide From Library',
+	ADD_SLIDES = '[Library] Add Slides',
+	REMOVE_SLIDE = '[Library] Remove Slide',
 }
 
-export class AddSlidesToLibrary implements Action {
-	public readonly type = LibraryActionsTypes.AddSlidesToLibrary;
+export class ADD_SLIDES implements Action {
+	public readonly type = LibraryActionsTypes.ADD_SLIDES;
 
 	constructor(public payload: { slides: Slide[] }) {
 	}
 }
 
-export class RemoveSlideFromLibrary implements Action {
-	public readonly type = LibraryActionsTypes.RemoveSlideFromLibrary;
+export class REMOVE_SLIDE implements Action {
+	public readonly type = LibraryActionsTypes.REMOVE_SLIDE;
 
 	constructor(public payload: { slideId: number }) {
 	}
 }
 
-export type LibraryActions = AddSlidesToLibrary | RemoveSlideFromLibrary;
+export type LibraryActions = ADD_SLIDES | REMOVE_SLIDE;

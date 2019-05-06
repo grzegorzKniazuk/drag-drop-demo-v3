@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { AddSlidesToLibrary } from 'src/app/modules/dashboard/store/actions/library.actions';
+import { ADD_SLIDES } from 'src/app/modules/dashboard/store/actions/library.actions';
 
 @Injectable({
 	providedIn: 'root',
@@ -25,7 +25,7 @@ export class FileUploadService {
 		this.files = event.target.files || event.dataTransfer.files;
 
 		this.prepareSlides().then((slides: Slide[]) => {
-			this.store.dispatch(new AddSlidesToLibrary({ slides }));
+			this.store.dispatch(new ADD_SLIDES({ slides }));
 		}).finally(() => {
 			this.slides = [];
 		});

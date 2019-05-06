@@ -12,10 +12,10 @@ export const initialLibraryState: LibraryState = libraryAdapter.getInitialState(
 
 export function libraryReducer(state = initialLibraryState, action: LibraryActions): LibraryState {
 	switch (action.type) {
-		case LibraryActionsTypes.AddSlidesToLibrary: {
+		case LibraryActionsTypes.ADD_SLIDES: {
 			return libraryAdapter.addMany(action.payload.slides, state);
 		}
-		case LibraryActionsTypes.RemoveSlideFromLibrary: {
+		case LibraryActionsTypes.REMOVE_SLIDE: {
 			return libraryAdapter.removeOne(action.payload.slideId, state);
 		}
 		default: {

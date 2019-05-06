@@ -1,31 +1,15 @@
-import {
-	ChangeDetectionStrategy,
-	ChangeDetectorRef,
-	Component,
-	HostListener,
-	Input,
-	NgZone,
-	OnChanges,
-	OnDestroy,
-	OnInit,
-	SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, NgZone, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import {
-	RemoveSlide,
-	SwapSlideInTheDifferentColumns,
-	SwapSlideInTheSameColumn,
-	UpdateSlidePosition,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { RemoveSlide, SwapSlideInTheDifferentColumns, SwapSlideInTheSameColumn, UpdateSlidePosition } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Update } from '@ngrx/entity';
 import { isNull, isNumber } from 'lodash';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 import { first } from 'rxjs/operators';
-import { RemoveSlideFromLibrary } from 'src/app/modules/dashboard/store/actions/library.actions';
+import { REMOVE_SLIDE } from 'src/app/modules/dashboard/store/actions/library.actions';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { SlidePosition } from 'src/app/shared/interfaces/slide-position';
 import { Router } from '@angular/router';
@@ -37,7 +21,7 @@ import { Router } from '@angular/router';
 	styleUrls: [ './slide-thumbnail.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnChanges, OnDestroy {
+export class SlideThumbnailComponent extends DropZoneBase implements OnChanges, OnDestroy {
 
 	@Input() public slide: Slide;
 	@Input() public position: SlidePosition;
@@ -55,10 +39,6 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 
 	private get isPositionOrderChanged(): boolean {
 		return this.slide.position.order !== this.position.order || this.slide.position.column !== this.position.column;
-	}
-
-	ngOnInit() {
-		// this.detectPositionChangesOnSlideMove();
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
@@ -105,14 +85,6 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 		}
 	}
 
-	/*
-	private detectPositionChangesOnSlideMove(): void {
-		interval(500).subscribe(() => {
-			this.changeDetectorRef.markForCheck();
-		});
-	}
-	*/
-
 	public onEditSlide(event: MouseEvent): void {
 		event.stopImmediatePropagation();
 
@@ -134,7 +106,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnInit, OnC
 				first(),
 			).subscribe((accepted: boolean) => {
 				if (accepted) {
-					this.store.dispatch(new RemoveSlideFromLibrary({
+					this.store.dispatch(new REMOVE_SLIDE({
 						slideId: this.slide.id,
 					}));
 				}
