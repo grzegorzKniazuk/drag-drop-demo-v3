@@ -1,0 +1,17 @@
+@import "base.scss";
+
+.editor-container {
+	@include flex(flex, center, center, row, relative);
+	@include size(100%, calc(100% - 55px));
+	padding: 15px;
+
+	canvas {
+		background: transparent;
+		z-index: 1;
+	}
+
+	img {
+		position: absolute;
+		@include size(1500px, 844px);
+	}
+}
