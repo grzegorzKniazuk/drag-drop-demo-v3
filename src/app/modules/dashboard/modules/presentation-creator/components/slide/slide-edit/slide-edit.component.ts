@@ -95,40 +95,39 @@ export class SlideEditComponent implements OnInit, AfterViewInit {
 		if (event.buttons) {
 			if (this.startCords && this.endCords) {
 				this.context.clearRect(0, 0, this.canvasElement.nativeElement.width, this.canvasElement.nativeElement.height);
+				this.rectangles.forEach((rectangle) => {
+					this.drawRectangle(rectangle);
+				});
 			}
 			this.endCords = this.getCursorPosition(event);
-			this.drawRectangle();
+			this.draw();
 		}
 	}
 
 	public onMouseUp(event: MouseEvent): void {
 		this.endCords = this.getCursorPosition(event);
 
-		if (this.startCords.x < this.endCords.x && this.startCords.y < this.endCords.y) {
-			this.drawRectangle();
+		this.rectangles.push({
+			topLeft: {
+				x: this.startCords.x,
+				y: this.startCords.y,
+			},
+			topRight: {
+				x: this.endCords.x,
+				y: this.startCords.y,
+			},
+			bottomLeft: {
+				x: this.startCords.x,
+				y: this.endCords.y,
+			},
+			bottomRight: {
+				x: this.endCords.x,
+				y: this.endCords.y,
+			},
+		});
 
-			this.rectangles.push({
-				topLeft: {
-					x: this.startCords.x,
-					y: this.startCords.y,
-				},
-				topRight: {
-					x: this.endCords.x,
-					y: this.startCords.y,
-				},
-				bottomLeft: {
-					x: this.startCords.x,
-					y: this.endCords.y,
-				},
-				bottomRight: {
-					x: this.endCords.x,
-					y: this.endCords.y,
-				},
-			});
-
-			this.startCords = null;
-			this.endCords = null;
-		}
+		this.startCords = null;
+		this.endCords = null;
 	}
 
 	private getCursorPosition(event: MouseEvent): Coordinates {
@@ -139,12 +138,21 @@ export class SlideEditComponent implements OnInit, AfterViewInit {
 		return { x, y };
 	}
 
-	private drawRectangle(): void {
+	private draw(): void {
 		this.context.beginPath();
 		this.context.setLineDash([ 5, 5 ]);
 		this.context.lineWidth = 2;
 		this.context.strokeStyle = 'black';
 		this.context.rect(this.startCords.x, this.startCords.y, this.endCords.x - this.startCords.x, this.endCords.y - this.startCords.y);
+		this.context.stroke();
+	}
+
+	private drawRectangle(rectangle: Rectangle): void {
+		this.context.beginPath();
+		this.context.setLineDash([ 5, 5 ]);
+		this.context.lineWidth = 2;
+		this.context.strokeStyle = 'black';
+		this.context.rect(rectangle.topLeft.x, rectangle.topLeft.y, Math.abs(rectangle.topLeft.x - rectangle.topRight.x), Math.abs(rectangle.topRight.y - rectangle.bottomRight.y));
 		this.context.stroke();
 	}
 }
