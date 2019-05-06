@@ -107,7 +107,7 @@ export class SlideEditComponent implements OnInit, AfterViewInit {
 	public onMouseUp(event: MouseEvent): void {
 		this.endCords = this.getCursorPosition(event);
 
-		this.rectangles.push({
+		const rectangle = {
 			topLeft: {
 				x: this.startCords.x,
 				y: this.startCords.y,
@@ -124,10 +124,19 @@ export class SlideEditComponent implements OnInit, AfterViewInit {
 				x: this.endCords.x,
 				y: this.endCords.y,
 			},
-		});
+		};
+
+		this.rectangles.push(rectangle);
 
 		this.startCords = null;
 		this.endCords = null;
+
+		this.context.clearRect(
+			rectangle.topLeft.x + 1,
+			rectangle.topLeft.y + 1,
+			Math.abs(rectangle.topLeft.x - rectangle.topRight.x) - 1,
+			Math.abs(rectangle.topRight.y - rectangle.bottomRight.y) - 1,
+		);
 	}
 
 	private getCursorPosition(event: MouseEvent): Coordinates {
