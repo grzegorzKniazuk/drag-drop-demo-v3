@@ -11,6 +11,8 @@ import { SlideLinkActionParams } from 'src/app/shared/interfaces/slide-link-acti
 import { CursorTypes } from 'src/app/shared/enums/cursor-types';
 import { DialogService } from 'primeng/api';
 import { SlideActionAddFormComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/slide-action-form/slide-action-add-form/slide-action-add-form.component';
+import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
+import { first } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-slide-edit',
@@ -37,6 +39,7 @@ export class SlideEditComponent implements OnInit {
 		private toastService: ToastService,
 		private ngZone: NgZone,
 		private dialogService: DialogService,
+		private componentFactoryBaseService: ComponentFactoryBaseService,
 	) {
 	}
 
@@ -162,8 +165,17 @@ export class SlideEditComponent implements OnInit {
 	}
 
 	public removeSlideLinkAction(linkActionId: number): void {
-		this.slideLinkActionsParams = this.slideLinkActionsParams.filter((actionParams) => {
-			return actionParams.id !== linkActionId;
+		this.componentFactoryBaseService.createConfirmDialogComponent(
+			'Uwaga',
+			'Czy napewno chcesz usunąć tą akcję? Operacji nie można cofnąć',
+		).onAcceptOrConfirm$.pipe(
+			first(),
+		).subscribe((isAccepted: boolean) => {
+			if (isAccepted) {
+				this.slideLinkActionsParams = this.slideLinkActionsParams.filter((actionParams) => {
+					return actionParams.id !== linkActionId;
+				});
+			}
 		});
 	}
 }
