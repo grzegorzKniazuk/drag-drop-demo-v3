@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
@@ -42,6 +42,7 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 		private ngZone: NgZone,
 		private dialogService: DialogService,
 		private componentFactoryBaseService: ComponentFactoryBaseService,
+		private changeDetectorRef: ChangeDetectorRef,
 	) {
 	}
 
@@ -196,6 +197,7 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 				this.slideLinkActionsParams = this.slideLinkActionsParams.filter((actionParams) => {
 					return actionParams.id !== linkActionId;
 				});
+				this.changeDetectorRef.detectChanges();
 			}
 		});
 	}
