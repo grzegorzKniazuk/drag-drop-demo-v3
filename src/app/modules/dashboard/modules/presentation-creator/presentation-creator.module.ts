@@ -23,6 +23,8 @@ import { SlideEditMenuBarComponent } from './components/slide/slide-edit/slide-e
 import { SlideActionFormComponent } from './components/slide/slide-edit/slide-action-form/slide-action-form.component';
 import { SlideActionAddFormComponent } from './components/slide/slide-edit/slide-action-form/slide-action-add-form/slide-action-add-form.component';
 import { SlideActionEditFormComponent } from './components/slide/slide-edit/slide-action-form/slide-action-edit-form/slide-action-edit-form.component';
+import { LinkSlideSelectorComponent } from './components/slide/slide-edit/link-slide-selector/link-slide-selector.component';
+import { LinkPresentationSelectorComponent } from './components/slide/slide-edit/link-presentation-selector/link-presentation-selector.component';
 
 @NgModule({
 	declarations: [
@@ -42,6 +44,8 @@ import { SlideActionEditFormComponent } from './components/slide/slide-edit/slid
 		SlideActionFormComponent,
 		SlideActionAddFormComponent,
 		SlideActionEditFormComponent,
+		LinkSlideSelectorComponent,
+		LinkPresentationSelectorComponent,
 	],
 	entryComponents: [
 		ColumnTitleComponent,
