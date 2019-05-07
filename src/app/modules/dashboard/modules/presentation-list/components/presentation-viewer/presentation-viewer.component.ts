@@ -1,14 +1,4 @@
-import {
-	AfterViewInit,
-	ChangeDetectionStrategy,
-	ChangeDetectorRef,
-	Component,
-	ElementRef,
-	HostListener,
-	OnInit,
-	Renderer2,
-	ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
@@ -73,10 +63,6 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit {
 		this.fetchPresentation();
 	}
 
-	private initTitle(): void {
-		this.title.setTitle('Przeglądarka prezentacji');
-	}
-
 	@HostListener('document:keydown.arrowup')
 	public switchSlideToTop(): void {
 		if (this.isArrowUpAvailable) {
@@ -103,6 +89,10 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit {
 		if (this.isArrowLeftAvailable) {
 			this.switchSlide({ column: this.viewerPosition.column - 1, order: this.viewerPosition.order });
 		}
+	}
+
+	private initTitle(): void {
+		this.title.setTitle('Przeglądarka prezentacji');
 	}
 
 	private showOpeningToast(): void {

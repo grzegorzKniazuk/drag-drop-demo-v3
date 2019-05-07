@@ -3,14 +3,8 @@ import { environment } from 'src/environments/environment';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { slideReducer, SlideState } from 'src/app/modules/dashboard/modules/presentation-creator/store/reducers/slide.reducer';
 import { columnReducer, ColumnState } from 'src/app/modules/dashboard/modules/presentation-creator/store/reducers/column.reducer';
-import {
-	creatorOptionsReducer,
-	CreatorOptionsState,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/reducers/creator-options.reducer';
-import {
-	creatorMetadataReducer,
-	CreatorMetadataState,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/reducers/creator-metadata.reducer';
+import { creatorOptionsReducer, CreatorOptionsState } from 'src/app/modules/dashboard/modules/presentation-creator/store/reducers/creator-options.reducer';
+import { creatorMetadataReducer, CreatorMetadataState } from 'src/app/modules/dashboard/modules/presentation-creator/store/reducers/creator-metadata.reducer';
 
 export interface PresentationCreatorState {
 	slides: SlideState,

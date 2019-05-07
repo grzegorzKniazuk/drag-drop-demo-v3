@@ -23,6 +23,7 @@ import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dash
 })
 export class SlideEditComponent implements OnInit, OnDestroy {
 
+	public readonly slideLinkActionContainerCssClass = 'slide-link-action-container';
 	@ViewChild('canvasElement') private readonly canvasElement: ElementRef;
 	@ViewChild('backgroundElement') private readonly backgroundElement: ElementRef;
 	private slide: Slide;
@@ -30,7 +31,6 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 	private startCords: Coordinates;
 	private endCords: Coordinates;
 	private slideLinkActionsParams: SlideLinkActionParams[] = [];
-	public readonly slideLinkActionContainerCssClass = 'slide-link-action-container';
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
@@ -45,6 +45,31 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 	) {
 	}
 
+	private get slideLinkActionComponentPositionStyle(): { [key: string]: string } {
+		return {
+			'top': this.top,
+			'left': this.left,
+			'width': this.width,
+			'height': this.height,
+		};
+	}
+
+	private get top(): string {
+		return (this.endCords.y - this.startCords.y < 0) ? this.endCords.y + '%' : this.startCords.y + '%';
+	}
+
+	private get left(): string {
+		return (this.endCords.x - this.startCords.x < 0) ? this.endCords.x + '%' : this.startCords.x + '%';
+	}
+
+	private get width(): string {
+		return `${Math.abs(this.endCords.x - this.startCords.x)}%`;
+	}
+
+	private get height(): string {
+		return `${Math.abs(this.endCords.y - this.startCords.y)}%`;
+	}
+
 	ngOnInit() {
 		this.initTitle();
 		this.fetchSlide();
@@ -53,6 +78,42 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
+	}
+
+	public onClick(event: MouseEvent): void {
+		if (this.element) {
+			this.removeDrawnDivElement();
+			this.setCursor(CursorTypes.DEFAULT);
+			this.addSlideLinkActionComponentToArray();
+		} else {
+			this.createDivElement(event);
+			this.setCursor(CursorTypes.CROSSHAIR);
+		}
+	}
+
+	public onMouseMove(event: MouseEvent): void {
+		this.ngZone.runOutsideAngular(() => {
+			if (this.element) {
+				this.endCords = this.getPercentageCursorPosition(this.getCursorPosition(event));
+				this.drawDivElement();
+			}
+		});
+	}
+
+	public removeSlideLinkAction(linkActionId: number): void {
+		this.componentFactoryBaseService.createConfirmDialogComponent(
+			'Uwaga',
+			'Czy napewno chcesz usunąć tą akcję? Operacji nie można cofnąć',
+		).onAcceptOrConfirm$.pipe(
+			first(),
+		).subscribe((isAccepted: boolean) => {
+			if (isAccepted) {
+				this.slideLinkActionsParams = this.slideLinkActionsParams.filter((actionParams) => {
+					return actionParams.id !== linkActionId;
+				});
+				this.changeDetectorRef.detectChanges();
+			}
+		});
 	}
 
 	private initTitle(): void {
@@ -83,17 +144,6 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 		this.renderer2.setAttribute(this.backgroundElement.nativeElement, 'src', <string>imageData);
 	}
 
-	public onClick(event: MouseEvent): void {
-		if (this.element) {
-			this.removeDrawnDivElement();
-			this.setCursor(CursorTypes.DEFAULT);
-			this.addSlideLinkActionComponentToArray();
-		} else {
-			this.createDivElement(event);
-			this.setCursor(CursorTypes.CROSSHAIR);
-		}
-	}
-
 	private createDivElement(event: MouseEvent): void {
 		this.startCords = this.getPercentageCursorPosition(this.getCursorPosition(event));
 
@@ -121,45 +171,11 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	public onMouseMove(event: MouseEvent): void {
-		this.ngZone.runOutsideAngular(() => {
-			if (this.element) {
-				this.endCords = this.getPercentageCursorPosition(this.getCursorPosition(event));
-				this.drawDivElement();
-			}
-		});
-	}
-
 	private drawDivElement(): void {
 		this.renderer2.setStyle(this.element, 'width', this.width);
 		this.renderer2.setStyle(this.element, 'height', this.height);
 		this.renderer2.setStyle(this.element, 'left', this.left);
 		this.renderer2.setStyle(this.element, 'top', this.top);
-	}
-
-	private get slideLinkActionComponentPositionStyle(): { [key: string]: string } {
-		return {
-			'top': this.top,
-			'left': this.left,
-			'width': this.width,
-			'height': this.height,
-		};
-	}
-
-	private get top(): string {
-		return (this.endCords.y - this.startCords.y < 0) ? this.endCords.y + '%' : this.startCords.y + '%';
-	}
-
-	private get left(): string {
-		return (this.endCords.x - this.startCords.x < 0) ? this.endCords.x + '%' : this.startCords.x + '%';
-	}
-
-	private get width(): string {
-		return `${Math.abs(this.endCords.x - this.startCords.x)}%`;
-	}
-
-	private get height(): string {
-		return `${Math.abs(this.endCords.y - this.startCords.y)}%`;
 	}
 
 	private getCursorPosition(event: MouseEvent): Coordinates {
@@ -180,21 +196,5 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 
 	private toPercentageY(y: number): number {
 		return (y / this.canvasElement.nativeElement.offsetHeight) * 100;
-	}
-
-	public removeSlideLinkAction(linkActionId: number): void {
-		this.componentFactoryBaseService.createConfirmDialogComponent(
-			'Uwaga',
-			'Czy napewno chcesz usunąć tą akcję? Operacji nie można cofnąć',
-		).onAcceptOrConfirm$.pipe(
-			first(),
-		).subscribe((isAccepted: boolean) => {
-			if (isAccepted) {
-				this.slideLinkActionsParams = this.slideLinkActionsParams.filter((actionParams) => {
-					return actionParams.id !== linkActionId;
-				});
-				this.changeDetectorRef.detectChanges();
-			}
-		});
 	}
 }

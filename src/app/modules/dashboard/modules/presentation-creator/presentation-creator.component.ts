@@ -3,10 +3,7 @@ import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { first, withLatestFrom } from 'rxjs/operators';
-import {
-	AddColumnFromAnotherColumn,
-	AddColumnFromLibrary,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+import { AddColumnFromAnotherColumn, AddColumnFromLibrary } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
@@ -53,6 +50,19 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	ngOnDestroy() {
 	}
 
+	@HostListener('drop', [ '$event' ])
+	public onDrop(event: DragEvent): void {
+		event.stopImmediatePropagation();
+
+		const { sourceSlideId, sourceColumnId } = this.parseDataTransferFromDropEvent(event);
+
+		if (sourceColumnId) {
+			this.addColumnFromAnotherColumn(sourceSlideId, sourceColumnId);
+		} else {
+			this.addColumnFromLibrary(sourceSlideId);
+		}
+	}
+
 	private setTitle(): void {
 		this.title.setTitle('Kreator prezentacji');
 	}
@@ -65,19 +75,6 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 
 	private fetchPresentationId(): void {
 		this.presentationId = +this.activatedRoute.snapshot.params['id'];
-	}
-
-	@HostListener('drop', [ '$event' ])
-	public onDrop(event: DragEvent): void {
-		event.stopImmediatePropagation();
-
-		const { sourceSlideId, sourceColumnId } = this.parseDataTransferFromDropEvent(event);
-
-		if (sourceColumnId) {
-			this.addColumnFromAnotherColumn(sourceSlideId, sourceColumnId);
-		} else {
-			this.addColumnFromLibrary(sourceSlideId);
-		}
 	}
 
 	private addColumnFromAnotherColumn(sourceSlideId: number, sourceColumnId: number): void {

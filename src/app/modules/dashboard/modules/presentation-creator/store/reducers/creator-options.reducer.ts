@@ -1,7 +1,4 @@
-import {
-	CreatorOptionsActions,
-	CreatorOptionsActionsTypes,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-options.actions';
+import { CreatorOptionsActions, CreatorOptionsActionsTypes } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-options.actions';
 
 export interface CreatorOptionsState {
 	isLibrarySliderOpen: boolean;

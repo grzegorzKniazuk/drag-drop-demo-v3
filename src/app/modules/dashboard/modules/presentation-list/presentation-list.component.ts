@@ -5,7 +5,7 @@ import { Presentation } from 'src/app/shared/interfaces/presentation';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { selectAmountOfPresentations, selectPresentationList } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
-import { first, tap } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
 import { Router } from '@angular/router';
@@ -43,15 +43,6 @@ export class PresentationListComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 	}
 
-	private initTitle(): void {
-		this.title.setTitle('Lista prezentacji');
-	}
-
-	private initObserbables(): void {
-		this.presentationList$ = this.store.pipe(select(selectPresentationList));
-		this.amountOfPresentations$ = this.store.pipe(select(selectAmountOfPresentations));
-	}
-
 	public createNewPresentation(): void {
 		const presentationId = this.generatePresentationId;
 		this.componentFactoryBaseService.createPresentationTitleComponent().presentationTitle$
@@ -62,5 +53,14 @@ export class PresentationListComponent implements OnInit, OnDestroy {
 				    this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
 			    });
 		    });
+	}
+
+	private initTitle(): void {
+		this.title.setTitle('Lista prezentacji');
+	}
+
+	private initObserbables(): void {
+		this.presentationList$ = this.store.pipe(select(selectPresentationList));
+		this.amountOfPresentations$ = this.store.pipe(select(selectAmountOfPresentations));
 	}
 }

@@ -1,20 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
-import {
-	PresentationListActionsTypes,
-	SavePresentation,
-	UpdatePresentation,
-} from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
+import { PresentationListActionsTypes, SavePresentation, UpdatePresentation } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
 import { concatMap, map, tap } from 'rxjs/operators';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { fromPromise } from 'rxjs/internal-compatibility';
 import { Observable } from 'rxjs';
-import {
-	ClearPresentationMetadata,
-	SetPresentationId,
-	SetPresentationTitle,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
+import { ClearPresentationMetadata, SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
 import { AddColumns, ClearColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { AddSlides, ClearSlides } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { LocalStorage } from '@ngx-pwa/local-storage';

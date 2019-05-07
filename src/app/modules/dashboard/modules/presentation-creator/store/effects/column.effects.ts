@@ -10,12 +10,7 @@ import {
 	RemoveColumn,
 } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { map, tap } from 'rxjs/operators';
-import {
-	AddSlideToPresentation,
-	MoveSlideBetweenColumns,
-	MoveSlideToNewCreatedColumn,
-	RemoveSlidesByColumn,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { AddSlideToPresentation, MoveSlideBetweenColumns, MoveSlideToNewCreatedColumn, RemoveSlidesByColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { Observable } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast.service';
 

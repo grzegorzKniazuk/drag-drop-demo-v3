@@ -4,10 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ColumnDividerSibilings } from 'src/app/shared/interfaces/column-divider-sibilings';
 import { isNull, isNumber } from 'lodash';
-import {
-	AddColumnBetweenExistingColumns,
-	AddColumnBetweenExistingColumnsByLibrarySlide,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+import { AddColumnBetweenExistingColumns, AddColumnBetweenExistingColumnsByLibrarySlide } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { first, withLatestFrom } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { selectSlidesById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';

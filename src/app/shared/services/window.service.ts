@@ -36,18 +36,18 @@ export function windowFactory(browserWindowRef: BrowserWindowRef, platformId: Ob
 /* Create a injectable provider for the WindowRef token that uses the BrowserWindowRef class. */
 const browserWindowProvider: ClassProvider = {
 	provide: WindowRef,
-	useClass: BrowserWindowRef
+	useClass: BrowserWindowRef,
 };
 
 /* Create an injectable provider that uses the windowFactory function for returning the native window object. */
 const windowProvider: FactoryProvider = {
 	provide: WINDOW,
 	useFactory: windowFactory,
-	deps: [ WindowRef, PLATFORM_ID ]
+	deps: [ WindowRef, PLATFORM_ID ],
 };
 
 /* Create an array of providers. */
 export const WINDOW_PROVIDERS = [
 	browserWindowProvider,
-	windowProvider
+	windowProvider,
 ];

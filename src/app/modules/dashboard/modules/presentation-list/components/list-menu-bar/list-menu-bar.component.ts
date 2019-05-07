@@ -19,11 +19,11 @@ export class ListMenuBarComponent implements OnInit {
 		this.buildMenu();
 	}
 
-	private buildMenu(): void {
-		this.menuItems = [];
-	}
-
 	public initPresentationEditor(): void {
 		this.onInitNewPresentation.emit();
+	}
+
+	private buildMenu(): void {
+		this.menuItems = [];
 	}
 }

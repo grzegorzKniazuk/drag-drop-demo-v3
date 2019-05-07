@@ -24,10 +24,6 @@ export class SlideEditMenuBarComponent implements OnInit {
 		this.buildMenu();
 	}
 
-	private buildMenu(): void {
-		this.menuItems = [];
-	}
-
 	public onSave(): void {
 
 	}
@@ -43,5 +39,9 @@ export class SlideEditMenuBarComponent implements OnInit {
 				this.router.navigateByUrl('/dashboard/presentation-creator');
 			}
 		});
+	}
+
+	private buildMenu(): void {
+		this.menuItems = [];
 	}
 }

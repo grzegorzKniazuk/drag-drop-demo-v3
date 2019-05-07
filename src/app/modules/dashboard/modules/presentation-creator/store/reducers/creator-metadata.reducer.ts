@@ -1,7 +1,4 @@
-import {
-	CreatorMetadataActions,
-	CreatorMetadataActionsTypes,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
+import { CreatorMetadataActions, CreatorMetadataActionsTypes } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
 
 export interface CreatorMetadataState {
 	presentationId: number;
