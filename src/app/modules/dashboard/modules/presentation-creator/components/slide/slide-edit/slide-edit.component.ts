@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, NgZone, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
@@ -13,14 +13,16 @@ import { DialogService } from 'primeng/api';
 import { SlideActionAddFormComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/slide-action-form/slide-action-add-form/slide-action-add-form.component';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 import { first } from 'rxjs/operators';
+import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 
+@AutoUnsubscribe()
 @Component({
 	selector: 'app-slide-edit',
 	templateUrl: './slide-edit.component.html',
 	styleUrls: [ './slide-edit.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SlideEditComponent implements OnInit {
+export class SlideEditComponent implements OnInit, OnDestroy {
 
 	@ViewChild('canvasElement') private readonly canvasElement: ElementRef;
 	@ViewChild('backgroundElement') private readonly backgroundElement: ElementRef;
@@ -47,6 +49,9 @@ export class SlideEditComponent implements OnInit {
 		this.initTitle();
 		this.fetchSlide();
 		this.showOpeningToast();
+	}
+
+	ngOnDestroy() {
 	}
 
 	private initTitle(): void {
@@ -111,7 +116,7 @@ export class SlideEditComponent implements OnInit {
 		this.dialogService.open(SlideActionAddFormComponent, {
 			header: 'Dodaj akcję',
 			width: '70%',
-			contentStyle: {"max-height": "350px", "overflow": "auto"}
+			contentStyle: {'max-height': '350px', "overflow": "auto"}
 		});
 		this.slideLinkActionsParams.push({
 			id: this.slideLinkActionsParams.length,
@@ -129,19 +134,35 @@ export class SlideEditComponent implements OnInit {
 	}
 
 	private drawDivElement(): void {
-		this.renderer2.setStyle(this.element, 'width', Math.abs(this.endCords.x - this.startCords.x) + '%');
-		this.renderer2.setStyle(this.element, 'height', Math.abs(this.endCords.y - this.startCords.y) + '%');
-		this.renderer2.setStyle(this.element, 'left', (this.endCords.x - this.startCords.x < 0) ? this.endCords.x + '%' : this.startCords.x + '%');
-		this.renderer2.setStyle(this.element, 'top', (this.endCords.y - this.startCords.y < 0) ? this.endCords.y + '%' : this.startCords.y + '%');
+		this.renderer2.setStyle(this.element, 'width', this.width);
+		this.renderer2.setStyle(this.element, 'height', this.height);
+		this.renderer2.setStyle(this.element, 'left', this.left);
+		this.renderer2.setStyle(this.element, 'top', this.top);
 	}
 
 	private get slideLinkActionComponentPositionStyle(): { [key: string]: string } {
 		return {
-			'top': (this.endCords.y - this.startCords.y < 0) ? this.endCords.y + '%' : this.startCords.y + '%',
-			'left': (this.endCords.x - this.startCords.x < 0) ? this.endCords.x + '%' : this.startCords.x + '%',
-			'width': `${Math.abs(this.endCords.x - this.startCords.x)}%`,
-			'height': `${Math.abs(this.endCords.y - this.startCords.y)}%`,
+			'top': this.top,
+			'left': this.left,
+			'width': this.width,
+			'height': this.height,
 		};
+	}
+
+	private get top(): string {
+		return (this.endCords.y - this.startCords.y < 0) ? this.endCords.y + '%' : this.startCords.y + '%';
+	}
+
+	private get left(): string {
+		return (this.endCords.x - this.startCords.x < 0) ? this.endCords.x + '%' : this.startCords.x + '%';
+	}
+
+	private get width(): string {
+		return `${Math.abs(this.endCords.x - this.startCords.x)}%`;
+	}
+
+	private get height(): string {
+		return `${Math.abs(this.endCords.y - this.startCords.y)}%`;
 	}
 
 	private getCursorPosition(event: MouseEvent): Coordinates {
