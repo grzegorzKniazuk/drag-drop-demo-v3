@@ -5,9 +5,17 @@
 	@include size(100%, calc(100% - 55px));
 	padding: 15px;
 
-	canvas {
-		background: transparent;
+	.canvas {
 		z-index: 1;
+		position: relative;
+		background: transparent;
+		@include size(1500px, 844px);
+
+		.rectangle {
+			border: 3px dotted $black;
+			position: absolute;
+			z-index: 2;
+		}
 	}
 
 	img {

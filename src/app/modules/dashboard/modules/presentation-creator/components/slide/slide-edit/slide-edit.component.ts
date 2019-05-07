@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
@@ -7,7 +7,6 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 import { demoSlide1 } from 'src/app/shared/utils/demo-slides';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { Coordinates } from 'src/app/shared/interfaces/coordinates';
-import { Rectangle } from 'src/app/shared/interfaces/rectangle';
 
 @Component({
 	selector: 'app-slide-edit',
@@ -15,15 +14,14 @@ import { Rectangle } from 'src/app/shared/interfaces/rectangle';
 	styleUrls: [ './slide-edit.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SlideEditComponent implements OnInit, AfterViewInit {
+export class SlideEditComponent implements OnInit {
 
 	@ViewChild('canvasElement') private readonly canvasElement: ElementRef;
 	@ViewChild('backgroundElement') private readonly backgroundElement: ElementRef;
-	private context: CanvasRenderingContext2D;
 	private slide: Slide;
+	private element: HTMLDivElement | null = null;
 	private startCords: Coordinates;
 	private endCords: Coordinates;
-	private readonly rectangles: Rectangle[] = [];
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
@@ -38,10 +36,6 @@ export class SlideEditComponent implements OnInit, AfterViewInit {
 		this.initTitle();
 		this.fetchSlide();
 		this.showOpeningToast();
-	}
-
-	ngAfterViewInit() {
-		this.initCanvasContext();
 	}
 
 	private initTitle(): void {
@@ -68,75 +62,36 @@ export class SlideEditComponent implements OnInit, AfterViewInit {
 		this.toastService.information('Zaznacz obszar na slajdzie aby dodać do niego akcję');
 	}
 
-	private initCanvasContext(): void {
-		this.context = this.canvasElement.nativeElement.getContext('2d');
-	}
-
 	private setBackgroundImage(imageData: string | ArrayBuffer) {
 		this.renderer2.setAttribute(this.backgroundElement.nativeElement, 'src', <string>imageData);
 	}
 
 	public onClick(event: MouseEvent): void {
-		const { x, y } = this.getCursorPosition(event);
-
-		this.rectangles.forEach((rectangle) => {
-			if (rectangle.topLeft.x < x && rectangle.topRight.x > x && rectangle.topLeft.y < y && rectangle.bottomLeft.y > y) {
-				console.log(rectangle);
-			}
-		});
-	}
-
-	public onMouseDown(event: MouseEvent): void {
-		this.getCursorPosition(event);
 		this.startCords = this.getCursorPosition(event);
-	}
 
-	public onMouseMove(event: MouseEvent): void {
-		if (event.buttons) {
-			if (this.startCords && this.endCords) {
-				this.context.clearRect(0, 0, this.canvasElement.nativeElement.width, this.canvasElement.nativeElement.height);
-				this.rectangles.forEach((rectangle) => {
-					this.drawRectangle(rectangle);
-				});
-			}
-			this.endCords = this.getCursorPosition(event);
-			this.draw();
+		if (this.element !== null) {
+			this.element = null;
+			this.renderer2.setStyle(this.canvasElement.nativeElement, 'cursor', 'default');
+		} else {
+			this.element = this.renderer2.createElement('div');
+			this.renderer2.addClass(this.element, 'rectangle');
+			this.renderer2.setStyle(this.element, 'left', `${this.startCords.x}%`);
+			this.renderer2.setStyle(this.element, 'top', `${this.startCords.y}%`);
+			this.renderer2.appendChild(this.canvasElement.nativeElement, this.element);
+
+			this.renderer2.setStyle(this.canvasElement.nativeElement, 'cursor', 'crosshair');
 		}
 	}
 
-	public onMouseUp(event: MouseEvent): void {
+	public onMouseMove(event: MouseEvent): void {
 		this.endCords = this.getCursorPosition(event);
 
-		const rectangle = {
-			topLeft: {
-				x: this.startCords.x,
-				y: this.startCords.y,
-			},
-			topRight: {
-				x: this.endCords.x,
-				y: this.startCords.y,
-			},
-			bottomLeft: {
-				x: this.startCords.x,
-				y: this.endCords.y,
-			},
-			bottomRight: {
-				x: this.endCords.x,
-				y: this.endCords.y,
-			},
-		};
-
-		this.rectangles.push(rectangle);
-
-		this.startCords = null;
-		this.endCords = null;
-
-		this.context.clearRect(
-			rectangle.topLeft.x + 1,
-			rectangle.topLeft.y + 1,
-			Math.abs(rectangle.topLeft.x - rectangle.topRight.x) - 1,
-			Math.abs(rectangle.topRight.y - rectangle.bottomRight.y) - 1,
-		);
+		if (this.element) {
+			this.element.style.width = Math.abs(this.endCords.x - this.startCords.x) + '%';
+			this.element.style.height = Math.abs(this.endCords.y - this.startCords.y) + '%';
+			this.element.style.left = (this.endCords.x - this.startCords.x < 0) ? this.endCords.x + '%' : this.startCords.x + '%';
+			this.element.style.top = (this.endCords.y - this.startCords.y < 0) ? this.endCords.y + '%' : this.startCords.y + '%';
+		}
 	}
 
 	private getCursorPosition(event: MouseEvent): Coordinates {
@@ -144,24 +99,14 @@ export class SlideEditComponent implements OnInit, AfterViewInit {
 		const x = event.clientX - rect.left;
 		const y = event.clientY - rect.top;
 
-		return { x, y };
+		return { x: this.toPrecentageX(x), y: this.toPrecentageY(y) };
 	}
 
-	private draw(): void {
-		this.context.beginPath();
-		this.context.setLineDash([ 5, 5 ]);
-		this.context.lineWidth = 2;
-		this.context.strokeStyle = 'black';
-		this.context.rect(this.startCords.x, this.startCords.y, this.endCords.x - this.startCords.x, this.endCords.y - this.startCords.y);
-		this.context.stroke();
+	private toPrecentageX(x: number): number {
+		return (x / this.canvasElement.nativeElement.offsetWidth) * 100;
 	}
 
-	private drawRectangle(rectangle: Rectangle): void {
-		this.context.beginPath();
-		this.context.setLineDash([ 5, 5 ]);
-		this.context.lineWidth = 2;
-		this.context.strokeStyle = 'black';
-		this.context.rect(rectangle.topLeft.x, rectangle.topLeft.y, Math.abs(rectangle.topLeft.x - rectangle.topRight.x), Math.abs(rectangle.topRight.y - rectangle.bottomRight.y));
-		this.context.stroke();
+	private toPrecentageY(y: number): number {
+		return (y / this.canvasElement.nativeElement.offsetHeight) * 100;
 	}
 }

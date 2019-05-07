@@ -1,13 +1,5 @@
 <app-slide-edit-menu-bar></app-slide-edit-menu-bar>
 <div class="editor-container">
-	<canvas #canvasElement
-			width="1500"
-			height="844"
-			(click)="onClick($event)"
-			(mousedown)="onMouseDown($event)"
-			(mousemove)="onMouseMove($event)"
-			(mouseup)="onMouseUp($event)">
-		Twoja przegladarka nie wspiera elementów canvas
-	</canvas>
+	<div class="canvas" #canvasElement (click)="onClick($event)" (mousemove)="onMouseMove($event)"></div>
 	<img #backgroundElement [src]="" alt="">
 </div>
