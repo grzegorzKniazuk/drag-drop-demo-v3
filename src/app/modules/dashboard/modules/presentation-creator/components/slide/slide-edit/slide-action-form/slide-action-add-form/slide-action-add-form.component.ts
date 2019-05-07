@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SlideActionFormComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/slide-action-form/slide-action-form.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
 	selector: 'app-slide-action-add-form',
@@ -9,7 +10,25 @@ import { SlideActionFormComponent } from 'src/app/modules/dashboard/modules/pres
 })
 export class SlideActionAddFormComponent extends SlideActionFormComponent {
 
-	constructor() {
+	public externalLinkForm: FormGroup;
+
+	constructor(
+		private formBuilder: FormBuilder,
+	) {
 		super();
+	}
+
+	public onSave(): void {
+
+	}
+
+	public onCancel(): void {
+
+	}
+
+	protected buildForms(): void {
+		this.externalLinkForm = this.formBuilder.group({
+			link: [ '', [ Validators.required ] ],
+		});
 	}
 }

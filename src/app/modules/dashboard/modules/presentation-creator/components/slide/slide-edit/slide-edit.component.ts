@@ -9,11 +9,10 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { Coordinates } from 'src/app/shared/interfaces/coordinates';
 import { SlideLinkActionParams } from 'src/app/shared/interfaces/slide-link-action-params';
 import { CursorTypes } from 'src/app/shared/enums/cursor-types';
-import { DialogService } from 'primeng/api';
-import { SlideActionAddFormComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/slide-action-form/slide-action-add-form/slide-action-add-form.component';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 import { first } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -40,8 +39,8 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 		private renderer2: Renderer2,
 		private toastService: ToastService,
 		private ngZone: NgZone,
-		private dialogService: DialogService,
 		private componentFactoryBaseService: ComponentFactoryBaseService,
+		private presentationCreatorComponentFactoryService: PresentationCreatorComponentFactoryService,
 		private changeDetectorRef: ChangeDetectorRef,
 	) {
 	}
@@ -50,6 +49,7 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 		this.initTitle();
 		this.fetchSlide();
 		this.showOpeningToast();
+		this.addSlideLinkActionComponentToArray();
 	}
 
 	ngOnDestroy() {
@@ -114,11 +114,7 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 	}
 
 	private addSlideLinkActionComponentToArray(): void {
-		this.dialogService.open(SlideActionAddFormComponent, {
-			header: 'Dodaj akcję',
-			width: '70%',
-			contentStyle: {'max-height': '350px', "overflow": "auto"}
-		});
+		this.presentationCreatorComponentFactoryService.createSlideAddFormComponent();
 		this.slideLinkActionsParams.push({
 			id: this.slideLinkActionsParams.length,
 			style: this.slideLinkActionComponentPositionStyle,

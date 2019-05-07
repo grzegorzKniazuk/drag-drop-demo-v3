@@ -1,3 +1,20 @@
-<p>
-  slide-action-add-form works!
-</p>
+<p-dialog [(visible)]="display" maximizable="true">
+	<p-header>Dodaj akcję</p-header>
+	<p-tabView>
+		<p-tabPanel header="Link do slajdu w prezentacji">
+			// Content
+		</p-tabPanel>
+		<p-tabPanel header="Link do innej prezentacji">
+			// Content
+		</p-tabPanel>
+		<p-tabPanel header="Link zewnętrzny">
+			<div class="external-link-container" [formGroup]="externalLinkForm">
+				<input formControlName="link" id="link" pInputText type="text" placeholder="Link zewnętrzny">
+			</div>
+		</p-tabPanel>
+	</p-tabView>
+	<p-footer>
+		<button (click)="onSave()" label="Zapisz" icon="pi pi-check" pButton type="button"></button>
+		<button (click)="onCancel()" class="ui-button-secondary" icon="pi pi-times" label="Anuluj" pButton type="button"></button>
+	</p-footer>
+</p-dialog>

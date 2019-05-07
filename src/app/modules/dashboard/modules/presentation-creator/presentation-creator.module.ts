@@ -23,7 +23,6 @@ import { SlideEditMenuBarComponent } from './components/slide/slide-edit/slide-e
 import { SlideActionFormComponent } from './components/slide/slide-edit/slide-action-form/slide-action-form.component';
 import { SlideActionAddFormComponent } from './components/slide/slide-edit/slide-action-form/slide-action-add-form/slide-action-add-form.component';
 import { SlideActionEditFormComponent } from './components/slide/slide-edit/slide-action-form/slide-action-edit-form/slide-action-edit-form.component';
-import { DialogService } from 'primeng/api';
 
 @NgModule({
 	declarations: [
@@ -58,7 +57,6 @@ import { DialogService } from 'primeng/api';
 	],
 	providers: [
 		PresentationCreatorComponentFactoryService,
-		DialogService,
 	],
 })
 export class PresentationCreatorModule {

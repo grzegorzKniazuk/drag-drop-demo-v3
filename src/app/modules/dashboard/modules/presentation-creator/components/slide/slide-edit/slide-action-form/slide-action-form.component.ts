@@ -8,10 +8,20 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 export class SlideActionFormComponent implements OnInit {
 
+	public display = true;
+
 	constructor() {
 	}
 
 	ngOnInit() {
 	}
 
+	public onSave(): void {
+	}
+
+	public onCancel(): void {
+	}
+
+	protected buildForms(): void {
+	}
 }
