@@ -1,7 +1,7 @@
 <app-slide-edit-menu-bar></app-slide-edit-menu-bar>
 <div class="editor-container">
 	<div class="canvas" #canvasElement (click)="onClick($event)" (mousemove)="onMouseMove($event)">
-		<app-slide-link-action class="rectangle"
+		<app-slide-link-action [class]="slideLinkActionContainerCssClass"
 							   *ngFor="let actionParams of slideLinkActionsParams"
 							   [isEditMode]="true"
 							   [actionParams]="actionParams"

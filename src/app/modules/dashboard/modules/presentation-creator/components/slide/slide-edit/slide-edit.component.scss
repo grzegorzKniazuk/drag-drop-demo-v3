@@ -11,7 +11,7 @@
 		background: transparent;
 		@include size(1500px, 844px);
 
-		.rectangle {
+		.slide-link-action-container {
 			border: 3px dotted $black;
 			position: absolute;
 			z-index: 2;

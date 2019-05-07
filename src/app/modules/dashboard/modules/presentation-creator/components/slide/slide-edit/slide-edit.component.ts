@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, NgZone, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
@@ -8,6 +8,7 @@ import { demoSlide1 } from 'src/app/shared/utils/demo-slides';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { Coordinates } from 'src/app/shared/interfaces/coordinates';
 import { SlideLinkActionParams } from 'src/app/shared/interfaces/slide-link-action-params';
+import { CursorTypes } from 'src/app/shared/enums/cursor-types';
 
 @Component({
 	selector: 'app-slide-edit',
@@ -23,7 +24,8 @@ export class SlideEditComponent implements OnInit {
 	private element: HTMLDivElement | null = null;
 	private startCords: Coordinates;
 	private endCords: Coordinates;
-	private slideLinkActionsParams: SlideLinkActionParams[] = [];
+	private readonly slideLinkActionsParams: SlideLinkActionParams[] = [];
+	public readonly slideLinkActionContainerCssClass = 'slide-link-action-container';
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
@@ -31,6 +33,7 @@ export class SlideEditComponent implements OnInit {
 		private title: Title,
 		private renderer2: Renderer2,
 		private toastService: ToastService,
+		private ngZone: NgZone,
 	) {
 	}
 
@@ -71,28 +74,31 @@ export class SlideEditComponent implements OnInit {
 	public onClick(event: MouseEvent): void {
 		if (this.element) {
 			this.removeDrawnDivElement();
+			this.setCursor(CursorTypes.DEFAULT);
 			this.addSlideLinkActionComponentToArray();
 		} else {
 			this.createDivElement(event);
+			this.setCursor(CursorTypes.CROSSHAIR);
 		}
 	}
 
 	private createDivElement(event: MouseEvent): void {
-		this.startCords = this.getPrecentageCursorPosition(this.getCursorPosition(event));
+		this.startCords = this.getPercentageCursorPosition(this.getCursorPosition(event));
 
 		this.element = this.renderer2.createElement('div');
-		this.renderer2.addClass(this.element, 'rectangle');
+		this.renderer2.addClass(this.element, this.slideLinkActionContainerCssClass);
 		this.renderer2.setStyle(this.element, 'left', `${this.startCords.x}%`);
 		this.renderer2.setStyle(this.element, 'top', `${this.startCords.y}%`);
 		this.renderer2.appendChild(this.canvasElement.nativeElement, this.element);
-
-		this.renderer2.setStyle(this.canvasElement.nativeElement, 'cursor', 'crosshair');
 	}
 
 	private removeDrawnDivElement(): void {
 		this.renderer2.removeChild(this.canvasElement.nativeElement, this.element);
 		this.element = null;
-		this.renderer2.setStyle(this.canvasElement.nativeElement, 'cursor', 'default');
+	}
+
+	private setCursor(cursorType: CursorTypes): void {
+		this.renderer2.setStyle(this.canvasElement.nativeElement, 'cursor', cursorType);
 	}
 
 	private addSlideLinkActionComponentToArray(): void {
@@ -103,11 +109,12 @@ export class SlideEditComponent implements OnInit {
 	}
 
 	public onMouseMove(event: MouseEvent): void {
-		this.endCords = this.getPrecentageCursorPosition(this.getCursorPosition(event));
-
-		if (this.element) {
-			this.drawDivElement();
-		}
+		this.ngZone.runOutsideAngular(() => {
+			if (this.element) {
+				this.endCords = this.getPercentageCursorPosition(this.getCursorPosition(event));
+				this.drawDivElement();
+			}
+		});
 	}
 
 	private drawDivElement(): void {
@@ -134,15 +141,15 @@ export class SlideEditComponent implements OnInit {
 		return { x, y };
 	}
 
-	private getPrecentageCursorPosition(cords: Coordinates): Coordinates {
-		return { x: this.toPrecentageX(cords.x), y: this.toPrecentageY(cords.y) };
+	private getPercentageCursorPosition(cords: Coordinates): Coordinates {
+		return { x: this.toPercentageX(cords.x), y: this.toPercentageY(cords.y) };
 	}
 
-	private toPrecentageX(x: number): number {
+	private toPercentageX(x: number): number {
 		return (x / this.canvasElement.nativeElement.offsetWidth) * 100;
 	}
 
-	private toPrecentageY(y: number): number {
+	private toPercentageY(y: number): number {
 		return (y / this.canvasElement.nativeElement.offsetHeight) * 100;
 	}
 }
