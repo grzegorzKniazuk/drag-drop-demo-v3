@@ -12,7 +12,7 @@ const routes: Routes = [
 			{ path: '', redirectTo: 'presentation-list', pathMatch: 'full' },
 			{ path: 'presentation-list', component: PresentationListComponent },
 			{ path: 'presentation-viewer/:id', component: PresentationViewerComponent },
-			{ path: 'presentation-creator', component: PresentationCreatorComponent },
+			{ path: 'presentation-creator/:id', component: PresentationCreatorComponent },
 			{ path: 'presentation-creator/edit-slide/:id', component: SlideEditComponent },
 		],
 	},

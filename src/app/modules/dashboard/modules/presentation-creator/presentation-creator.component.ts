@@ -17,6 +17,7 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { selectIsLibrarySliderOpen } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-options.selectors';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
+import { ActivatedRoute } from '@angular/router';
 
 @AutoUnsubscribe()
 @Component({
@@ -30,11 +31,13 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	public columns$: Observable<Column[]>;
 	public amountOfColumns$: Observable<number>;
 	public isLibrarySliderOpen$: Observable<boolean>;
+	public presentationId: number;
 
 	constructor(
 		private presentationCreatorComponentFactoryService: PresentationCreatorComponentFactoryService,
 		private componentFactoryBaseService: ComponentFactoryBaseService,
 		private title: Title,
+		private activatedRoute: ActivatedRoute,
 		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
@@ -44,6 +47,7 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	ngOnInit() {
 		this.setTitle();
 		this.initObservables();
+		this.fetchPresentationId();
 	}
 
 	ngOnDestroy() {
@@ -57,6 +61,10 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 		this.columns$ = this.store.pipe(select(selectColumns));
 		this.amountOfColumns$ = this.store.pipe(select(selectAmountOfColumns));
 		this.isLibrarySliderOpen$ = this.store.pipe(select(selectIsLibrarySliderOpen));
+	}
+
+	private fetchPresentationId(): void {
+		this.presentationId = +this.activatedRoute.snapshot.params['id'];
 	}
 
 	@HostListener('drop', [ '$event' ])

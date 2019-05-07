@@ -44,6 +44,7 @@ export class FileUploadService {
 
 						this.slides.push({
 							id: this.generateLibrarySlideId,
+							presentationId: null,
 							columnId: null,
 							position: {
 								column: null,

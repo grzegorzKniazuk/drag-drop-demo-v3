@@ -2,6 +2,7 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 
 export const demoSlide1: Slide = {
 	id: Math.floor((Math.random() * 10000000) + 1),
+	presentationId: 123456789,
 	columnId: null,
 	position: {
 		column: null,
@@ -12,6 +13,7 @@ export const demoSlide1: Slide = {
 
 export const demoSlide2: Slide = {
 	id: Math.floor((Math.random() * 10000000) + 1),
+	presentationId: 123456789,
 	columnId: null,
 	position: {
 		column: null,
@@ -22,6 +24,7 @@ export const demoSlide2: Slide = {
 
 export const demoSlide3: Slide = {
 	id: Math.floor((Math.random() * 10000000) + 1),
+	presentationId: 123456789,
 	columnId: null,
 	position: {
 		column: null,
@@ -32,6 +35,7 @@ export const demoSlide3: Slide = {
 
 export const demoSlide4: Slide = {
 	id: Math.floor((Math.random() * 10000000) + 1),
+	presentationId: 123456789,
 	columnId: null,
 	position: {
 		column: null,
@@ -42,6 +46,7 @@ export const demoSlide4: Slide = {
 
 export const demoSlide5: Slide = {
 	id: Math.floor((Math.random() * 10000000) + 1),
+	presentationId: 123456789,
 	columnId: null,
 	position: {
 		column: null,

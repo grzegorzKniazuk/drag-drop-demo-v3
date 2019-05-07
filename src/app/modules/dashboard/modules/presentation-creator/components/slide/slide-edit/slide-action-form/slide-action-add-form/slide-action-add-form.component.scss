@@ -1,11 +1,11 @@
 @import "base.scss";
 
 .external-link-container {
-	@include flex(flex, center, center, row, relative);
+	@include flex(flex, flex-start, center, row, relative);
 	@include size(100%, 100%);
 	padding: 15px 0;
 
 	input {
-		width: 100%;
+		width: 550px;
 	}
 }
