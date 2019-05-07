@@ -20,6 +20,10 @@ import { EditorMenuBarComponent } from 'src/app/modules/dashboard/modules/presen
 import { CreatorOptionsEffects } from './store/effects/creator-options.effects';
 import { SlideEditComponent } from './components/slide/slide-edit/slide-edit.component';
 import { SlideEditMenuBarComponent } from './components/slide/slide-edit/slide-edit-menu-bar/slide-edit-menu-bar.component';
+import { SlideActionFormComponent } from './components/slide/slide-edit/slide-action-form/slide-action-form.component';
+import { SlideActionAddFormComponent } from './components/slide/slide-edit/slide-action-form/slide-action-add-form/slide-action-add-form.component';
+import { SlideActionEditFormComponent } from './components/slide/slide-edit/slide-action-form/slide-action-edit-form/slide-action-edit-form.component';
+import { DialogService } from 'primeng/api';
 
 @NgModule({
 	declarations: [
@@ -36,10 +40,16 @@ import { SlideEditMenuBarComponent } from './components/slide/slide-edit/slide-e
 		EditorMenuBarComponent,
 		SlideEditComponent,
 		SlideEditMenuBarComponent,
+		SlideActionFormComponent,
+		SlideActionAddFormComponent,
+		SlideActionEditFormComponent,
 	],
 	entryComponents: [
 		ColumnTitleComponent,
 		SlideLightboxComponent,
+		SlideActionFormComponent,
+		SlideActionAddFormComponent,
+		SlideActionEditFormComponent,
 	],
 	imports: [
 		SharedModule,
@@ -48,6 +58,7 @@ import { SlideEditMenuBarComponent } from './components/slide/slide-edit/slide-e
 	],
 	providers: [
 		PresentationCreatorComponentFactoryService,
+		DialogService,
 	],
 })
 export class PresentationCreatorModule {

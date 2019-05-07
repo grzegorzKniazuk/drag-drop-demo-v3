@@ -12,6 +12,7 @@ import {
 	SidebarModule,
 } from 'primeng/primeng';
 import { ToastModule } from 'primeng/toast';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 const primeNGmodules = [
 	SidebarModule,
@@ -25,6 +26,7 @@ const primeNGmodules = [
 	MenubarModule,
 	ToastModule,
 	CardModule,
+	DynamicDialogModule,
 ];
 
 @NgModule({

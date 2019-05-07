@@ -9,6 +9,8 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { Coordinates } from 'src/app/shared/interfaces/coordinates';
 import { SlideLinkActionParams } from 'src/app/shared/interfaces/slide-link-action-params';
 import { CursorTypes } from 'src/app/shared/enums/cursor-types';
+import { DialogService } from 'primeng/api';
+import { SlideActionAddFormComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/slide-action-form/slide-action-add-form/slide-action-add-form.component';
 
 @Component({
 	selector: 'app-slide-edit',
@@ -34,6 +36,7 @@ export class SlideEditComponent implements OnInit {
 		private renderer2: Renderer2,
 		private toastService: ToastService,
 		private ngZone: NgZone,
+		private dialogService: DialogService,
 	) {
 	}
 
@@ -102,6 +105,11 @@ export class SlideEditComponent implements OnInit {
 	}
 
 	private addSlideLinkActionComponentToArray(): void {
+		this.dialogService.open(SlideActionAddFormComponent, {
+			header: 'Dodaj akcję',
+			width: '70%',
+			contentStyle: {"max-height": "350px", "overflow": "auto"}
+		});
 		this.slideLinkActionsParams.push({
 			id: this.slideLinkActionsParams.length,
 			style: this.slideLinkActionComponentPositionStyle,
