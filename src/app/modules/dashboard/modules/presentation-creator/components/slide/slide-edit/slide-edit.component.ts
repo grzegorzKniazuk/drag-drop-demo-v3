@@ -7,6 +7,7 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 import { demoSlide1 } from 'src/app/shared/utils/demo-slides';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { Coordinates } from 'src/app/shared/interfaces/coordinates';
+import { SlideLinkActionParams } from 'src/app/shared/interfaces/slide-link-action-params';
 
 @Component({
 	selector: 'app-slide-edit',
@@ -22,6 +23,7 @@ export class SlideEditComponent implements OnInit {
 	private element: HTMLDivElement | null = null;
 	private startCords: Coordinates;
 	private endCords: Coordinates;
+	private slideLinkActionsParams: SlideLinkActionParams[] = [];
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
@@ -59,7 +61,7 @@ export class SlideEditComponent implements OnInit {
 	}
 
 	private showOpeningToast(): void {
-		this.toastService.information('Zaznacz obszar na slajdzie aby dodać do niego akcję');
+		this.toastService.information('Kliknij, aby zaznaczyć obszar na slajdzie i dodać do niego akcję');
 	}
 
 	private setBackgroundImage(imageData: string | ArrayBuffer) {
@@ -67,31 +69,61 @@ export class SlideEditComponent implements OnInit {
 	}
 
 	public onClick(event: MouseEvent): void {
-		this.startCords = this.getCursorPosition(event);
-
-		if (this.element !== null) {
-			this.element = null;
-			this.renderer2.setStyle(this.canvasElement.nativeElement, 'cursor', 'default');
+		if (this.element) {
+			this.removeDrawnDivElement();
+			this.addSlideLinkActionComponentToArray();
 		} else {
-			this.element = this.renderer2.createElement('div');
-			this.renderer2.addClass(this.element, 'rectangle');
-			this.renderer2.setStyle(this.element, 'left', `${this.startCords.x}%`);
-			this.renderer2.setStyle(this.element, 'top', `${this.startCords.y}%`);
-			this.renderer2.appendChild(this.canvasElement.nativeElement, this.element);
-
-			this.renderer2.setStyle(this.canvasElement.nativeElement, 'cursor', 'crosshair');
+			this.createDivElement(event);
 		}
 	}
 
+	private createDivElement(event: MouseEvent): void {
+		this.startCords = this.getPrecentageCursorPosition(this.getCursorPosition(event));
+
+		this.element = this.renderer2.createElement('div');
+		this.renderer2.addClass(this.element, 'rectangle');
+		this.renderer2.setStyle(this.element, 'left', `${this.startCords.x}%`);
+		this.renderer2.setStyle(this.element, 'top', `${this.startCords.y}%`);
+		this.renderer2.appendChild(this.canvasElement.nativeElement, this.element);
+
+		this.renderer2.setStyle(this.canvasElement.nativeElement, 'cursor', 'crosshair');
+	}
+
+	private removeDrawnDivElement(): void {
+		this.renderer2.removeChild(this.canvasElement.nativeElement, this.element);
+		this.element = null;
+		this.renderer2.setStyle(this.canvasElement.nativeElement, 'cursor', 'default');
+	}
+
+	private addSlideLinkActionComponentToArray(): void {
+		this.slideLinkActionsParams.push({
+			id: this.slideLinkActionsParams.length,
+			style: this.slideLinkActionComponentPositionStyle,
+		});
+	}
+
 	public onMouseMove(event: MouseEvent): void {
-		this.endCords = this.getCursorPosition(event);
+		this.endCords = this.getPrecentageCursorPosition(this.getCursorPosition(event));
 
 		if (this.element) {
-			this.element.style.width = Math.abs(this.endCords.x - this.startCords.x) + '%';
-			this.element.style.height = Math.abs(this.endCords.y - this.startCords.y) + '%';
-			this.element.style.left = (this.endCords.x - this.startCords.x < 0) ? this.endCords.x + '%' : this.startCords.x + '%';
-			this.element.style.top = (this.endCords.y - this.startCords.y < 0) ? this.endCords.y + '%' : this.startCords.y + '%';
+			this.drawDivElement();
 		}
+	}
+
+	private drawDivElement(): void {
+		this.renderer2.setStyle(this.element, 'width', Math.abs(this.endCords.x - this.startCords.x) + '%');
+		this.renderer2.setStyle(this.element, 'height', Math.abs(this.endCords.y - this.startCords.y) + '%');
+		this.renderer2.setStyle(this.element, 'left', (this.endCords.x - this.startCords.x < 0) ? this.endCords.x + '%' : this.startCords.x + '%');
+		this.renderer2.setStyle(this.element, 'top', (this.endCords.y - this.startCords.y < 0) ? this.endCords.y + '%' : this.startCords.y + '%');
+	}
+
+	private get slideLinkActionComponentPositionStyle(): { [key: string]: string } {
+		return {
+			'top': (this.endCords.y - this.startCords.y < 0) ? this.endCords.y + '%' : this.startCords.y + '%',
+			'left': (this.endCords.x - this.startCords.x < 0) ? this.endCords.x + '%' : this.startCords.x + '%',
+			'width': `${Math.abs(this.endCords.x - this.startCords.x)}%`,
+			'height': `${Math.abs(this.endCords.y - this.startCords.y)}%`,
+		};
 	}
 
 	private getCursorPosition(event: MouseEvent): Coordinates {
@@ -99,7 +131,11 @@ export class SlideEditComponent implements OnInit {
 		const x = event.clientX - rect.left;
 		const y = event.clientY - rect.top;
 
-		return { x: this.toPrecentageX(x), y: this.toPrecentageY(y) };
+		return { x, y };
+	}
+
+	private getPrecentageCursorPosition(cords: Coordinates): Coordinates {
+		return { x: this.toPrecentageX(cords.x), y: this.toPrecentageY(cords.y) };
 	}
 
 	private toPrecentageX(x: number): number {

@@ -8,10 +8,12 @@ import { MaterialModule } from 'src/app/shared/material.module';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { PresentationTitleComponent } from 'src/app/shared/components/presentation-title/presentation-title.component';
+import { SlideLinkActionComponent } from 'src/app/shared/components/slide-link-action/slide-link-action.component';
 
 const components = [
 	ConfirmDialogComponent,
 	PresentationTitleComponent,
+	SlideLinkActionComponent,
 ];
 
 const entryComponents = [

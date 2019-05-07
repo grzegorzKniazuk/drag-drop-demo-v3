@@ -11,6 +11,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { WINDOW_PROVIDERS } from 'src/app/shared/services/window.service';
 
 @NgModule({
 	declarations: [
@@ -28,6 +29,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 	providers: [
 		ConfirmationService,
 		MessageService,
+		WINDOW_PROVIDERS,
 		// { provide: ErrorHandler, useClass: RouterErrorHandler },
 	],
 	bootstrap: [ AppComponent ],
