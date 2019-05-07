@@ -1,1 +1,21 @@
 @import "base.scss";
+
+.slide-link-action {
+	@include flex(flex, center, center, row, relative);
+	@include size(100%, 100%);
+
+	.remove-icon {
+		position: absolute;
+		font-size: 25px;
+		right: -2px;
+		top: -25px;
+		color: $white;
+		background: $black;
+		z-index: 3;
+
+		&:hover {
+			cursor: pointer;
+			background: $danger;
+		}
+	}
+}

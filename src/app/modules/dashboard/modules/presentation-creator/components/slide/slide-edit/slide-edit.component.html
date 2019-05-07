@@ -5,7 +5,8 @@
 							   *ngFor="let actionParams of slideLinkActionsParams"
 							   [isEditMode]="true"
 							   [actionParams]="actionParams"
-							   [ngStyle]="actionParams.style"></app-slide-link-action>
+							   [ngStyle]="actionParams.style"
+							   (onRemoveAction)="removeSlideLinkAction($event)"></app-slide-link-action>
 	</div>
 	<img #backgroundElement [src]="" alt="">
 </div>

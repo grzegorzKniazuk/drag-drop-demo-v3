@@ -24,7 +24,7 @@ export class SlideEditComponent implements OnInit {
 	private element: HTMLDivElement | null = null;
 	private startCords: Coordinates;
 	private endCords: Coordinates;
-	private readonly slideLinkActionsParams: SlideLinkActionParams[] = [];
+	private slideLinkActionsParams: SlideLinkActionParams[] = [];
 	public readonly slideLinkActionContainerCssClass = 'slide-link-action-container';
 
 	constructor(
@@ -151,5 +151,11 @@ export class SlideEditComponent implements OnInit {
 
 	private toPercentageY(y: number): number {
 		return (y / this.canvasElement.nativeElement.offsetHeight) * 100;
+	}
+
+	public removeSlideLinkAction(linkActionId: number): void {
+		this.slideLinkActionsParams = this.slideLinkActionsParams.filter((actionParams) => {
+			return actionParams.id !== linkActionId;
+		});
 	}
 }
