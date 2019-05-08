@@ -1,19 +1,20 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { Title } from '@angular/platform-browser';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { demoSlide1 } from 'src/app/shared/utils/demo-slides';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { Coordinates } from 'src/app/shared/interfaces/coordinates';
-import { SlideLinkActionParams } from 'src/app/shared/interfaces/slide-link-action-params';
+import { SlideActionParams } from 'src/app/shared/interfaces/slide-action-params';
 import { CursorTypes } from 'src/app/shared/enums/cursor-types';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 import { filter, first } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
+import { selectSlidesById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 
 @AutoUnsubscribe()
 @Component({
@@ -31,7 +32,7 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 	private element: HTMLDivElement | null = null;
 	private startCords: Coordinates;
 	private endCords: Coordinates;
-	private slideLinkActionsParams: SlideLinkActionParams[] = [];
+	private slideLinkActionsParams: SlideActionParams[] = [];
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
@@ -123,9 +124,6 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 	private fetchSlide(): void {
 		const slideId = +this.activatedRoute.snapshot.paramMap.get('id');
 
-		this.slide = demoSlide1;
-		this.setBackgroundImage(this.slide.imageData);
-		/*
 		this.store.pipe(
 			select(selectSlidesById, { slideId }),
 			first(),
@@ -133,7 +131,6 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 			this.slide = slide;
 			this.setBackgroundImage(this.slide.imageData);
 		});
-		*/
 	}
 
 	private showOpeningToast(): void {
@@ -171,13 +168,18 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 		)
 		.subscribe((actionType: SlideActionTypes) => {
 			if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
-				this.presentationCreatorComponentFactoryService.createInternalSlideLinkComponent(this.slide.id);
+				this.presentationCreatorComponentFactoryService.createInternalSlideLinkComponent(this.slide.id)
+					.pipe(
+						first(),
+					).subscribe((selectedSlideId: number) => {
+					this.slideLinkActionsParams.push({
+						id: this.slideLinkActionsParams.length,
+						type: actionType,
+						target: selectedSlideId,
+						style: this.slideLinkActionComponentPositionStyle,
+					});
+				});
 			}
-			this.slideLinkActionsParams.push({
-				id: this.slideLinkActionsParams.length,
-				type: actionType,
-				style: this.slideLinkActionComponentPositionStyle,
-			});
 		});
 	}
 

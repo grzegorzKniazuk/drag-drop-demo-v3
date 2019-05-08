@@ -51,6 +51,7 @@ export class FileUploadService {
 								order: null,
 							},
 							imageData: imageBuffer,
+							actions: [],
 						});
 
 						if (i + 1 === this.files.length) {

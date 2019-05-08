@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostListener, Input, NgZone, OnInit, Output } from '@angular/core';
-import { SlideLinkActionParams } from 'src/app/shared/interfaces/slide-link-action-params';
+import { SlideActionParams } from 'src/app/shared/interfaces/slide-action-params';
 
 @Component({
 	selector: 'app-slide-link-action',
@@ -10,7 +10,7 @@ import { SlideLinkActionParams } from 'src/app/shared/interfaces/slide-link-acti
 export class SlideLinkActionComponent implements OnInit {
 
 	@Input() public isEditMode: boolean;
-	@Input() public actionParams: SlideLinkActionParams;
+	@Input() public actionParams: SlideActionParams;
 	@Output() public onRemoveAction: EventEmitter<number> = new EventEmitter<number>();
 	public isElementOnMouseEnter: boolean;
 

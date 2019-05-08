@@ -2,6 +2,12 @@
 
 img {
 	@include size(100px);
-	padding: 10px;
+	margin: 10px;
 	cursor: pointer;
+	z-index: 4;
+
+	&.slide-selected {
+		@include size(96px);
+		border: 2px solid $success;
+	}
 }

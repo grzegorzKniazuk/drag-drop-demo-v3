@@ -23,6 +23,7 @@ import { SlideEditMenuBarComponent } from 'src/app/modules/dashboard/modules/pre
 import { SlideSelectNewActionTypeComponent } from './components/slide/slide-edit/components/slide-select-new-action-type/slide-select-new-action-type.component';
 import { InternalSlideLinkComponent } from './components/slide/slide-edit/components/internal-slide-link/internal-slide-link.component';
 import { SlideLinkThumbnailComponent } from './components/slide/slide-edit/components/internal-slide-link/slide-link-thumbnail/slide-link-thumbnail.component';
+import { InternalSlideLinkService } from 'src/app/modules/dashboard/modules/presentation-creator/services/internal-slide-link.service';
 
 @NgModule({
 	declarations: [
@@ -56,6 +57,7 @@ import { SlideLinkThumbnailComponent } from './components/slide/slide-edit/compo
 	],
 	providers: [
 		PresentationCreatorComponentFactoryService,
+		InternalSlideLinkService,
 	],
 })
 export class PresentationCreatorModule {

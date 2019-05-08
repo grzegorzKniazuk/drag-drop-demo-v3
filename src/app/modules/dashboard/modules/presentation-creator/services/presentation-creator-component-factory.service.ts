@@ -47,8 +47,10 @@ export class PresentationCreatorComponentFactoryService {
 		return this.slideSelectNewActionTypeComponentRef.instance.onNextStepOrCancel$;
 	}
 
-	public createInternalSlideLinkComponent(editedSlideId: number): void {
+	public createInternalSlideLinkComponent(editedSlideId: number): EventEmitter<number> {
 		this.internalSlideLinkComponentRef = this.appViewContainerRef.createComponent(this.slideInternalSlideLinkComponentFactory);
 		this.internalSlideLinkComponentRef.instance.editedSlideId = editedSlideId;
+
+		return this.internalSlideLinkComponentRef.instance.onSaveAction$;
 	}
 }

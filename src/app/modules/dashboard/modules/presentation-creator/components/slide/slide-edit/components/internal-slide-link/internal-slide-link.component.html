@@ -9,7 +9,7 @@
 		</ng-container>
 	</div>
 	<p-footer>
-		<button type="button" pButton icon="pi pi-save" (click)="onSave()" label="Zapisz akcję" class="ui-button-raised ui-button-success"></button>
+		<button type="button" pButton icon="pi pi-save" (click)="onSave()" label="Zapisz akcję" class="ui-button-raised ui-button-success" [disabled]="!(isSlideSelected$ | async)"></button>
 		<button type="button" pButton icon="pi pi-times" (click)="onCancel()" label="Anuluj" class="ui-button-raised ui-button-secondary"></button>
 	</p-footer>
 </p-dialog>
