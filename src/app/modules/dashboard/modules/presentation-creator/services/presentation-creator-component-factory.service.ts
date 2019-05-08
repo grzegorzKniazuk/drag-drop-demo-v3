@@ -1,19 +1,22 @@
-import { ApplicationRef, ComponentFactory, ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
+import { ApplicationRef, ComponentFactory, ComponentFactoryResolver, ComponentRef, EventEmitter, Injectable, ViewContainerRef } from '@angular/core';
 import { ColumnTitleComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/column/column-title/column-title.component';
 import { SlideLightboxComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-lightbox/slide-lightbox.component';
 import { first } from 'rxjs/operators';
-import { SlideActionAddFormComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/slide-action-form/slide-action-add-form/slide-action-add-form.component';
+import { SlideSelectNewActionTypeComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/slide-select-new-action-type/slide-select-new-action-type.component';
+import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/internal-slide-link/internal-slide-link.component';
 
 @Injectable()
 export class PresentationCreatorComponentFactoryService {
 
 	private readonly columnTitleComponentFactory: ComponentFactory<ColumnTitleComponent> = this.componentFactoryResolver.resolveComponentFactory(ColumnTitleComponent);
 	private readonly slideLightboxComponentFactory: ComponentFactory<SlideLightboxComponent> = this.componentFactoryResolver.resolveComponentFactory(SlideLightboxComponent);
-	private readonly slideActionAddFormComponentFactory: ComponentFactory<SlideActionAddFormComponent> = this.componentFactoryResolver.resolveComponentFactory(SlideActionAddFormComponent);
+	private readonly slideSelectNewActionTypeComponentFactory: ComponentFactory<SlideSelectNewActionTypeComponent> = this.componentFactoryResolver.resolveComponentFactory(SlideSelectNewActionTypeComponent);
+	private readonly slideInternalSlideLinkComponentFactory: ComponentFactory<InternalSlideLinkComponent> = this.componentFactoryResolver.resolveComponentFactory(InternalSlideLinkComponent);
 
 	private columnTitleComponentRef: ComponentRef<ColumnTitleComponent>;
 	private slideLightboxComponentRef: ComponentRef<SlideLightboxComponent>;
-	private slideActionAddFormComponentRef: ComponentRef<SlideActionAddFormComponent>;
+	private slideSelectNewActionTypeComponentRef: ComponentRef<SlideSelectNewActionTypeComponent>;
+	private internalSlideLinkComponentRef: ComponentRef<InternalSlideLinkComponent>;
 
 	private readonly appViewContainerRef: ViewContainerRef = this.applicationRef.components[0].instance.viewContainerRef;
 
@@ -38,7 +41,14 @@ export class PresentationCreatorComponentFactoryService {
 		});
 	}
 
-	public createSlideAddFormComponent(): void {
-		this.slideActionAddFormComponentRef = this.appViewContainerRef.createComponent(this.slideActionAddFormComponentFactory);
+	public createSlideSelectNewActionTypeComponent(): EventEmitter<string | null> {
+		this.slideSelectNewActionTypeComponentRef = this.appViewContainerRef.createComponent(this.slideSelectNewActionTypeComponentFactory);
+
+		return this.slideSelectNewActionTypeComponentRef.instance.onNextStepOrCancel$;
+	}
+
+	public createInternalSlideLinkComponent(editedSlideId: number): void {
+		this.internalSlideLinkComponentRef = this.appViewContainerRef.createComponent(this.slideInternalSlideLinkComponentFactory);
+		this.internalSlideLinkComponentRef.instance.editedSlideId = editedSlideId;
 	}
 }

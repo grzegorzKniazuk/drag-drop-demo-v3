@@ -19,12 +19,10 @@ import { AddMoreSlidesComponent } from './components/library-bar/add-more-slides
 import { EditorMenuBarComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/editor-menu-bar/editor-menu-bar.component';
 import { CreatorOptionsEffects } from './store/effects/creator-options.effects';
 import { SlideEditComponent } from './components/slide/slide-edit/slide-edit.component';
-import { SlideEditMenuBarComponent } from './components/slide/slide-edit/slide-edit-menu-bar/slide-edit-menu-bar.component';
-import { SlideActionFormComponent } from './components/slide/slide-edit/slide-action-form/slide-action-form.component';
-import { SlideActionAddFormComponent } from './components/slide/slide-edit/slide-action-form/slide-action-add-form/slide-action-add-form.component';
-import { SlideActionEditFormComponent } from './components/slide/slide-edit/slide-action-form/slide-action-edit-form/slide-action-edit-form.component';
-import { LinkSlideSelectorComponent } from './components/slide/slide-edit/link-slide-selector/link-slide-selector.component';
-import { LinkPresentationSelectorComponent } from './components/slide/slide-edit/link-presentation-selector/link-presentation-selector.component';
+import { SlideEditMenuBarComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/slide-edit-menu-bar/slide-edit-menu-bar.component';
+import { SlideSelectNewActionTypeComponent } from './components/slide/slide-edit/components/slide-select-new-action-type/slide-select-new-action-type.component';
+import { InternalSlideLinkComponent } from './components/slide/slide-edit/components/internal-slide-link/internal-slide-link.component';
+import { SlideLinkThumbnailComponent } from './components/slide/slide-edit/components/internal-slide-link/slide-link-thumbnail/slide-link-thumbnail.component';
 
 @NgModule({
 	declarations: [
@@ -41,18 +39,15 @@ import { LinkPresentationSelectorComponent } from './components/slide/slide-edit
 		EditorMenuBarComponent,
 		SlideEditComponent,
 		SlideEditMenuBarComponent,
-		SlideActionFormComponent,
-		SlideActionAddFormComponent,
-		SlideActionEditFormComponent,
-		LinkSlideSelectorComponent,
-		LinkPresentationSelectorComponent,
+		SlideSelectNewActionTypeComponent,
+		InternalSlideLinkComponent,
+		SlideLinkThumbnailComponent,
 	],
 	entryComponents: [
 		ColumnTitleComponent,
 		SlideLightboxComponent,
-		SlideActionFormComponent,
-		SlideActionAddFormComponent,
-		SlideActionEditFormComponent,
+		SlideSelectNewActionTypeComponent,
+		InternalSlideLinkComponent,
 	],
 	imports: [
 		SharedModule,

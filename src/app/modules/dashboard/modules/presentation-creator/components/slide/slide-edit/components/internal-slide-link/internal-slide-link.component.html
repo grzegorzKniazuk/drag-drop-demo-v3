@@ -1,0 +1,15 @@
+<p-dialog header="Wybierz docelowy slajd" [(visible)]="isVisible">
+	<div class="presentation-column-container">
+		<ng-container *ngFor="let column of slidesGroupedByColumn | keyvalue">
+			<div class="presentation-column">
+				<ng-container *ngFor="let slide of column.value">
+					<app-slide-link-thumbnail [slide]="slide"></app-slide-link-thumbnail>
+				</ng-container>
+			</div>
+		</ng-container>
+	</div>
+	<p-footer>
+		<button type="button" pButton icon="pi pi-save" (click)="onSave()" label="Zapisz akcję" class="ui-button-raised ui-button-success"></button>
+		<button type="button" pButton icon="pi pi-times" (click)="onCancel()" label="Anuluj" class="ui-button-raised ui-button-secondary"></button>
+	</p-footer>
+</p-dialog>

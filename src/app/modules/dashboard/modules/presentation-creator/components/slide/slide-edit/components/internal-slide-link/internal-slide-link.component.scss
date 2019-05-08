@@ -1,0 +1,9 @@
+@import "base.scss";
+
+.presentation-column-container {
+	@include flex(flex, center, flex-start, row);
+
+	.presentation-column {
+		@include flex(flex, center, center, column);
+	}
+}

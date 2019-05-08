@@ -19,3 +19,8 @@
 .ui-tabview-panels {
 	border: none !important;
 }
+
+.ui-selectbutton {
+	display: flex;
+	flex-direction: column;
+}

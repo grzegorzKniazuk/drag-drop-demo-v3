@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, NgZone, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostListener, Input, NgZone, OnInit, Output } from '@angular/core';
 import { SlideLinkActionParams } from 'src/app/shared/interfaces/slide-link-action-params';
 
 @Component({
@@ -15,6 +15,7 @@ export class SlideLinkActionComponent implements OnInit {
 	public isElementOnMouseEnter: boolean;
 
 	constructor(
+		private changeDetectorRef: ChangeDetectorRef,
 		private ngZone: NgZone,
 	) {
 	}
@@ -22,14 +23,22 @@ export class SlideLinkActionComponent implements OnInit {
 	ngOnInit() {
 	}
 
-	public removeAction(event: MouseEvent): void {
+	public onMove(event: MouseEvent): void {
+		event.stopImmediatePropagation();
+	}
+
+	public onEdit(event: MouseEvent): void {
+		event.stopImmediatePropagation();
+	}
+
+	public onRemove(event: MouseEvent): void {
 		event.stopImmediatePropagation();
 
 		this.onRemoveAction.emit(this.actionParams.id);
 	}
 
 	@HostListener('mouseenter')
-	public onMouseEnter(): void {
+	private onMouseEnter(): void {
 		this.ngZone.runOutsideAngular(() => {
 			event.stopPropagation();
 			this.isElementOnMouseEnter = true;
@@ -37,10 +46,15 @@ export class SlideLinkActionComponent implements OnInit {
 	}
 
 	@HostListener('mouseleave')
-	public onMouseLeave(): void {
+	private onMouseLeave(): void {
 		this.ngZone.runOutsideAngular(() => {
 			event.stopPropagation();
 			this.isElementOnMouseEnter = false;
 		});
+	}
+
+	@HostListener('click', ['$event'])
+	private preventCreateComponentInExistingComponent(event: MouseEvent): void {
+		event.stopPropagation();
 	}
 }

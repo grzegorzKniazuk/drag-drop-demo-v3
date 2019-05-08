@@ -1,0 +1,7 @@
+@import "base.scss";
+
+img {
+	@include size(100px);
+	padding: 10px;
+	cursor: pointer;
+}

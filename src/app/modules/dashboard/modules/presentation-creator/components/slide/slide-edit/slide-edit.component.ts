@@ -10,9 +10,10 @@ import { Coordinates } from 'src/app/shared/interfaces/coordinates';
 import { SlideLinkActionParams } from 'src/app/shared/interfaces/slide-link-action-params';
 import { CursorTypes } from 'src/app/shared/enums/cursor-types';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
-import { first } from 'rxjs/operators';
+import { filter, first } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
+import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
 
 @AutoUnsubscribe()
 @Component({
@@ -74,7 +75,6 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 		this.initTitle();
 		this.fetchSlide();
 		this.showOpeningToast();
-		this.addSlideLinkActionComponentToArray();
 	}
 
 	ngOnDestroy() {
@@ -141,7 +141,7 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 	}
 
 	private setBackgroundImage(imageData: string | ArrayBuffer) {
-		this.renderer2.setAttribute(this.backgroundElement.nativeElement, 'src', <string>imageData);
+		this.renderer2.setAttribute(this.backgroundElement.nativeElement, 'src', <string> imageData);
 	}
 
 	private createDivElement(event: MouseEvent): void {
@@ -164,10 +164,20 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 	}
 
 	private addSlideLinkActionComponentToArray(): void {
-		this.presentationCreatorComponentFactoryService.createSlideAddFormComponent();
-		this.slideLinkActionsParams.push({
-			id: this.slideLinkActionsParams.length,
-			style: this.slideLinkActionComponentPositionStyle,
+		this.presentationCreatorComponentFactoryService.createSlideSelectNewActionTypeComponent()
+		.pipe(
+			first(),
+			filter((nextStepAction: SlideActionTypes) => !!nextStepAction),
+		)
+		.subscribe((actionType: SlideActionTypes) => {
+			if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
+				this.presentationCreatorComponentFactoryService.createInternalSlideLinkComponent(this.slide.id);
+			}
+			this.slideLinkActionsParams.push({
+				id: this.slideLinkActionsParams.length,
+				type: actionType,
+				style: this.slideLinkActionComponentPositionStyle,
+			});
 		});
 	}
 
