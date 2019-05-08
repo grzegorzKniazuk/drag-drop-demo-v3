@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
 })
 export class InternalSlideLinkComponent implements OnInit, OnDestroy {
 
-	public onSaveAction$: EventEmitter<number> = new EventEmitter<number>();
+	public onSaveAction: EventEmitter<number> = new EventEmitter<number>();
 	public slidesGroupedByColumn: Slide[][];
 	public editedSlideId: number;
 	public isVisible = true;
@@ -38,6 +38,22 @@ export class InternalSlideLinkComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 	}
 
+	public onSave(): void {
+		this.internalSlideLinkService.selectedSlideId$
+		    .pipe(
+			    tap(() => {
+				    this.isVisible = false;
+			    }),
+			    first(),
+		    ).subscribe((selectedSlideId: number) => {
+			this.onSaveAction.emit(selectedSlideId);
+		});
+	}
+
+	public onCancel(): void {
+		this.isVisible = false;
+	}
+
 	private initObservables(): void {
 		this.isSlideSelected$ = this.internalSlideLinkService.selectedSlideId$.pipe(
 			map((slideSelectedId: number) => {
@@ -53,21 +69,5 @@ export class InternalSlideLinkComponent implements OnInit, OnDestroy {
 		).subscribe((slides: Slide[]) => {
 			this.slidesGroupedByColumn = groupBy(slides, 'columnId');
 		});
-	}
-
-	public onSave(): void {
-		this.internalSlideLinkService.selectedSlideId$
-			.pipe(
-				tap(() => {
-					this.isVisible = false;
-				}),
-				first(),
-			).subscribe((selectedSlideId: number) => {
-				this.onSaveAction$.emit(selectedSlideId);
-		});
-	}
-
-	public onCancel(): void {
-		this.isVisible = false;
 	}
 }

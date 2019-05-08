@@ -53,7 +53,7 @@ export class SlideLinkActionComponent implements OnInit {
 		});
 	}
 
-	@HostListener('click', ['$event'])
+	@HostListener('click', [ '$event' ])
 	private preventCreateComponentInExistingComponent(event: MouseEvent): void {
 		event.stopPropagation();
 	}

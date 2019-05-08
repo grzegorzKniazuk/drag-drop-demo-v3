@@ -1,17 +1,20 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 import { Router } from '@angular/router';
-import { first } from 'rxjs/operators';
+import { filter, first } from 'rxjs/operators';
+import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 
+@AutoUnsubscribe()
 @Component({
 	selector: 'app-slide-edit-menu-bar',
 	templateUrl: './slide-edit-menu-bar.component.html',
 	styleUrls: [ './slide-edit-menu-bar.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SlideEditMenuBarComponent implements OnInit {
+export class SlideEditMenuBarComponent implements OnInit, OnDestroy {
 
+	@Output() public onSave: EventEmitter<void> = new EventEmitter<void>();
 	public menuItems: MenuItem[] = [];
 
 	constructor(
@@ -24,20 +27,22 @@ export class SlideEditMenuBarComponent implements OnInit {
 		this.buildMenu();
 	}
 
-	public onSave(): void {
-
+	ngOnDestroy() {
 	}
 
-	public onCancel(): void {
+	public save(): void {
+		this.onSave.emit();
+	}
+
+	public cancel(): void {
 		this.componentFactoryBaseService.createConfirmDialogComponent(
 			'Uwaga',
 			'Zmiany nie zostaną zapisane! Czy napewno chcesz wyjść?',
 		).onAcceptOrConfirm$.pipe(
 			first(),
-		).subscribe((isAccepted: boolean) => {
-			if (isAccepted) {
-				this.router.navigateByUrl('/dashboard/presentation-creator');
-			}
+			filter((isAccepted: boolean) => isAccepted),
+		).subscribe(() => {
+			this.router.navigateByUrl('/dashboard/presentation-creator');
 		});
 	}
 

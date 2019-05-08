@@ -1,12 +1,12 @@
-<app-slide-edit-menu-bar></app-slide-edit-menu-bar>
+<app-slide-edit-menu-bar (onSave)="onSlideChangesSave()"></app-slide-edit-menu-bar>
 <div class="editor-container">
 	<div #canvasElement (click)="onClick($event)" (mousemove)="onMouseMove($event)" class="canvas">
 		<app-slide-link-action (onRemoveAction)="removeSlideLinkAction($event)"
-							   *ngFor="let actionParams of slideLinkActionsParams"
-							   [actionParams]="actionParams"
+							   *ngFor="let slideAction of slideActions"
+							   [actionParams]="slideAction"
 							   [class]="slideLinkActionContainerCssClass"
 							   [isEditMode]="true"
-							   [ngStyle]="actionParams.style"></app-slide-link-action>
+							   [ngStyle]="slideAction.style"></app-slide-link-action>
 	</div>
 	<img #backgroundElement [src]="" alt="">
 </div>

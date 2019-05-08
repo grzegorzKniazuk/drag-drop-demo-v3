@@ -51,6 +51,6 @@ export class PresentationCreatorComponentFactoryService {
 		this.internalSlideLinkComponentRef = this.appViewContainerRef.createComponent(this.slideInternalSlideLinkComponentFactory);
 		this.internalSlideLinkComponentRef.instance.editedSlideId = editedSlideId;
 
-		return this.internalSlideLinkComponentRef.instance.onSaveAction$;
+		return this.internalSlideLinkComponentRef.instance.onSaveAction;
 	}
 }

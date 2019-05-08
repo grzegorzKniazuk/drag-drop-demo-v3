@@ -31,6 +31,7 @@ export function slideReducer(state = initialSlideState, action: SlideActions): S
 		case SlideActionsTypes.AddSlides: {
 			return slideAdapter.addMany(action.payload.slides, state);
 		}
+		case SlideActionsTypes.UpdateSlideActions:
 		case SlideActionsTypes.MoveBetweenSlidesInTheSameColumn:
 		case SlideActionsTypes.MoveBetweenSlidesInTheDifferentColumn:
 		case SlideActionsTypes.UpdateSlidePosition:

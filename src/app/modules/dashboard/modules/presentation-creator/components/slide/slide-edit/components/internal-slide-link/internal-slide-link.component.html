@@ -1,4 +1,4 @@
-<p-dialog header="Wybierz docelowy slajd" [(visible)]="isVisible">
+<p-dialog [(visible)]="isVisible" header="Wybierz docelowy slajd">
 	<div class="presentation-column-container">
 		<ng-container *ngFor="let column of slidesGroupedByColumn | keyvalue">
 			<div class="presentation-column">
@@ -9,7 +9,7 @@
 		</ng-container>
 	</div>
 	<p-footer>
-		<button type="button" pButton icon="pi pi-save" (click)="onSave()" label="Zapisz akcję" class="ui-button-raised ui-button-success" [disabled]="!(isSlideSelected$ | async)"></button>
-		<button type="button" pButton icon="pi pi-times" (click)="onCancel()" label="Anuluj" class="ui-button-raised ui-button-secondary"></button>
+		<button (click)="onSave()" [disabled]="!(isSlideSelected$ | async)" class="ui-button-raised ui-button-success" icon="pi pi-save" label="Zapisz akcję" pButton type="button"></button>
+		<button (click)="onCancel()" class="ui-button-raised ui-button-secondary" icon="pi pi-times" label="Anuluj" pButton type="button"></button>
 	</p-footer>
 </p-dialog>

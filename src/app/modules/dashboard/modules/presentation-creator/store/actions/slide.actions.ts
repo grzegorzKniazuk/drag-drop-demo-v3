@@ -15,6 +15,7 @@ export enum SlideActionsTypes {
 	RemoveSlide = '[Slide] Remove Slide',
 	RemoveSlidesByColumn = '[Slide] Remove Slides By Column',
 	ClearSlides = '[Slide] Clear Slides',
+	UpdateSlideActions = '[Slide] Update Slide Actions',
 }
 
 export class AddSlideToPresentation implements Action {
@@ -98,6 +99,13 @@ export class ClearSlides implements Action {
 	public readonly type = SlideActionsTypes.ClearSlides;
 }
 
+export class UpdateSlideActions implements Action {
+	public readonly type = SlideActionsTypes.UpdateSlideActions;
+
+	constructor(public payload: { slide: Update<Slide> }) {
+	}
+}
+
 export type SlideActions =
 	AddSlideToPresentation
 	| AddSlides
@@ -110,4 +118,5 @@ export type SlideActions =
 	| MoveBetweenSlidesInTheDifferentColumn
 	| RemoveSlide
 	| RemoveSlidesByColumn
-	| ClearSlides;
+	| ClearSlides
+	| UpdateSlideActions;

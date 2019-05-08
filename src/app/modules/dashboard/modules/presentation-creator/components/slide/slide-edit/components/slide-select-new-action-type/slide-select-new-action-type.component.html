@@ -1,7 +1,7 @@
-<p-dialog header="Wybierz typ nowej akcji" [(visible)]="isVisible">
-	<p-selectButton [options]="actionTypes" [(ngModel)]="selectedActionType"></p-selectButton>
+<p-dialog [(visible)]="isVisible" header="Wybierz typ nowej akcji">
+	<p-selectButton [(ngModel)]="selectedActionType" [options]="actionTypes"></p-selectButton>
 	<p-footer>
-		<button type="button" pButton icon="pi pi-angle-double-right" (click)="onNextStep()" label="Dalej" class="ui-button-raised ui-button-success" [disabled]="!selectedActionType"></button>
-		<button type="button" pButton icon="pi pi-times" (click)="onCancel()" label="Anuluj" class="ui-button-raised ui-button-secondary"></button>
+		<button (click)="onNextStep()" [disabled]="!selectedActionType" class="ui-button-raised ui-button-success" icon="pi pi-angle-double-right" label="Dalej" pButton type="button"></button>
+		<button (click)="onCancel()" class="ui-button-raised ui-button-secondary" icon="pi pi-times" label="Anuluj" pButton type="button"></button>
 	</p-footer>
 </p-dialog>

@@ -4,7 +4,6 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { Title } from '@angular/platform-browser';
 import { Slide } from 'src/app/shared/interfaces/slide';
-import { demoSlide1 } from 'src/app/shared/utils/demo-slides';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { Coordinates } from 'src/app/shared/interfaces/coordinates';
 import { SlideActionParams } from 'src/app/shared/interfaces/slide-action-params';
@@ -15,6 +14,7 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
 import { selectSlidesById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
+import { UpdateSlideActions } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 
 @AutoUnsubscribe()
 @Component({
@@ -30,9 +30,9 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 	@ViewChild('backgroundElement') private readonly backgroundElement: ElementRef;
 	private slide: Slide;
 	private element: HTMLDivElement | null = null;
-	private startCords: Coordinates;
-	private endCords: Coordinates;
-	private slideLinkActionsParams: SlideActionParams[] = [];
+	private startCords: Coordinates = { x: 0, y: 0 };
+	private endCords: Coordinates = { x: 0, y: 0 };
+	private slideActions: SlideActionParams[] = [];
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
@@ -85,7 +85,7 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 		if (this.element) {
 			this.removeDrawnDivElement();
 			this.setCursor(CursorTypes.DEFAULT);
-			this.addSlideLinkActionComponentToArray();
+			this.initNewSlideAction();
 		} else {
 			this.createDivElement(event);
 			this.setCursor(CursorTypes.CROSSHAIR);
@@ -109,12 +109,23 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 			first(),
 		).subscribe((isAccepted: boolean) => {
 			if (isAccepted) {
-				this.slideLinkActionsParams = this.slideLinkActionsParams.filter((actionParams) => {
+				this.slideActions = this.slideActions.filter((actionParams) => {
 					return actionParams.id !== linkActionId;
 				});
 				this.changeDetectorRef.detectChanges();
 			}
 		});
+	}
+
+	public onSlideChangesSave(): void {
+		this.store.dispatch(new UpdateSlideActions({
+			slide: {
+				id: this.slide.id,
+				changes: {
+					actions: this.slideActions,
+				},
+			},
+		}));
 	}
 
 	private initTitle(): void {
@@ -129,6 +140,7 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 			first(),
 		).subscribe((slide: Slide) => {
 			this.slide = slide;
+			this.slideActions = this.slide.actions ? this.slide.actions : [];
 			this.setBackgroundImage(this.slide.imageData);
 		});
 	}
@@ -138,7 +150,7 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 	}
 
 	private setBackgroundImage(imageData: string | ArrayBuffer) {
-		this.renderer2.setAttribute(this.backgroundElement.nativeElement, 'src', <string> imageData);
+		this.renderer2.setAttribute(this.backgroundElement.nativeElement, 'src', <string>imageData);
 	}
 
 	private createDivElement(event: MouseEvent): void {
@@ -160,26 +172,33 @@ export class SlideEditComponent implements OnInit, OnDestroy {
 		this.renderer2.setStyle(this.canvasElement.nativeElement, 'cursor', cursorType);
 	}
 
-	private addSlideLinkActionComponentToArray(): void {
+	private initNewSlideAction(): void {
 		this.presentationCreatorComponentFactoryService.createSlideSelectNewActionTypeComponent()
-		.pipe(
-			first(),
-			filter((nextStepAction: SlideActionTypes) => !!nextStepAction),
-		)
-		.subscribe((actionType: SlideActionTypes) => {
-			if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
-				this.presentationCreatorComponentFactoryService.createInternalSlideLinkComponent(this.slide.id)
-					.pipe(
-						first(),
-					).subscribe((selectedSlideId: number) => {
-					this.slideLinkActionsParams.push({
-						id: this.slideLinkActionsParams.length,
-						type: actionType,
-						target: selectedSlideId,
-						style: this.slideLinkActionComponentPositionStyle,
-					});
-				});
-			}
+		    .pipe(
+			    first(),
+			    filter((nextStepAction: SlideActionTypes) => !!nextStepAction),
+		    )
+		    .subscribe((actionType: SlideActionTypes) => {
+			    if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
+				    this.createInternalSlideLinkComponent(actionType);
+			    }
+		    });
+	}
+
+	private createInternalSlideLinkComponent(actionType: SlideActionTypes): void {
+		this.presentationCreatorComponentFactoryService.createInternalSlideLinkComponent(this.slide.id)
+		    .pipe(first())
+		    .subscribe((selectedSlideId: number) => {
+			    this.addActionToArray(selectedSlideId, actionType);
+		    });
+	}
+
+	private addActionToArray(target, actionType: SlideActionTypes): void {
+		this.slideActions.push({
+			id: this.slideActions.length,
+			type: actionType,
+			target: target,
+			style: this.slideLinkActionComponentPositionStyle,
 		});
 	}
 

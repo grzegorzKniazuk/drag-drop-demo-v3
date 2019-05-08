@@ -33,11 +33,11 @@ export class SlideLinkThumbnailComponent implements OnInit, OnDestroy {
 		this.internalSlideLinkService.selectedSlideId$
 		    .pipe(
 			    tap(() => {
-			    	this.isSelected = false;
-			    	this.changeDetectorRef.detectChanges();
+				    this.isSelected = false;
+				    this.changeDetectorRef.detectChanges();
 			    }),
 			    filter((selectedSlideId: number) => {
-			    	return selectedSlideId === this.slide.id;
+				    return selectedSlideId === this.slide.id;
 			    }),
 		    )
 		    .subscribe(() => {
