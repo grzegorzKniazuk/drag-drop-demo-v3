@@ -3,6 +3,7 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 import { InternalSlideLinkService } from 'src/app/modules/dashboard/modules/presentation-creator/services/internal-slide-link.service';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { filter, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @AutoUnsubscribe()
 @Component({
@@ -14,7 +15,8 @@ import { filter, tap } from 'rxjs/operators';
 export class SlideLinkThumbnailComponent implements OnInit, OnDestroy {
 
 	@Input() public slide: Slide;
-	public isSelected: boolean;
+	@Input() public isSelected: boolean;
+	private subscriptions$: Subscription = new Subscription();
 
 	constructor(
 		private internalSlideLinkService: InternalSlideLinkService,
@@ -27,11 +29,16 @@ export class SlideLinkThumbnailComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
+		this.subscriptions$.unsubscribe();
 	}
 
 	private initObservables(): void {
-		this.internalSlideLinkService.selectedSlideId$
+		this.subscriptions$.add(
+			this.internalSlideLinkService.selectedSlideId$
 		    .pipe(
+		    	filter((selectedSlideId: number) => {
+		    		return !!selectedSlideId;
+			    }),
 			    tap(() => {
 				    this.isSelected = false;
 				    this.changeDetectorRef.detectChanges();
@@ -43,7 +50,8 @@ export class SlideLinkThumbnailComponent implements OnInit, OnDestroy {
 		    .subscribe(() => {
 			    this.isSelected = true;
 			    this.changeDetectorRef.detectChanges();
-		    });
+		    })
+		);
 	}
 
 	@HostListener('click')

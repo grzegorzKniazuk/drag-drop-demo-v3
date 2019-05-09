@@ -19,10 +19,11 @@ import { Observable } from 'rxjs';
 export class InternalSlideLinkComponent implements OnInit, OnDestroy {
 
 	public onSaveAction: EventEmitter<number> = new EventEmitter<number>();
-	public slidesGroupedByColumn: Slide[][];
+	public sortedSlidesArrays: Slide[][];
 	public editedSlideId: number;
 	public isVisible = true;
 	public isSlideSelected$: Observable<boolean>;
+	public alreadySelectedSlideId: number | string;
 
 	constructor(
 		private store: Store<AppState>,
@@ -36,6 +37,7 @@ export class InternalSlideLinkComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
+		this.internalSlideLinkService.selectedSlideId$.next(null);
 	}
 
 	public onSave(): void {
@@ -67,7 +69,18 @@ export class InternalSlideLinkComponent implements OnInit, OnDestroy {
 			select(selectSlides),
 			first(),
 		).subscribe((slides: Slide[]) => {
-			this.slidesGroupedByColumn = groupBy(slides, 'columnId');
+			this.sortByColumns(groupBy(slides, 'columnId'));
 		});
+	}
+
+	// https://stackoverflow.com/questions/586182/how-to-insert-an-item-into-an-array-at-a-specific-index-javascript
+	private sortByColumns(columns: { [ key: number ]: Slide[] }): void {
+		const sortedSlidesArrays = [];
+
+		for (let slideArray of Object.values(columns)) {
+			sortedSlidesArrays.splice(slideArray[0].position.column, 0, slideArray);
+		}
+
+		this.sortedSlidesArrays = sortedSlidesArrays;
 	}
 }

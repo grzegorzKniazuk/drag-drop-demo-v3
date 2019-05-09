@@ -4,6 +4,7 @@ import { SlideLightboxComponent } from 'src/app/modules/dashboard/modules/presen
 import { first } from 'rxjs/operators';
 import { SlideSelectNewActionTypeComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/slide-select-new-action-type/slide-select-new-action-type.component';
 import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/internal-slide-link/internal-slide-link.component';
+import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
 
 @Injectable()
 export class PresentationCreatorComponentFactoryService {
@@ -15,7 +16,7 @@ export class PresentationCreatorComponentFactoryService {
 
 	private columnTitleComponentRef: ComponentRef<ColumnTitleComponent>;
 	private slideLightboxComponentRef: ComponentRef<SlideLightboxComponent>;
-	private slideSelectNewActionTypeComponentRef: ComponentRef<SlideSelectNewActionTypeComponent>;
+	private slideSelectActionTypeComponentRef: ComponentRef<SlideSelectNewActionTypeComponent>;
 	private internalSlideLinkComponentRef: ComponentRef<InternalSlideLinkComponent>;
 
 	private readonly appViewContainerRef: ViewContainerRef = this.applicationRef.components[0].instance.viewContainerRef;
@@ -42,15 +43,30 @@ export class PresentationCreatorComponentFactoryService {
 	}
 
 	public createSlideSelectNewActionTypeComponent(): EventEmitter<string | null> {
-		this.slideSelectNewActionTypeComponentRef = this.appViewContainerRef.createComponent(this.slideSelectNewActionTypeComponentFactory);
+		this.slideSelectActionTypeComponentRef = this.appViewContainerRef.createComponent(this.slideSelectNewActionTypeComponentFactory);
 
-		return this.slideSelectNewActionTypeComponentRef.instance.onNextStepOrCancel$;
+		return this.slideSelectActionTypeComponentRef.instance.onNextStepOrCancel$;
 	}
 
-	public createInternalSlideLinkComponent(editedSlideId: number): EventEmitter<number> {
+	public createSlideEditActionTypeComponent(alreadySelectedActionType: SlideActionTypes): EventEmitter<string | null> {
+		this.slideSelectActionTypeComponentRef = this.appViewContainerRef.createComponent(this.slideSelectNewActionTypeComponentFactory);
+		this.slideSelectActionTypeComponentRef.instance.selectedActionType = alreadySelectedActionType;
+
+		return this.slideSelectActionTypeComponentRef.instance.onNextStepOrCancel$;
+	}
+
+	public createInternalSlideLinkComponent(editedSlideId: number, alreadySelectedSlideId?: number | string): EventEmitter<number> {
 		this.internalSlideLinkComponentRef = this.appViewContainerRef.createComponent(this.slideInternalSlideLinkComponentFactory);
 		this.internalSlideLinkComponentRef.instance.editedSlideId = editedSlideId;
 
+		if (alreadySelectedSlideId) {
+			this.internalSlideLinkComponentRef.instance.alreadySelectedSlideId = alreadySelectedSlideId;
+		}
+
 		return this.internalSlideLinkComponentRef.instance.onSaveAction;
+	}
+
+	public clearViewContainerRef(): void {
+		this.appViewContainerRef.clear();
 	}
 }

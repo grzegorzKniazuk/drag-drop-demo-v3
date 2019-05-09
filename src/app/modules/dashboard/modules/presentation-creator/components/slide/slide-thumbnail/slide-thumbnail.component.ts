@@ -8,7 +8,7 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Update } from '@ngrx/entity';
 import { isNull, isNumber } from 'lodash';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
-import { first } from 'rxjs/operators';
+import { first, tap } from 'rxjs/operators';
 import { REMOVE_SLIDE } from 'src/app/modules/dashboard/store/actions/library.actions';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { SlidePosition } from 'src/app/shared/interfaces/slide-position';
@@ -104,6 +104,9 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnChanges, 
 				'Czy napewno chcesz usunąć ten slajd z biblioteki? Operacji nie można cofnąć',
 			).onAcceptOrConfirm$.pipe(
 				first(),
+				tap(() => {
+					this.componentFactoryBaseService.clearViewContainerRef();
+				}),
 			).subscribe((accepted: boolean) => {
 				if (accepted) {
 					this.store.dispatch(new REMOVE_SLIDE({

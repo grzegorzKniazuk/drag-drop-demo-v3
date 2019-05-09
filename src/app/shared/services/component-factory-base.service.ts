@@ -42,4 +42,8 @@ export class ComponentFactoryBaseService {
 
 		return this.presentationTitleComponentRef.instance;
 	}
+
+	public clearViewContainerRef(): void {
+		this.appViewContainerRef.clear();
+	}
 }

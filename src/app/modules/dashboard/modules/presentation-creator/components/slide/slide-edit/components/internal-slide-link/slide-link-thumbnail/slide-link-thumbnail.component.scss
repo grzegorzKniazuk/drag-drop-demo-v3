@@ -1,13 +1,13 @@
 @import "base.scss";
 
 img {
-	@include size(100px);
+	@include size(125px);
 	margin: 10px;
 	cursor: pointer;
 	z-index: 4;
 
 	&.slide-selected {
-		@include size(96px);
+		@include size(121px);
 		border: 2px solid $success;
 	}
 }

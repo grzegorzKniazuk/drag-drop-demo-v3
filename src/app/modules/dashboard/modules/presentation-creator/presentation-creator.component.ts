@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostListener, NgZone, OnDestroy, On
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { first, withLatestFrom } from 'rxjs/operators';
+import { first, tap, withLatestFrom } from 'rxjs/operators';
 import { AddColumnFromAnotherColumn, AddColumnFromLibrary } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Title } from '@angular/platform-browser';
@@ -82,6 +82,9 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 		    .pipe(
 			    first(),
 			    withLatestFrom(this.store.pipe(select(selectAmountOfColumns))),
+			    tap(() => {
+				    this.presentationCreatorComponentFactoryService.clearViewContainerRef();
+			    }),
 		    )
 		    .subscribe(([ columnTitle, amountOfColumnsInPresentation ]: [ string, number ]) => {
 			    this.store.dispatch(new AddColumnFromAnotherColumn({
@@ -100,6 +103,9 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 				    this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId })),
 				    this.store.pipe(select(selectAmountOfColumns)),
 			    ),
+			    tap(() => {
+			    	this.presentationCreatorComponentFactoryService.clearViewContainerRef();
+			    }),
 		    )
 		    .subscribe(([ columnTitle, sourceSlide, amountOfColumnsInPresentation ]: [ string, Slide, number ]) => {
 			    this.store.dispatch(new AddColumnFromLibrary({

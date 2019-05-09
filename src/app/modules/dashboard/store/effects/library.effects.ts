@@ -8,14 +8,6 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 export class LibraryEffects {
 
 	@Effect({ dispatch: false })
-	public addSlidesToLibrary$ = this.actions$.pipe(
-		ofType(LibraryActionsTypes.ADD_SLIDES),
-		tap(() => {
-			this.toastService.success('Dodano slajdy do biblioteki');
-		}),
-	);
-
-	@Effect({ dispatch: false })
 	public removeSlideFromLibrary$ = this.actions$.pipe(
 		ofType(LibraryActionsTypes.REMOVE_SLIDE),
 		tap(() => {

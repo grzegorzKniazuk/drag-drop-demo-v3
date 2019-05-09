@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Ou
 import { MenuItem } from 'primeng/api';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 import { Router } from '@angular/router';
-import { filter, first } from 'rxjs/operators';
+import { filter, first, tap } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 
 @AutoUnsubscribe()
@@ -41,6 +41,9 @@ export class SlideEditMenuBarComponent implements OnInit, OnDestroy {
 		).onAcceptOrConfirm$.pipe(
 			first(),
 			filter((isAccepted: boolean) => isAccepted),
+			tap(() => {
+				this.componentFactoryBaseService.clearViewContainerRef();
+			}),
 		).subscribe(() => {
 			this.router.navigateByUrl('/dashboard/presentation-creator');
 		});
