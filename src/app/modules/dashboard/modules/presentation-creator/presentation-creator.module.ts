@@ -21,9 +21,10 @@ import { CreatorOptionsEffects } from './store/effects/creator-options.effects';
 import { SlideEditComponent } from './components/slide/slide-edit/slide-edit.component';
 import { SlideEditMenuBarComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/slide-edit-menu-bar/slide-edit-menu-bar.component';
 import { SlideSelectNewActionTypeComponent } from './components/slide/slide-edit/components/slide-select-new-action-type/slide-select-new-action-type.component';
-import { InternalSlideLinkComponent } from './components/slide/slide-edit/components/internal-slide-link/internal-slide-link.component';
-import { SlideLinkThumbnailComponent } from './components/slide/slide-edit/components/internal-slide-link/slide-link-thumbnail/slide-link-thumbnail.component';
 import { InternalSlideLinkService } from 'src/app/modules/dashboard/modules/presentation-creator/services/internal-slide-link.service';
+import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/internal-slide/internal-slide-link/internal-slide-link.component';
+import { SlideLinkThumbnailComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/internal-slide/slide-link-thumbnail/slide-link-thumbnail.component';
+import { ExternalLinkComponent } from './components/slide/slide-edit/components/external-link/external-link.component';
 
 @NgModule({
 	declarations: [
@@ -43,12 +44,14 @@ import { InternalSlideLinkService } from 'src/app/modules/dashboard/modules/pres
 		SlideSelectNewActionTypeComponent,
 		InternalSlideLinkComponent,
 		SlideLinkThumbnailComponent,
+		ExternalLinkComponent,
 	],
 	entryComponents: [
 		ColumnTitleComponent,
 		SlideLightboxComponent,
 		SlideSelectNewActionTypeComponent,
 		InternalSlideLinkComponent,
+		ExternalLinkComponent,
 	],
 	imports: [
 		SharedModule,
@@ -58,9 +61,6 @@ import { InternalSlideLinkService } from 'src/app/modules/dashboard/modules/pres
 	providers: [
 		PresentationCreatorComponentFactoryService,
 		InternalSlideLinkService,
-	],
-	exports: [
-		SlideLinkThumbnailComponent,
 	],
 })
 export class PresentationCreatorModule {

@@ -7,7 +7,7 @@ img {
 	z-index: 4;
 
 	&.slide-selected {
-		@include size(121px);
+		@include size(125px);
 		border: 2px solid $success;
 	}
 }

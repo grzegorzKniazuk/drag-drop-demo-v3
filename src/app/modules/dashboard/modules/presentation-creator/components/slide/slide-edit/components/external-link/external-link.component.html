@@ -1,0 +1,10 @@
+<p-dialog [(visible)]="isVisible" header="Wklej link do zewnętrznego źródła">
+	<input [(ngModel)]="link" appAutofocus pInputText type="text">
+	<p-footer>
+		<button (click)="onSave()"
+				[disabled]="!link || !link.length"
+				class="ui-button-raised ui-button-success" icon="pi pi-save" label="Zapisz akcję" pButton type="button"></button>
+		<button (click)="onCancel()"
+				class="ui-button-raised ui-button-secondary" icon="pi pi-times" label="Anuluj" pButton type="button"></button>
+	</p-footer>
+</p-dialog>

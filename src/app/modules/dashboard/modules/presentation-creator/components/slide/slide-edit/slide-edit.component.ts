@@ -106,18 +106,20 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 
 	private initEditSlideAction(actionToEdit: SlideActionParams): void {
 		this.presentationCreatorComponentFactoryService.createSlideEditActionTypeComponent(actionToEdit.type)
-			.pipe(
-				first(),
-				filter((nextStepAction: SlideActionTypes) => !!nextStepAction),
-				tap(() => {
-					this.presentationCreatorComponentFactoryService.clearViewContainerRef();
-				}),
-			)
-			.subscribe((actionType: SlideActionTypes) => {
-				if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
-					this.createInternalSlideLinkComponent(actionType, actionToEdit.target);
-				}
-		});
+		    .pipe(
+			    first(),
+			    filter((nextStepAction: SlideActionTypes) => !!nextStepAction),
+			    tap(() => {
+				    this.presentationCreatorComponentFactoryService.clearViewContainerRef();
+			    }),
+		    )
+		    .subscribe((actionType: SlideActionTypes) => {
+			    if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
+				    this.createInternalSlideLinkComponent(actionType, actionToEdit.target);
+			    } else if (actionType === SlideActionTypes.EXTERNAL_WEB_LINK) {
+
+			    }
+		    });
 	}
 
 	public onClick(event: MouseEvent): void {
@@ -133,27 +135,37 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 
 	private initNewSlideAction(): void {
 		this.presentationCreatorComponentFactoryService.createSlideSelectNewActionTypeComponent()
-		.pipe(
-			first(),
-			filter((nextStepAction: SlideActionTypes) => !!nextStepAction),
-			tap(() => {
-				this.presentationCreatorComponentFactoryService.clearViewContainerRef();
-			}),
-		)
-		.subscribe((actionType: SlideActionTypes) => {
-			if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
-				this.createInternalSlideLinkComponent(actionType);
-			}
-		});
+		    .pipe(
+			    first(),
+			    filter((nextStepAction: SlideActionTypes) => !!nextStepAction),
+			    tap(() => {
+				    this.presentationCreatorComponentFactoryService.clearViewContainerRef();
+			    }),
+		    )
+		    .subscribe((actionType: SlideActionTypes) => {
+			    if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
+				    this.createInternalSlideLinkComponent(actionType);
+			    } else if (actionType === SlideActionTypes.EXTERNAL_WEB_LINK) {
+				    this.createExternalLinkComponent(actionType);
+			    }
+		    });
 	}
 
-	protected createInternalSlideLinkComponent(actionType: SlideActionTypes, alreadySelectedSlideId?: number | string): void {
+	private createExternalLinkComponent(actionType: SlideActionTypes): void {
+		this.presentationCreatorComponentFactoryService.createExternalLinkComponent()
+		    .pipe(first())
+		    .subscribe((externalLink: string) => {
+			    console.log(externalLink);
+		    });
+	}
+
+	private createInternalSlideLinkComponent(actionType: SlideActionTypes, alreadySelectedSlideId?: number | string): void {
 		this.presentationCreatorComponentFactoryService.createInternalSlideLinkComponent(this.slide.id, alreadySelectedSlideId)
 		    .pipe(
-		    	first(),
+			    first(),
 			    filter((selectedSlideId: number) => !!selectedSlideId),
 			    tap(() => {
-			    	this.presentationCreatorComponentFactoryService.clearViewContainerRef();
+				    this.presentationCreatorComponentFactoryService.clearViewContainerRef();
 			    }),
 		    )
 		    .subscribe((selectedSlideId: number) => {
