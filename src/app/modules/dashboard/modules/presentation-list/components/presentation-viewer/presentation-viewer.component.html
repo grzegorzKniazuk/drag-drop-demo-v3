@@ -1,10 +1,19 @@
 <div class="canvas-container">
-	<canvas #canvas>Twoja przegladarka nie wspiera elementów canvas</canvas>
 	<ng-container *ngIf="presentation">
 		<i (click)="switchSlideToTop()" *ngIf="isArrowUpAvailable" class="pi pi-chevron-up top"></i>
 		<i (click)="switchSlideToRight()" *ngIf="isArrowRightAvailable" class="pi pi-chevron-right right"></i>
 		<i (click)="switchSlideToBottom()" *ngIf="isArrowDownAvailable" class="pi pi-chevron-down bottom"></i>
 		<i (click)="switchSlideToLeft()" *ngIf="isArrowLeftAvailable" class="pi pi-chevron-left left"></i>
 	</ng-container>
+	<ng-container *ngIf="currentlyVisibleSlide">
+		<app-slide-link-action
+			*ngFor="let action of currentlyVisibleSlide.actions"
+			[isEditMode]="false"
+			[actionParams]="action"
+			(onPerformAction)="performAction($event)"
+			[class]="slideLinkActionContainerCssClass"
+			[ngStyle]="action.style"></app-slide-link-action>
+	</ng-container>
+
 	<img #backgroundElement [src]="" alt="">
 </div>

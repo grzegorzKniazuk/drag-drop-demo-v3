@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { first } from 'rxjs/operators';
 import { Presentation } from 'src/app/shared/interfaces/presentation';
@@ -9,8 +9,9 @@ import { SlidePosition } from 'src/app/shared/interfaces/slide-position';
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { Memoize } from 'lodash-decorators';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { selectPresentationById } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
 import { Title } from '@angular/platform-browser';
+import { SlideActionParams } from 'src/app/shared/interfaces/slide-action-params';
+import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
 
 @Component({
 	selector: 'app-presentation-viewer',
@@ -20,11 +21,11 @@ import { Title } from '@angular/platform-browser';
 })
 export class PresentationViewerComponent implements OnInit, AfterViewInit {
 
+	public readonly slideLinkActionContainerCssClass = 'slide-link-action-container';
 	public viewerPosition = { column: 0, order: 0 };
+	public currentlyVisibleSlide: Slide;
 	public presentation: Presentation;
-	@ViewChild('canvas') private canvas: ElementRef;
 	@ViewChild('backgroundElement') private backgroundElement: ElementRef;
-	private context: CanvasRenderingContext2D;
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
@@ -59,7 +60,6 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit() {
-		this.initCanvasContext();
 		this.fetchPresentation();
 	}
 
@@ -99,22 +99,17 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit {
 		this.toastService.information('Poruszać się po prezentacji możesz również za pomocą strzałek na klawiaturze :)');
 	}
 
-	private initCanvasContext(): void {
-		this.context = this.canvas.nativeElement.getContext('2d');
-	}
-
 	private fetchPresentation(): void {
 		const presentationId = +this.activatedRoute.snapshot.paramMap.get('id');
 
-		/*
 		this.localStorage.getItem('presentation').pipe(
 			first(),
 		).subscribe((presentation: Presentation) => {
 			this.presentation = presentation;
 			this.initPresentation();
 		});
-		*/
 
+		/*
 		this.store.pipe(
 			select(selectPresentationById, { id: presentationId }),
 			first(),
@@ -122,10 +117,12 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit {
 			this.presentation = presentation;
 			this.initPresentation();
 		});
+		*/
 	}
 
 	private initPresentation(): void {
-		this.setBackgroundImage(this.findSlideByPosition(this.viewerPosition).imageData);
+		this.currentlyVisibleSlide = this.findSlideByPosition(this.viewerPosition);
+		this.setBackgroundImage(this.currentlyVisibleSlide.imageData);
 	};
 
 	private setBackgroundImage(imageData: string | ArrayBuffer) {
@@ -142,6 +139,30 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit {
 
 	private switchSlide(params: SlidePosition): void {
 		this.viewerPosition = params;
-		this.setBackgroundImage(this.findSlideByPosition(params).imageData);
+		this.currentlyVisibleSlide = this.findSlideByPosition(params);
+		this.setBackgroundImage(this.currentlyVisibleSlide.imageData);
+	}
+
+	public performAction(params: SlideActionParams): void {
+		switch (params.type) {
+			case SlideActionTypes.INTERNAL_SLIDE_LINK: {
+				const targetSlidePosition = this.presentation.slides.find((slide: Slide) => {
+					return slide.id === params.target;
+				}).position;
+				this.switchSlide(targetSlidePosition);
+				break;
+			}
+			case SlideActionTypes.EXTERNAL_PRESENTATION_LINK: {
+
+				break;
+			}
+			case SlideActionTypes.EXTERNAL_WEB_LINK: {
+
+				break;
+			}
+			default: {
+				this.toastService.error('Błąd parametrów akcji');
+			}
+		}
 	}
 }

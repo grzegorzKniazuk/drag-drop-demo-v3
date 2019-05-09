@@ -20,4 +20,8 @@ export class ToastService {
 	public warning(message: string): void {
 		this.messageService.add({ severity: 'warn', summary: 'Uwaga', detail: message });
 	}
+
+	public error(message: string): void {
+		this.messageService.add({ severity: 'error', summary: 'Błąd', detail: message });
+	}
 }

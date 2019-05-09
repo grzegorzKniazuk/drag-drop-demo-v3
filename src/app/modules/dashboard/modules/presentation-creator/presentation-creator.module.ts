@@ -59,6 +59,9 @@ import { InternalSlideLinkService } from 'src/app/modules/dashboard/modules/pres
 		PresentationCreatorComponentFactoryService,
 		InternalSlideLinkService,
 	],
+	exports: [
+		SlideLinkThumbnailComponent,
+	],
 })
 export class PresentationCreatorModule {
 }
