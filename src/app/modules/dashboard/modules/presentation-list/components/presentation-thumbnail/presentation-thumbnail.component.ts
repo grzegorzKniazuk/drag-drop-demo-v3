@@ -3,7 +3,6 @@ import { Presentation } from 'src/app/shared/interfaces/presentation';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
-import { filter, first, tap } from 'rxjs/operators';
 import { RemovePresentation, UpdatePresentation } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
 import { Router } from '@angular/router';
 

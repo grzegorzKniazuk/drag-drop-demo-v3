@@ -3,7 +3,7 @@ import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Column } from 'src/app/shared/interfaces/column';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { debounceTime, first, tap, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, first, withLatestFrom } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { RemoveColumn, UpdateColumnsPosition, UpdateColumnTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
@@ -82,7 +82,7 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 				    columnId: this.column.id,
 				    columnSlidesIds: slideIds,
 			    }));
-		});
+		    });
 	}
 
 	private initColumnSlides(): void {

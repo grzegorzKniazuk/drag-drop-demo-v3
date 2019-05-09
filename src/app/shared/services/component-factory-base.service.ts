@@ -10,13 +10,11 @@ import { filter, first, map, tap } from 'rxjs/operators';
 })
 export class ComponentFactoryBaseService {
 
+	protected readonly appViewContainerRef: ViewContainerRef = this.applicationRef.components[0].instance.viewContainerRef;
 	private readonly presentationTitleComponentFactory: ComponentFactory<PresentationTitleComponent> = this.componentFactoryResolver.resolveComponentFactory(PresentationTitleComponent);
 	private readonly confirmDialogComponentFactory: ComponentFactory<ConfirmDialogComponent> = this.componentFactoryResolver.resolveComponentFactory(ConfirmDialogComponent);
-
 	private presentationTitleComponentRef: ComponentRef<PresentationTitleComponent>;
 	private confirmDialogComponentRef: ComponentRef<ConfirmDialogComponent>;
-
-	protected readonly appViewContainerRef: ViewContainerRef = this.applicationRef.components[0].instance.viewContainerRef;
 
 	constructor(
 		protected applicationRef: ApplicationRef,
@@ -39,10 +37,6 @@ export class ComponentFactoryBaseService {
 		return this.mergeActions(this.presentationTitleComponentRef);
 	}
 
-	private clearViewContainerRef(): void {
-		this.appViewContainerRef.clear();
-	}
-
 	protected mergeActions<T>(componentRef: ComponentRef<DynamicComponentTypes>): Observable<T> {
 		return merge(
 			componentRef.instance.onSaveAction,
@@ -55,5 +49,9 @@ export class ComponentFactoryBaseService {
 				return actionResponse;
 			}),
 		);
+	}
+
+	private clearViewContainerRef(): void {
+		this.appViewContainerRef.clear();
 	}
 }

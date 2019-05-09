@@ -7,8 +7,6 @@ import { RemoveSlide, SwapSlideInTheDifferentColumns, SwapSlideInTheSameColumn, 
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Update } from '@ngrx/entity';
 import { isNull, isNumber } from 'lodash';
-import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
-import { first, tap } from 'rxjs/operators';
 import { REMOVE_SLIDE } from 'src/app/modules/dashboard/store/actions/library.actions';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { SlidePosition } from 'src/app/shared/interfaces/slide-position';

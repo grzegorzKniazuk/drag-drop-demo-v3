@@ -5,7 +5,6 @@ import { Presentation } from 'src/app/shared/interfaces/presentation';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { selectAmountOfPresentations, selectPresentationList } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
-import { first } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
 import { Router } from '@angular/router';

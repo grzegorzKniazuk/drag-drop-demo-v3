@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Ou
 import { MenuItem } from 'primeng/api';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 import { Router } from '@angular/router';
-import { filter, first, tap } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 
 @AutoUnsubscribe()

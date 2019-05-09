@@ -13,7 +13,6 @@ import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/sele
 import { Slide } from 'src/app/shared/interfaces/slide';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { selectIsLibrarySliderOpen } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-options.selectors';
-import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 import { ActivatedRoute } from '@angular/router';
 
 @AutoUnsubscribe()
