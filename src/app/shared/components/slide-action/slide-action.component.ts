@@ -3,11 +3,11 @@ import { SlideActionParams } from 'src/app/shared/interfaces/slide-action-params
 
 @Component({
 	selector: 'app-slide-link-action',
-	templateUrl: './slide-link-action.component.html',
-	styleUrls: [ './slide-link-action.component.scss' ],
+	templateUrl: './slide-action.component.html',
+	styleUrls: [ './slide-action.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SlideLinkActionComponent {
+export class SlideActionComponent {
 
 	@Input() public isEditMode: boolean;
 	@Input() public actionParams: SlideActionParams;
@@ -50,16 +50,16 @@ export class SlideLinkActionComponent {
 		}
 	}
 
-	@HostListener('mouseenter')
-	private onMouseEnter(): void {
+	@HostListener('mouseenter', [ '$event' ])
+	private onMouseEnter(event: MouseEvent): void {
 		this.ngZone.runOutsideAngular(() => {
 			event.stopPropagation();
 			this.isElementOnMouseEnter = true;
 		});
 	}
 
-	@HostListener('mouseleave')
-	private onMouseLeave(): void {
+	@HostListener('mouseleave', [ '$event' ])
+	private onMouseLeave(event: MouseEvent): void {
 		this.ngZone.runOutsideAngular(() => {
 			event.stopPropagation();
 			this.isElementOnMouseEnter = false;
