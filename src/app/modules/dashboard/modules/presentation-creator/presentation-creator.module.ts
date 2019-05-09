@@ -25,6 +25,7 @@ import { SlideSelectNewActionTypeComponent } from 'src/app/modules/dashboard/mod
 import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/internal-slide/internal-slide-link/internal-slide-link.component';
 import { SlideLinkThumbnailComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/internal-slide/slide-link-thumbnail/slide-link-thumbnail.component';
 import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/external-link/external-link.component';
+import { StoreFeatureNames } from 'src/app/shared/enums/store-feature-names';
 
 @NgModule({
 	declarations: [
@@ -55,7 +56,7 @@ import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/present
 	],
 	imports: [
 		SharedModule,
-		StoreModule.forFeature('presentation-creator', fromPresentationCreator.reducers, { metaReducers: fromPresentationCreator.metaReducers }),
+		StoreModule.forFeature(StoreFeatureNames.PRESENTATION_CREATOR, fromPresentationCreator.reducers, { metaReducers: fromPresentationCreator.metaReducers }),
 		EffectsModule.forFeature([ CreatorOptionsEffects, ColumnEffects, SlideEffects ]),
 	],
 	providers: [

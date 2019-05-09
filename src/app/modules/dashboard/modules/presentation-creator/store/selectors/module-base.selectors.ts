@@ -1,7 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { PresentationCreatorState } from 'src/app/modules/dashboard/modules/presentation-creator/store/index';
+import { StoreFeatureNames } from 'src/app/shared/enums/store-feature-names';
 
-export const selectPresentationCreatorState = createFeatureSelector<PresentationCreatorState>('presentation-creator');
+export const selectPresentationCreatorState = createFeatureSelector<PresentationCreatorState>(StoreFeatureNames.PRESENTATION_CREATOR);
 
 export const selectSlidesState = createSelector(
 	selectPresentationCreatorState,
