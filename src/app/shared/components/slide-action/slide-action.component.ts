@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostListener, Input, NgZone, Output } from '@angular/core';
-import { SlideActionParams } from 'src/app/shared/interfaces/slide-action-params';
+import { SlideActionParams } from 'src/app/shared/interfaces';
 
 @Component({
 	selector: 'app-slide-link-action',

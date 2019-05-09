@@ -3,16 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { first } from 'rxjs/operators';
-import { Presentation } from 'src/app/shared/interfaces/presentation';
 import { LocalStorage } from '@ngx-pwa/local-storage';
-import { SlidePosition } from 'src/app/shared/interfaces/slide-position';
-import { Slide } from 'src/app/shared/interfaces/slide';
 import { Memoize } from 'lodash-decorators';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { Title } from '@angular/platform-browser';
-import { SlideActionParams } from 'src/app/shared/interfaces/slide-action-params';
 import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { Presentation, Slide, SlideActionParams, SlidePosition } from 'src/app/shared/interfaces';
 
 @AutoUnsubscribe()
 @Component({

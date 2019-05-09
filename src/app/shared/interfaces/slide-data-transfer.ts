@@ -1,4 +1,4 @@
-import { SlidePosition } from 'src/app/shared/interfaces/slide-position';
+import { SlidePosition } from 'src/app/shared/interfaces';
 
 export interface SlideDataTransfer {
 	sourceSlideId: number;

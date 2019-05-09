@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
-import { Column } from 'src/app/shared/interfaces/column';
-import { Slide } from 'src/app/shared/interfaces/slide';
 import { Update } from '@ngrx/entity';
+import { Column, Slide } from 'src/app/shared/interfaces';
 
 export enum ColumnActionsTypes {
 	AddColumnFromAnotherColumn = '[Column] Add Column From Another Column',

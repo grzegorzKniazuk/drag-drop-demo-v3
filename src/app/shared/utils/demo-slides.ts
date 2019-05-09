@@ -1,4 +1,4 @@
-import { Slide } from 'src/app/shared/interfaces/slide';
+import { Slide } from 'src/app/shared/interfaces';
 
 export const demoSlide1: Slide = {
 	id: Math.floor((Math.random() * 10000000) + 1),

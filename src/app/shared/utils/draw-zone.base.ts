@@ -1,4 +1,4 @@
-import { Coordinates } from 'src/app/shared/interfaces/coordinates';
+import { Coordinates } from 'src/app/shared/interfaces';
 import { CursorTypes } from 'src/app/shared/enums/cursor-types';
 import { ElementRef, NgZone, Renderer2, ViewChild } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast.service';

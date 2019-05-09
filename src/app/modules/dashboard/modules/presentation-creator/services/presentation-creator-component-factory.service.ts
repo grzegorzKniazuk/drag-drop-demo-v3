@@ -1,12 +1,12 @@
 import { ApplicationRef, ComponentFactory, ComponentFactoryResolver, ComponentRef, Injectable } from '@angular/core';
-import { ColumnTitleComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/column/column-title/column-title.component';
-import { SlideLightboxComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-lightbox/slide-lightbox.component';
-import { SlideSelectNewActionTypeComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/slide-select-new-action-type/slide-select-new-action-type.component';
 import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
-import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/internal-slide/internal-slide-link/internal-slide-link.component';
-import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/external-link/external-link.component';
 import { Observable } from 'rxjs';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
+import { ColumnTitleComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/column/column-title/column-title.component';
+import { SlideLightboxComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-lightbox/slide-lightbox.component';
+import { SlideSelectNewActionTypeComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/slide-select-new-action-type/slide-select-new-action-type.component';
+import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/internal-slide/internal-slide-link/internal-slide-link.component';
+import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/external-link/external-link.component';
 
 @Injectable()
 export class PresentationCreatorComponentFactoryService extends ComponentFactoryBaseService {

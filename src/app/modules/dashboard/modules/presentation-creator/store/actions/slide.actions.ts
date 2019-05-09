@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Slide } from 'src/app/shared/interfaces/slide';
+import { Slide } from 'src/app/shared/interfaces';
 import { Update } from '@ngrx/entity';
 
 export enum SlideActionsTypes {

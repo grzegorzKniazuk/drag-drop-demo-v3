@@ -13,9 +13,7 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { selectCreatorMetadataState } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/module-base.selectors';
 import { selectSlides, selectSlidesAmount } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { selectColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
-import { CreatorMetadata } from 'src/app/shared/interfaces/creator-metadata';
-import { Slide } from 'src/app/shared/interfaces/slide';
-import { Column } from 'src/app/shared/interfaces/column';
+import { CreatorMetadata, Slide, Column } from 'src/app/shared/interfaces';
 
 @AutoUnsubscribe()
 @Component({

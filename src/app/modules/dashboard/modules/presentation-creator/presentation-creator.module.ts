@@ -7,24 +7,24 @@ import * as fromPresentationCreator from './store';
 import { LibraryBarComponent } from './components/library-bar/library-bar.component';
 import { ColumnEffects } from 'src/app/modules/dashboard/modules/presentation-creator/store/effects/column.effects';
 import { SlideEffects } from 'src/app/modules/dashboard/modules/presentation-creator/store/effects/slide.effects';
-import { SlideThumbnailComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-thumbnail/slide-thumbnail.component';
 import { ColumnComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/column/column.component';
-import { SlideLightboxComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-lightbox/slide-lightbox.component';
+import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
+import { EditorMenuBarComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/editor-menu-bar/editor-menu-bar.component';
+import { CreatorOptionsEffects } from './store/effects/creator-options.effects';
+import { InternalSlideLinkService } from 'src/app/modules/dashboard/modules/presentation-creator/services/internal-slide-link.service';
+import { SlideThumbnailComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-thumbnail/slide-thumbnail.component';
+import { SlideLibraryDividerComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/library-bar/slide-library-divider/slide-library-divider.component';
 import { ColumnTitleComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/column/column-title/column-title.component';
 import { SlideColumnDividerComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-column-divider/slide-column-divider.component';
 import { ColumnDividerComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/column/column-divider/column-divider.component';
-import { SlideLibraryDividerComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/library-bar/slide-library-divider/slide-library-divider.component';
-import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
-import { AddMoreSlidesComponent } from './components/library-bar/add-more-slides/add-more-slides.component';
-import { EditorMenuBarComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/editor-menu-bar/editor-menu-bar.component';
-import { CreatorOptionsEffects } from './store/effects/creator-options.effects';
-import { SlideEditComponent } from './components/slide/slide-edit/slide-edit.component';
-import { SlideEditMenuBarComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/slide-edit-menu-bar/slide-edit-menu-bar.component';
-import { SlideSelectNewActionTypeComponent } from './components/slide/slide-edit/components/slide-select-new-action-type/slide-select-new-action-type.component';
-import { InternalSlideLinkService } from 'src/app/modules/dashboard/modules/presentation-creator/services/internal-slide-link.service';
-import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/internal-slide/internal-slide-link/internal-slide-link.component';
-import { SlideLinkThumbnailComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/internal-slide/slide-link-thumbnail/slide-link-thumbnail.component';
-import { ExternalLinkComponent } from './components/slide/slide-edit/components/external-link/external-link.component';
+import { SlideLightboxComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-lightbox/slide-lightbox.component';
+import { AddMoreSlidesComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/library-bar/add-more-slides/add-more-slides.component';
+import { SlideEditComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/slide-edit.component';
+import { SlideEditMenuBarComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/slide-edit-menu-bar/slide-edit-menu-bar.component';
+import { SlideSelectNewActionTypeComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/slide-select-new-action-type/slide-select-new-action-type.component';
+import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/internal-slide/internal-slide-link/internal-slide-link.component';
+import { SlideLinkThumbnailComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/internal-slide/slide-link-thumbnail/slide-link-thumbnail.component';
+import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/external-link/external-link.component';
 
 @NgModule({
 	declarations: [

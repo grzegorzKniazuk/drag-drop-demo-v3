@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Slide } from 'src/app/shared/interfaces/slide';
+import { Slide } from 'src/app/shared/interfaces';
 
 export enum LibraryActionsTypes {
 	ADD_SLIDES = '[Library] Add Slides',

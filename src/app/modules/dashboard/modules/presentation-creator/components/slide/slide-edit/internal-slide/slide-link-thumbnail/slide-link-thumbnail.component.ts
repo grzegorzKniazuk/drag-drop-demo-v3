@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { Slide } from 'src/app/shared/interfaces/slide';
+import { Slide } from 'src/app/shared/interfaces';
 import { InternalSlideLinkService } from 'src/app/modules/dashboard/modules/presentation-creator/services/internal-slide-link.service';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { filter, tap } from 'rxjs/operators';

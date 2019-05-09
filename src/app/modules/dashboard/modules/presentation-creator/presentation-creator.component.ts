@@ -7,13 +7,12 @@ import { AddColumnFromAnotherColumn, AddColumnFromLibrary } from 'src/app/module
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
-import { Column } from 'src/app/shared/interfaces/column';
 import { selectAmountOfColumns, selectColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
-import { Slide } from 'src/app/shared/interfaces/slide';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { selectIsLibrarySliderOpen } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-options.selectors';
 import { ActivatedRoute } from '@angular/router';
+import { Column, Slide } from 'src/app/shared/interfaces';
 
 @AutoUnsubscribe()
 @Component({

@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { selectColumnsState } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/module-base.selectors';
 import * as columnEntitySelectors from 'src/app/modules/dashboard/modules/presentation-creator/store/reducers/column.reducer';
-import { Column } from 'src/app/shared/interfaces/column';
+import { Column } from 'src/app/shared/interfaces';
 
 export const selectColumns = createSelector(
 	selectColumnsState,

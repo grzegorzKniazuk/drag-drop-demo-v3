@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Slide } from 'src/app/shared/interfaces/slide';
+import { Slide } from 'src/app/shared/interfaces';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ADD_SLIDES } from 'src/app/modules/dashboard/store/actions/library.actions';

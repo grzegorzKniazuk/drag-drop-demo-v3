@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { Slide } from 'src/app/shared/interfaces/slide';
+import { Slide } from 'src/app/shared/interfaces';
 import { selectSlidesState } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/module-base.selectors';
 import * as slideEntitySelectors from 'src/app/modules/dashboard/modules/presentation-creator/store/reducers/slide.reducer';
 

@@ -2,16 +2,14 @@ import { ChangeDetectionStrategy, Component, HostListener, Input, NgZone, OnDest
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { ColumnDividerSibilings } from 'src/app/shared/interfaces/column-divider-sibilings';
 import { isNull, isNumber } from 'lodash';
 import { AddColumnBetweenExistingColumns, AddColumnBetweenExistingColumnsByLibrarySlide } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { withLatestFrom } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { selectSlidesById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
-import { Slide } from 'src/app/shared/interfaces/slide';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
-import { Column } from 'src/app/shared/interfaces/column';
+import { Column, Slide, ColumnDividerSibilings } from 'src/app/shared/interfaces';
 
 @AutoUnsubscribe()
 @Component({

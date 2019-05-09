@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, NgZone, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
-import { Slide } from 'src/app/shared/interfaces/slide';
+import { Slide, SlidePosition } from 'src/app/shared/interfaces';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
@@ -9,7 +9,6 @@ import { Update } from '@ngrx/entity';
 import { isNull, isNumber } from 'lodash';
 import { REMOVE_SLIDE } from 'src/app/modules/dashboard/store/actions/library.actions';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
-import { SlidePosition } from 'src/app/shared/interfaces/slide-position';
 import { Router } from '@angular/router';
 
 @AutoUnsubscribe()

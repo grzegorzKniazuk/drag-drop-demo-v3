@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/core';
-import { Presentation } from 'src/app/shared/interfaces/presentation';
+import { Presentation } from 'src/app/shared/interfaces';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';

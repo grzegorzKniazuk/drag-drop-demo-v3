@@ -1,7 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Presentation } from 'src/app/shared/interfaces/presentation';
-import { Slide } from 'src/app/shared/interfaces/slide';
-import { Column } from 'src/app/shared/interfaces/column';
+import { Column, Presentation, Slide } from 'src/app/shared/interfaces';
 
 export enum PresentationListActionsTypes {
 	SAVE_PRESENTATION = '[List] Save Presentation',

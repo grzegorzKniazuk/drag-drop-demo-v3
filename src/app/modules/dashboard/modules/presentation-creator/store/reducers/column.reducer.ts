@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Column } from 'src/app/shared/interfaces/column';
 import { ColumnActions, ColumnActionsTypes } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { Comparer } from '@ngrx/entity/src/models';
+import { Column } from 'src/app/shared/interfaces';
 
 export interface ColumnState extends EntityState<Column> {
 

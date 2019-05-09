@@ -3,10 +3,9 @@ import { select, Store } from '@ngrx/store';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { combineLatest } from 'rxjs';
 import { selectAmountOfSlidesInColumnById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
-import { Slide } from 'src/app/shared/interfaces/slide';
+import { Slide, SlideDataTransfer } from 'src/app/shared/interfaces';
 import { AddSlideFromLibraryToExistingColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { AppState } from 'src/app/store';
-import { SlideDataTransfer } from 'src/app/shared/interfaces/slide-data-transfer';
 import { selectColumnPositionById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
 import { first } from 'rxjs/operators';
 

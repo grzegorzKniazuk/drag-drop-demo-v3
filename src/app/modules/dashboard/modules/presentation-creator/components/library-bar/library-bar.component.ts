@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { selectLibrarySlides, selectLibrarySlidesAmount } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { FileUploadService } from 'src/app/shared/services/file-upload.service';
-import { Slide } from 'src/app/shared/interfaces/slide';
+import { Slide } from 'src/app/shared/interfaces';
 import { HideLibrarySlider } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-options.actions';
 import { selectIsLibrarySliderOpen } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-options.selectors';
 import { first } from 'rxjs/operators';

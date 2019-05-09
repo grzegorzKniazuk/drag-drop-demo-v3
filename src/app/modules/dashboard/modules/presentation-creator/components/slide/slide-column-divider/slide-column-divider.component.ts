@@ -2,12 +2,11 @@ import { ChangeDetectionStrategy, Component, HostListener, Input, NgZone } from 
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { AppState } from 'src/app/store';
 import { select, Store } from '@ngrx/store';
-import { SlideDividerSibilings } from 'src/app/shared/interfaces/slide-divider-sibilings';
+import { SlideDividerSibilings, Slide } from 'src/app/shared/interfaces';
 import { isNull, isNumber } from 'lodash';
 import { AddSlideToPresentation, MoveBetweenSlidesInTheDifferentColumn, MoveBetweenSlidesInTheSameColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { first } from 'rxjs/operators';
-import { Slide } from 'src/app/shared/interfaces/slide';
 
 @Component({
 	selector: 'app-slide-column-divider',
