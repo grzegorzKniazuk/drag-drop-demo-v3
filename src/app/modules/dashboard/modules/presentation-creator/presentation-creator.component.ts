@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostListener, NgZone, OnDestroy, On
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { first, tap, withLatestFrom } from 'rxjs/operators';
+import { withLatestFrom } from 'rxjs/operators';
 import { AddColumnFromAnotherColumn, AddColumnFromLibrary } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Title } from '@angular/platform-browser';
@@ -32,7 +32,6 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 
 	constructor(
 		private presentationCreatorComponentFactoryService: PresentationCreatorComponentFactoryService,
-		private componentFactoryBaseService: ComponentFactoryBaseService,
 		private title: Title,
 		private activatedRoute: ActivatedRoute,
 		store: Store<AppState>,
@@ -78,14 +77,8 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	}
 
 	private addColumnFromAnotherColumn(sourceSlideId: number, sourceColumnId: number): void {
-		this.presentationCreatorComponentFactoryService.createColumnTitleComponent().columnTitle$
-		    .pipe(
-			    first(),
-			    withLatestFrom(this.store.pipe(select(selectAmountOfColumns))),
-			    tap(() => {
-				    this.presentationCreatorComponentFactoryService.clearViewContainerRef();
-			    }),
-		    )
+		this.presentationCreatorComponentFactoryService.createColumnTitleComponent()
+		    .pipe(withLatestFrom(this.store.pipe(select(selectAmountOfColumns))))
 		    .subscribe(([ columnTitle, amountOfColumnsInPresentation ]: [ string, number ]) => {
 			    this.store.dispatch(new AddColumnFromAnotherColumn({
 				    column: this.prepareNewColumn(columnTitle, amountOfColumnsInPresentation),
@@ -96,16 +89,12 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	}
 
 	private addColumnFromLibrary(sourceSlideId: number): void {
-		this.presentationCreatorComponentFactoryService.createColumnTitleComponent().columnTitle$
+		this.presentationCreatorComponentFactoryService.createColumnTitleComponent()
 		    .pipe(
-			    first(),
 			    withLatestFrom(
 				    this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId })),
 				    this.store.pipe(select(selectAmountOfColumns)),
 			    ),
-			    tap(() => {
-			    	this.presentationCreatorComponentFactoryService.clearViewContainerRef();
-			    }),
 		    )
 		    .subscribe(([ columnTitle, sourceSlide, amountOfColumnsInPresentation ]: [ string, Slide, number ]) => {
 			    this.store.dispatch(new AddColumnFromLibrary({

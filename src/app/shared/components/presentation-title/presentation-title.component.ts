@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { selectEditorPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-metadata.selectors';
 import { first } from 'rxjs/operators';
+import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-component.';
 
 @Component({
 	selector: 'app-presentation-title',
@@ -10,9 +11,8 @@ import { first } from 'rxjs/operators';
 	styleUrls: [ './presentation-title.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PresentationTitleComponent implements OnInit {
+export class PresentationTitleComponent extends BaseDynamicComponent implements OnInit {
 
-	public presentationTitle$: EventEmitter<string> = new EventEmitter<string>();
 	public presentationTitle: string;
 	public dialogVisibility = true;
 	public header: string;
@@ -21,6 +21,7 @@ export class PresentationTitleComponent implements OnInit {
 	constructor(
 		private store: Store<AppState>,
 	) {
+		super();
 	}
 
 	ngOnInit() {
@@ -31,14 +32,15 @@ export class PresentationTitleComponent implements OnInit {
 	@HostListener('document:keydown.enter')
 	public onSave(): void {
 		if (this.presentationTitle && this.presentationTitle.length) {
-			this.presentationTitle$.emit(this.presentationTitle);
 			this.dialogVisibility = false;
+			this.onSaveAction.emit(this.presentationTitle);
 		}
 	}
 
 	@HostListener('document:keydown.escape')
 	public onCancel(): void {
 		this.dialogVisibility = false;
+		this.onCancelAction.emit();
 	}
 
 	private setPresentationTitle(): void {

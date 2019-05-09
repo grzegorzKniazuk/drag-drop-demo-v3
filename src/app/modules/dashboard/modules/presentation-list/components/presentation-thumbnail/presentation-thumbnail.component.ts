@@ -37,12 +37,6 @@ export class PresentationThumbnailComponent {
 		this.componentFactoryBaseService.createConfirmDialogComponent(
 			'Uwaga',
 			'Czy napewno chcesz usunąć tą prezentację? Operacji nie można cofnać',
-		).onAcceptOrConfirm$.pipe(
-			first(),
-			filter((isAccepted) => isAccepted),
-			tap(() => {
-				this.componentFactoryBaseService.clearViewContainerRef();
-			}),
 		).subscribe(() => {
 			this.store.dispatch(new RemovePresentation({ presentationId: this.presentation.id }));
 		});

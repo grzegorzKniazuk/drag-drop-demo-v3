@@ -38,12 +38,6 @@ export class SlideEditMenuBarComponent implements OnInit, OnDestroy {
 		this.componentFactoryBaseService.createConfirmDialogComponent(
 			'Uwaga',
 			'Zmiany nie zostaną zapisane! Czy napewno chcesz wyjść?',
-		).onAcceptOrConfirm$.pipe(
-			first(),
-			filter((isAccepted: boolean) => isAccepted),
-			tap(() => {
-				this.componentFactoryBaseService.clearViewContainerRef();
-			}),
 		).subscribe(() => {
 			this.router.navigateByUrl('/dashboard/presentation-creator');
 		});

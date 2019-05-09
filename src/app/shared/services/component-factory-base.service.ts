@@ -1,6 +1,9 @@
 import { ApplicationRef, ComponentFactory, ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { PresentationTitleComponent } from 'src/app/shared/components/presentation-title/presentation-title.component';
+import { DynamicComponentTypes } from 'src/app/shared/types/dynamic-component-types';
+import { merge, Observable } from 'rxjs';
+import { filter, first, map, tap } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root',
@@ -13,37 +16,44 @@ export class ComponentFactoryBaseService {
 	private presentationTitleComponentRef: ComponentRef<PresentationTitleComponent>;
 	private confirmDialogComponentRef: ComponentRef<ConfirmDialogComponent>;
 
-	private readonly appViewContainerRef: ViewContainerRef = this.applicationRef.components[0].instance.viewContainerRef;
+	protected readonly appViewContainerRef: ViewContainerRef = this.applicationRef.components[0].instance.viewContainerRef;
 
 	constructor(
-		private applicationRef: ApplicationRef,
-		private componentFactoryResolver: ComponentFactoryResolver,
+		protected applicationRef: ApplicationRef,
+		protected componentFactoryResolver: ComponentFactoryResolver,
 	) {
 	}
 
-	public createConfirmDialogComponent(header: string, message: string): ConfirmDialogComponent {
+	public createConfirmDialogComponent(header: string, message: string): Observable<boolean> {
 		this.confirmDialogComponentRef = this.appViewContainerRef.createComponent(this.confirmDialogComponentFactory);
 		this.confirmDialogComponentRef.instance.header = header;
 		this.confirmDialogComponentRef.instance.message = message;
 
-		return this.confirmDialogComponentRef.instance;
+		return this.mergeActions(this.confirmDialogComponentRef);
 	}
 
-	public createPresentationTitleComponent(): PresentationTitleComponent {
+	public createPresentationTitleComponent(isEditMode: boolean): Observable<string> {
 		this.presentationTitleComponentRef = this.appViewContainerRef.createComponent(this.presentationTitleComponentFactory);
-		this.presentationTitleComponentRef.instance.isEditMode = false;
+		this.presentationTitleComponentRef.instance.isEditMode = isEditMode;
 
-		return this.presentationTitleComponentRef.instance;
+		return this.mergeActions(this.presentationTitleComponentRef);
 	}
 
-	public createEditPresentationTitleComponent(): PresentationTitleComponent {
-		this.presentationTitleComponentRef = this.appViewContainerRef.createComponent(this.presentationTitleComponentFactory);
-		this.presentationTitleComponentRef.instance.isEditMode = true;
-
-		return this.presentationTitleComponentRef.instance;
-	}
-
-	public clearViewContainerRef(): void {
+	private clearViewContainerRef(): void {
 		this.appViewContainerRef.clear();
+	}
+
+	protected mergeActions<T>(componentRef: ComponentRef<DynamicComponentTypes>): Observable<T> {
+		return merge(
+			componentRef.instance.onSaveAction,
+			componentRef.instance.onCancelAction,
+		).pipe(
+			first(),
+			tap(() => this.clearViewContainerRef()),
+			filter((actionResponse: T) => !!actionResponse),
+			map((actionResponse: T) => {
+				return actionResponse;
+			}),
+		);
 	}
 }

@@ -1,15 +1,15 @@
-import { ApplicationRef, ComponentFactory, ComponentFactoryResolver, ComponentRef, EventEmitter, Injectable, ViewContainerRef } from '@angular/core';
+import { ApplicationRef, ComponentFactory, ComponentFactoryResolver, ComponentRef, Injectable } from '@angular/core';
 import { ColumnTitleComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/column/column-title/column-title.component';
 import { SlideLightboxComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-lightbox/slide-lightbox.component';
-import { filter, first, map, tap } from 'rxjs/operators';
 import { SlideSelectNewActionTypeComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/slide-select-new-action-type/slide-select-new-action-type.component';
 import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
 import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/internal-slide/internal-slide-link/internal-slide-link.component';
 import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/components/external-link/external-link.component';
-import { merge, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 
 @Injectable()
-export class PresentationCreatorComponentFactoryService {
+export class PresentationCreatorComponentFactoryService extends ComponentFactoryBaseService {
 
 	private readonly columnTitleComponentFactory: ComponentFactory<ColumnTitleComponent> = this.componentFactoryResolver.resolveComponentFactory(ColumnTitleComponent);
 	private readonly slideLightboxComponentFactory: ComponentFactory<SlideLightboxComponent> = this.componentFactoryResolver.resolveComponentFactory(SlideLightboxComponent);
@@ -23,43 +23,37 @@ export class PresentationCreatorComponentFactoryService {
 	private internalSlideLinkComponentRef: ComponentRef<InternalSlideLinkComponent>;
 	private externalLinkComponentRef: ComponentRef<ExternalLinkComponent>;
 
-	private readonly appViewContainerRef: ViewContainerRef = this.applicationRef.components[0].instance.viewContainerRef;
-
 	constructor(
-		private applicationRef: ApplicationRef,
-		private componentFactoryResolver: ComponentFactoryResolver,
+		applicationRef: ApplicationRef,
+		componentFactoryResolver: ComponentFactoryResolver,
 	) {
+		super(applicationRef, componentFactoryResolver);
 	}
 
-	public createColumnTitleComponent(): ColumnTitleComponent {
+	public createColumnTitleComponent(): Observable<string> {
 		this.columnTitleComponentRef = this.appViewContainerRef.createComponent(this.columnTitleComponentFactory);
-		return <ColumnTitleComponent>this.columnTitleComponentRef.instance;
+
+		return this.mergeActions<string>(this.columnTitleComponentRef);
 	}
 
-	public createSlideLightboxComponent(imageData: string | ArrayBuffer): void {
+	public createSlideLightboxComponent(imageData: string | ArrayBuffer): Observable<void> {
 		this.slideLightboxComponentRef = this.appViewContainerRef.createComponent(this.slideLightboxComponentFactory);
 		this.slideLightboxComponentRef.instance.imageData = imageData;
-		this.slideLightboxComponentRef.instance.onClick.pipe(
-			first(),
-		).subscribe(() => {
-			this.appViewContainerRef.clear();
-		});
+
+		return this.mergeActions<void>(this.slideLightboxComponentRef);
 	}
 
-	public createSlideSelectNewActionTypeComponent(): EventEmitter<string | null> {
+	public createSlideSelectActionTypeComponent(alreadySelectedActionType?: SlideActionTypes): Observable<string> {
 		this.slideSelectActionTypeComponentRef = this.appViewContainerRef.createComponent(this.slideSelectNewActionTypeComponentFactory);
 
-		return this.slideSelectActionTypeComponentRef.instance.onNextStepOrCancel$;
+		if (alreadySelectedActionType) {
+			this.slideSelectActionTypeComponentRef.instance.selectedActionType = alreadySelectedActionType;
+		}
+
+		return this.mergeActions<string>(this.slideSelectActionTypeComponentRef);
 	}
 
-	public createSlideEditActionTypeComponent(alreadySelectedActionType: SlideActionTypes): EventEmitter<string | null> {
-		this.slideSelectActionTypeComponentRef = this.appViewContainerRef.createComponent(this.slideSelectNewActionTypeComponentFactory);
-		this.slideSelectActionTypeComponentRef.instance.selectedActionType = alreadySelectedActionType;
-
-		return this.slideSelectActionTypeComponentRef.instance.onNextStepOrCancel$;
-	}
-
-	public createInternalSlideLinkComponent(editedSlideId: number, alreadySelectedSlideId?: number | string): EventEmitter<number> {
+	public createInternalSlideLinkComponent(editedSlideId: number, alreadySelectedSlideId?: number | string): Observable<number> {
 		this.internalSlideLinkComponentRef = this.appViewContainerRef.createComponent(this.slideInternalSlideLinkComponentFactory);
 		this.internalSlideLinkComponentRef.instance.editedSlideId = editedSlideId;
 
@@ -67,26 +61,12 @@ export class PresentationCreatorComponentFactoryService {
 			this.internalSlideLinkComponentRef.instance.alreadySelectedSlideId = alreadySelectedSlideId;
 		}
 
-		return this.internalSlideLinkComponentRef.instance.onSaveAction;
+		return this.mergeActions<number>(this.internalSlideLinkComponentRef);
 	}
 
 	public createExternalLinkComponent(): Observable<string> {
 		this.externalLinkComponentRef = this.appViewContainerRef.createComponent(this.externalLinkComponentComponentFactory);
 
-		return merge(
-			this.externalLinkComponentRef.instance.onSaveAction,
-			this.externalLinkComponentRef.instance.onCancelAction,
-		).pipe(
-			first(),
-			tap(() => this.clearViewContainerRef()),
-			filter((actionResponse: string) => !!actionResponse),
-			map((actionResponse: string) => {
-				return actionResponse;
-			}),
-		)
-	}
-
-	public clearViewContainerRef(): void {
-		this.appViewContainerRef.clear();
+		return this.mergeActions<string>(this.externalLinkComponentRef);
 	}
 }

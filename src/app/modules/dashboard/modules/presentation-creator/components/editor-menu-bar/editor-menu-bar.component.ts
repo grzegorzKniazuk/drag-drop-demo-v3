@@ -49,8 +49,7 @@ export class EditorMenuBarComponent implements OnInit, OnDestroy {
 	}
 
 	public changePresentationTitle(): void {
-		this.componentFactoryBaseService.createEditPresentationTitleComponent().presentationTitle$
-		    .pipe(first())
+		this.componentFactoryBaseService.createPresentationTitleComponent(true)
 		    .subscribe((presentationTitle: string) => {
 			    this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
 		    });

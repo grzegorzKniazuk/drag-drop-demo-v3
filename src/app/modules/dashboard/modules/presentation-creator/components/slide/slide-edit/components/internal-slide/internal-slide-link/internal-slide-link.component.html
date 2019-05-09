@@ -3,7 +3,7 @@
 		<ng-container *ngFor="let column of sortedSlidesArrays">
 			<div class="presentation-column">
 				<ng-container *ngFor="let slide of column">
-					<app-slide-link-thumbnail [slide]="slide" [isSelected]="+alreadySelectedSlideId === slide.id"></app-slide-link-thumbnail>
+					<app-slide-link-thumbnail [isSelected]="+alreadySelectedSlideId === slide.id" [slide]="slide"></app-slide-link-thumbnail>
 				</ng-container>
 			</div>
 		</ng-container>

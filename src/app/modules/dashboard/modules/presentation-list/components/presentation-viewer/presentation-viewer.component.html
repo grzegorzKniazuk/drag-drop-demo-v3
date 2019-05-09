@@ -7,11 +7,11 @@
 	</ng-container>
 	<ng-container *ngIf="currentlyVisibleSlide">
 		<app-slide-link-action
-			*ngFor="let action of currentlyVisibleSlide.actions"
-			[isEditMode]="false"
-			[actionParams]="action"
 			(onPerformAction)="performAction($event)"
+			*ngFor="let action of currentlyVisibleSlide.actions"
+			[actionParams]="action"
 			[class]="slideLinkActionContainerCssClass"
+			[isEditMode]="false"
 			[ngStyle]="action.style"></app-slide-link-action>
 	</ng-container>
 

@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
+import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-component.';
 
 @Component({
 	selector: 'app-slide-lightbox',
@@ -6,16 +7,14 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostListener } from '
 	styleUrls: [ './slide-lightbox.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SlideLightboxComponent {
-
-	public onClick: EventEmitter<void> = new EventEmitter<void>();
+export class SlideLightboxComponent extends BaseDynamicComponent {
 
 	public imageData: string | ArrayBuffer;
 
 	@HostListener('click', [ '$event' ])
-	public closeLightbox(event: MouseEvent): void {
+	public onCancel(event: MouseEvent): void {
 		event.stopImmediatePropagation();
 
-		this.onClick.emit();
+		this.onCancelAction.emit();
 	}
 }

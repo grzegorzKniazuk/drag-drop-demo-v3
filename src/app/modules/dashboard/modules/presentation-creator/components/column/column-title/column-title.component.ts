@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
+import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-component.';
 
 @Component({
 	selector: 'app-column-title',
@@ -6,20 +7,20 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostListener } from '
 	styleUrls: [ './column-title.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ColumnTitleComponent {
+export class ColumnTitleComponent extends BaseDynamicComponent {
 
-	public columnTitle$: EventEmitter<string> = new EventEmitter<string>();
 	public columnTitle: string;
 	public dialogVisibility = true;
 
 	@HostListener('document:keydown.enter')
 	public onSave(): void {
 		this.dialogVisibility = false;
-		this.columnTitle$.emit(this.columnTitle);
+		this.onSaveAction.emit(this.columnTitle);
 	}
 
 	@HostListener('document:keydown.escape')
 	public onCancel(): void {
 		this.dialogVisibility = false;
+		this.onCancelAction.emit();
 	}
 }

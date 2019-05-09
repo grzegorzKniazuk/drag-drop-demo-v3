@@ -45,8 +45,7 @@ export class PresentationListComponent implements OnInit, OnDestroy {
 
 	public createNewPresentation(): void {
 		const presentationId = this.generatePresentationId;
-		this.componentFactoryBaseService.createPresentationTitleComponent().presentationTitle$
-		    .pipe(first())
+		this.componentFactoryBaseService.createPresentationTitleComponent(false)
 		    .subscribe((presentationTitle: string) => {
 			    this.router.navigateByUrl(`/dashboard/presentation-creator`).then(() => {
 				    this.store.dispatch(new SetPresentationId({ presentationId }));

@@ -5,7 +5,7 @@ import { AppState } from 'src/app/store';
 import { ColumnDividerSibilings } from 'src/app/shared/interfaces/column-divider-sibilings';
 import { isNull, isNumber } from 'lodash';
 import { AddColumnBetweenExistingColumns, AddColumnBetweenExistingColumnsByLibrarySlide } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
-import { first, tap, withLatestFrom } from 'rxjs/operators';
+import { withLatestFrom } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { selectSlidesById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { Slide } from 'src/app/shared/interfaces/slide';
@@ -52,40 +52,28 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 	}
 
 	private addColumnBetweenExistingColumns(sourceSlideId: number): void {
-		this.presentationCreatorComponentFactoryService.createColumnTitleComponent().columnTitle$
-			.pipe(
-				withLatestFrom(this.store.pipe(select(selectSlidesById, { slideId: sourceSlideId }))),
-				first(),
-				tap(() => {
-					this.presentationCreatorComponentFactoryService.clearViewContainerRef();
-				}),
-			)
-			.subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
-				this.store.dispatch(new AddColumnBetweenExistingColumns({
-					column: this.prepareNewColumn(columnTitle),
-					sourceSlide,
-				}));
-			});
+		this.presentationCreatorComponentFactoryService.createColumnTitleComponent()
+		    .pipe(withLatestFrom(this.store.pipe(select(selectSlidesById, { slideId: sourceSlideId }))))
+		    .subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
+			    this.store.dispatch(new AddColumnBetweenExistingColumns({
+				    column: this.prepareNewColumn(columnTitle),
+				    sourceSlide,
+			    }));
+		    });
 	}
 
 	private addColumnBetweenExistingColumnsByLibrarySlide(sourceSlideId: number): void {
-		this.presentationCreatorComponentFactoryService.createColumnTitleComponent().columnTitle$
-			.pipe(
-				first(),
-				withLatestFrom(this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId }))),
-				tap(() => {
-					this.presentationCreatorComponentFactoryService.clearViewContainerRef();
-				}),
-			)
-			.subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
-				this.store.dispatch(new AddColumnBetweenExistingColumnsByLibrarySlide({
-					column: this.prepareNewColumn(columnTitle),
-					sourceSlide: {
-						...sourceSlide,
-						id: this.generateSlideId,
-					},
-				}));
-			});
+		this.presentationCreatorComponentFactoryService.createColumnTitleComponent()
+		    .pipe(withLatestFrom(this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId }))))
+		    .subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
+			    this.store.dispatch(new AddColumnBetweenExistingColumnsByLibrarySlide({
+				    column: this.prepareNewColumn(columnTitle),
+				    sourceSlide: {
+					    ...sourceSlide,
+					    id: this.generateSlideId,
+				    },
+			    }));
+		    });
 	}
 
 	private prepareNewColumn(columnTitle: string): Column {

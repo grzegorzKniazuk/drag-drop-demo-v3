@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-component.';
 
 @Component({
 	selector: 'app-external-link',
@@ -6,16 +7,10 @@ import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angul
 	styleUrls: [ './external-link.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExternalLinkComponent implements OnInit {
-
-	public onSaveAction: EventEmitter<string> = new EventEmitter();
-	public onCancelAction: EventEmitter<null> = new EventEmitter();
+export class ExternalLinkComponent extends BaseDynamicComponent implements OnInit {
 
 	public link: string;
 	public isVisible = true;
-
-	constructor() {
-	}
 
 	ngOnInit() {
 	}
@@ -23,11 +18,10 @@ export class ExternalLinkComponent implements OnInit {
 	public onSave(): void {
 		this.isVisible = false;
 		this.onSaveAction.emit(this.link);
-
 	}
 
 	public onCancel(): void {
 		this.isVisible = false;
-		this.onCancelAction.emit(null);
+		this.onCancelAction.emit();
 	}
 }

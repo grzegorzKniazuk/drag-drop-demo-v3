@@ -41,7 +41,7 @@ export class SlideLinkActionComponent {
 		this.onRemoveAction.emit(this.actionParams.id);
 	}
 
-	@HostListener('click', ['$event'])
+	@HostListener('click', [ '$event' ])
 	private onPerform(event: MouseEvent): void {
 		event.stopImmediatePropagation();
 

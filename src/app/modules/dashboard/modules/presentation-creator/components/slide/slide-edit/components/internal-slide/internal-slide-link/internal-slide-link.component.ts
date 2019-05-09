@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { Slide } from 'src/app/shared/interfaces/slide';
@@ -8,6 +8,7 @@ import { groupBy } from 'src/app/shared/utils/group-by';
 import { first, map, tap } from 'rxjs/operators';
 import { InternalSlideLinkService } from 'src/app/modules/dashboard/modules/presentation-creator/services/internal-slide-link.service';
 import { Observable } from 'rxjs';
+import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-component.';
 
 @AutoUnsubscribe()
 @Component({
@@ -16,9 +17,8 @@ import { Observable } from 'rxjs';
 	styleUrls: [ './internal-slide-link.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InternalSlideLinkComponent implements OnInit, OnDestroy {
+export class InternalSlideLinkComponent extends BaseDynamicComponent implements OnInit, OnDestroy {
 
-	public onSaveAction: EventEmitter<number> = new EventEmitter<number>();
 	public sortedSlidesArrays: Slide[][];
 	public editedSlideId: number;
 	public isVisible = true;
@@ -29,6 +29,7 @@ export class InternalSlideLinkComponent implements OnInit, OnDestroy {
 		private store: Store<AppState>,
 		private internalSlideLinkService: InternalSlideLinkService,
 	) {
+		super();
 	}
 
 	ngOnInit() {
@@ -54,6 +55,7 @@ export class InternalSlideLinkComponent implements OnInit, OnDestroy {
 
 	public onCancel(): void {
 		this.isVisible = false;
+		this.onCancelAction.emit();
 	}
 
 	private initObservables(): void {
@@ -74,7 +76,7 @@ export class InternalSlideLinkComponent implements OnInit, OnDestroy {
 	}
 
 	// https://stackoverflow.com/questions/586182/how-to-insert-an-item-into-an-array-at-a-specific-index-javascript
-	private sortByColumns(columns: { [ key: number ]: Slide[] }): void {
+	private sortByColumns(columns: { [key: number]: Slide[] }): void {
 		const sortedSlidesArrays = [];
 
 		for (let slideArray of Object.values(columns)) {

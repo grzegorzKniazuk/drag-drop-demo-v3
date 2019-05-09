@@ -28,7 +28,6 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnChanges, 
 
 	constructor(
 		private changeDetectorRef: ChangeDetectorRef,
-		private componentFactoryBaseService: ComponentFactoryBaseService,
 		private presentationCreatorComponentFactoryService: PresentationCreatorComponentFactoryService,
 		private router: Router,
 		store: Store<AppState>,
@@ -99,20 +98,13 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnChanges, 
 				slideId: this.slide.id,
 			}));
 		} else if (isNull(this.slide.columnId)) { // jesli usuwamy z bibiloteki
-			this.componentFactoryBaseService.createConfirmDialogComponent(
+			this.presentationCreatorComponentFactoryService.createConfirmDialogComponent(
 				'Uwaga',
 				'Czy napewno chcesz usunąć ten slajd z biblioteki? Operacji nie można cofnąć',
-			).onAcceptOrConfirm$.pipe(
-				first(),
-				tap(() => {
-					this.componentFactoryBaseService.clearViewContainerRef();
-				}),
-			).subscribe((accepted: boolean) => {
-				if (accepted) {
-					this.store.dispatch(new REMOVE_SLIDE({
-						slideId: this.slide.id,
-					}));
-				}
+			).subscribe(() => {
+				this.store.dispatch(new REMOVE_SLIDE({
+					slideId: this.slide.id,
+				}));
 			});
 		}
 	}
@@ -120,7 +112,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnChanges, 
 	public showLightbox(event: MouseEvent): void {
 		event.stopImmediatePropagation();
 
-		this.presentationCreatorComponentFactoryService.createSlideLightboxComponent(this.slide.imageData);
+		this.presentationCreatorComponentFactoryService.createSlideLightboxComponent(this.slide.imageData).subscribe();
 	}
 
 	private swapSlideInTheSameColumn(sourceSlideId: number, sourceSlidePosition: SlidePosition): void {

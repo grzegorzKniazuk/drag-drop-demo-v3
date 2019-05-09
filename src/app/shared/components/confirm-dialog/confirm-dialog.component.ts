@@ -1,20 +1,21 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
+import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-component.';
 
 @Component({
 	selector: 'app-confirm-dialog',
 	templateUrl: './confirm-dialog.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfirmDialogComponent implements OnInit {
+export class ConfirmDialogComponent extends BaseDynamicComponent implements OnInit {
 
-	public onAcceptOrConfirm$: EventEmitter<boolean> = new EventEmitter<boolean>();
 	public message: string;
 	public header: string;
 
 	constructor(
 		private confirmationService: ConfirmationService,
 	) {
+		super();
 	}
 
 	ngOnInit() {
@@ -29,10 +30,10 @@ export class ConfirmDialogComponent implements OnInit {
 			rejectLabel: 'Anuluj',
 			icon: 'pi pi-exclamation-triangle',
 			accept: () => {
-				this.onAcceptOrConfirm$.emit(true);
+				this.onSaveAction.emit(true);
 			},
 			reject: () => {
-				this.onAcceptOrConfirm$.emit(false);
+				this.onCancelAction.emit(false);
 			},
 		});
 	}

@@ -7,7 +7,7 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { SlideActionParams } from 'src/app/shared/interfaces/slide-action-params';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
-import { filter, first, tap } from 'rxjs/operators';
+import { first, tap } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
@@ -31,7 +31,6 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 	constructor(
 		private activatedRoute: ActivatedRoute,
 		private store: Store<AppState>,
-		private componentFactoryBaseService: ComponentFactoryBaseService,
 		private presentationCreatorComponentFactoryService: PresentationCreatorComponentFactoryService,
 		private changeDetectorRef: ChangeDetectorRef,
 		title: Title,
@@ -52,21 +51,14 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 	}
 
 	public removeSlideAction(actionId: number): void {
-		this.componentFactoryBaseService.createConfirmDialogComponent(
+		this.presentationCreatorComponentFactoryService.createConfirmDialogComponent(
 			'Uwaga',
 			'Czy napewno chcesz usunąć tą akcję? Operacji nie można cofnąć',
-		).onAcceptOrConfirm$.pipe(
-			first(),
-			tap(() => {
-				this.componentFactoryBaseService.clearViewContainerRef();
-			}),
-		).subscribe((isAccepted: boolean) => {
-			if (isAccepted) {
-				this.slideActions = this.slideActions.filter((actionParams) => {
-					return actionParams.id !== actionId;
-				});
-				this.changeDetectorRef.detectChanges();
-			}
+		).subscribe(() => {
+			this.slideActions = this.slideActions.filter((actionParams) => {
+				return actionParams.id !== actionId;
+			});
+			this.changeDetectorRef.detectChanges();
 		});
 	}
 
@@ -89,6 +81,17 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 		}));
 	}
 
+	public onClick(event: MouseEvent): void {
+		if (this.element) {
+			this.removeDrawnDivElement();
+			this.setCursor(CursorTypes.DEFAULT);
+			this.initNewSlideAction();
+		} else {
+			this.createDivElement(event);
+			this.setCursor(CursorTypes.CROSSHAIR);
+		}
+	}
+
 	private fetchSlide(): void {
 		const slideId = +this.activatedRoute.snapshot.paramMap.get('id');
 
@@ -105,14 +108,7 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 	}
 
 	private initEditSlideAction(actionToEdit: SlideActionParams): void {
-		this.presentationCreatorComponentFactoryService.createSlideEditActionTypeComponent(actionToEdit.type)
-		    .pipe(
-			    first(),
-			    filter((nextStepAction: SlideActionTypes) => !!nextStepAction),
-			    tap(() => {
-				    this.presentationCreatorComponentFactoryService.clearViewContainerRef();
-			    }),
-		    )
+		this.presentationCreatorComponentFactoryService.createSlideSelectActionTypeComponent(actionToEdit.type)
 		    .subscribe((actionType: SlideActionTypes) => {
 			    if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
 				    this.createInternalSlideLinkComponent(actionType, actionToEdit.target);
@@ -122,26 +118,8 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 		    });
 	}
 
-	public onClick(event: MouseEvent): void {
-		if (this.element) {
-			this.removeDrawnDivElement();
-			this.setCursor(CursorTypes.DEFAULT);
-			this.initNewSlideAction();
-		} else {
-			this.createDivElement(event);
-			this.setCursor(CursorTypes.CROSSHAIR);
-		}
-	}
-
 	private initNewSlideAction(): void {
-		this.presentationCreatorComponentFactoryService.createSlideSelectNewActionTypeComponent()
-		    .pipe(
-			    first(),
-			    filter((nextStepAction: SlideActionTypes) => !!nextStepAction),
-			    tap(() => {
-				    this.presentationCreatorComponentFactoryService.clearViewContainerRef();
-			    }),
-		    )
+		this.presentationCreatorComponentFactoryService.createSlideSelectActionTypeComponent()
 		    .subscribe((actionType: SlideActionTypes) => {
 			    if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
 				    this.createInternalSlideLinkComponent(actionType);
@@ -153,7 +131,6 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 
 	private createExternalLinkComponent(actionType: SlideActionTypes): void {
 		this.presentationCreatorComponentFactoryService.createExternalLinkComponent()
-		    .pipe(first())
 		    .subscribe((externalLink: string) => {
 			    console.log(externalLink);
 		    });
@@ -161,13 +138,6 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 
 	private createInternalSlideLinkComponent(actionType: SlideActionTypes, alreadySelectedSlideId?: number | string): void {
 		this.presentationCreatorComponentFactoryService.createInternalSlideLinkComponent(this.slide.id, alreadySelectedSlideId)
-		    .pipe(
-			    first(),
-			    filter((selectedSlideId: number) => !!selectedSlideId),
-			    tap(() => {
-				    this.presentationCreatorComponentFactoryService.clearViewContainerRef();
-			    }),
-		    )
 		    .subscribe((selectedSlideId: number) => {
 			    this.addActionToArray(selectedSlideId, actionType);
 		    });

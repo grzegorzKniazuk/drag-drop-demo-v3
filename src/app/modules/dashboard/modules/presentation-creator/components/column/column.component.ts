@@ -75,20 +75,13 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 	public onRemoveColumn(): void {
 		this.componentFactoryBaseService.createConfirmDialogComponent(
 			'Uwaga',
-			'Czy napewno chcesz usunąć tą sekcję prezentacji?',
-		).onAcceptOrConfirm$.pipe(
-			first(),
-			withLatestFrom(this.store.pipe(select(selectColumnSlidesIdsByColumnId, { columnId: this.column.id }))),
-			tap(() => {
-				this.componentFactoryBaseService.clearViewContainerRef();
-			}),
-		).subscribe(([ accepted, slideIds ]: [ boolean, number[] ]) => {
-			if (accepted) {
-				this.store.dispatch(new RemoveColumn({
-					columnId: this.column.id,
-					columnSlidesIds: slideIds,
-				}));
-			}
+			'Czy napewno chcesz usunąć tą sekcję prezentacji?')
+		    .pipe(withLatestFrom(this.store.pipe(select(selectColumnSlidesIdsByColumnId, { columnId: this.column.id }))))
+		    .subscribe(([ accepted, slideIds ]: [ boolean, number[] ]) => {
+			    this.store.dispatch(new RemoveColumn({
+				    columnId: this.column.id,
+				    columnSlidesIds: slideIds,
+			    }));
 		});
 	}
 

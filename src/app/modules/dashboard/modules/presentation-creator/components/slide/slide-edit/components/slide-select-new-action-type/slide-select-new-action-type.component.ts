@@ -1,21 +1,18 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
+import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-component.';
 
 @Component({
 	selector: 'app-slide-select-new-action-type',
 	templateUrl: './slide-select-new-action-type.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SlideSelectNewActionTypeComponent implements OnInit {
+export class SlideSelectNewActionTypeComponent extends BaseDynamicComponent implements OnInit {
 
-	public onNextStepOrCancel$: EventEmitter<string | null> = new EventEmitter<string | null>();
 	public actionTypes: SelectItem[];
 	public isVisible = true;
 	public selectedActionType: SlideActionTypes;
-
-	constructor() {
-	}
 
 	ngOnInit() {
 		this.initActionTypes();
@@ -23,12 +20,12 @@ export class SlideSelectNewActionTypeComponent implements OnInit {
 
 	public onNextStep(): void {
 		this.isVisible = false;
-		this.onNextStepOrCancel$.emit(this.selectedActionType);
+		this.onSaveAction.emit(this.selectedActionType);
 	}
 
 	public onCancel(): void {
 		this.isVisible = false;
-		this.onNextStepOrCancel$.emit(null);
+		this.onCancelAction.emit();
 	}
 
 	private initActionTypes(): void {

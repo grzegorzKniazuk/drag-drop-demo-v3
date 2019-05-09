@@ -35,22 +35,22 @@ export class SlideLinkThumbnailComponent implements OnInit, OnDestroy {
 	private initObservables(): void {
 		this.subscriptions$.add(
 			this.internalSlideLinkService.selectedSlideId$
-		    .pipe(
-		    	filter((selectedSlideId: number) => {
-		    		return !!selectedSlideId;
-			    }),
-			    tap(() => {
-				    this.isSelected = false;
+			    .pipe(
+				    filter((selectedSlideId: number) => {
+					    return !!selectedSlideId;
+				    }),
+				    tap(() => {
+					    this.isSelected = false;
+					    this.changeDetectorRef.detectChanges();
+				    }),
+				    filter((selectedSlideId: number) => {
+					    return selectedSlideId === this.slide.id;
+				    }),
+			    )
+			    .subscribe(() => {
+				    this.isSelected = true;
 				    this.changeDetectorRef.detectChanges();
 			    }),
-			    filter((selectedSlideId: number) => {
-				    return selectedSlideId === this.slide.id;
-			    }),
-		    )
-		    .subscribe(() => {
-			    this.isSelected = true;
-			    this.changeDetectorRef.detectChanges();
-		    })
 		);
 	}
 

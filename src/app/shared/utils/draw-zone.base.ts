@@ -74,6 +74,18 @@ export abstract class DrawZoneBase {
 		this.renderer2.setStyle(this.canvasElement.nativeElement, 'cursor', cursorType);
 	}
 
+	protected showOpeningToast(): void {
+		this.toastService.information('Kliknij, aby zaznaczyć obszar na slajdzie i dodać do niego akcję');
+	}
+
+	protected setBackgroundImage(imageData: string | ArrayBuffer) {
+		this.renderer2.setAttribute(this.backgroundElement.nativeElement, 'src', <string>imageData);
+	}
+
+	protected initTitle(): void {
+		this.title.setTitle('Edycja slajdu');
+	}
+
 	private drawDivElement(): void {
 		this.renderer2.setStyle(this.element, 'width', this.width);
 		this.renderer2.setStyle(this.element, 'height', this.height);
@@ -99,17 +111,5 @@ export abstract class DrawZoneBase {
 
 	private toPercentageY(y: number): number {
 		return (y / this.canvasElement.nativeElement.offsetHeight) * 100;
-	}
-
-	protected showOpeningToast(): void {
-		this.toastService.information('Kliknij, aby zaznaczyć obszar na slajdzie i dodać do niego akcję');
-	}
-
-	protected setBackgroundImage(imageData: string | ArrayBuffer) {
-		this.renderer2.setAttribute(this.backgroundElement.nativeElement, 'src', <string> imageData);
-	}
-
-	protected initTitle(): void {
-		this.title.setTitle('Edycja slajdu');
 	}
 }

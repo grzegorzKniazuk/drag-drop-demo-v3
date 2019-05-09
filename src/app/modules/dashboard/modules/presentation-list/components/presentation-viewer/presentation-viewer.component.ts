@@ -91,6 +91,29 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit {
 		}
 	}
 
+	public performAction(params: SlideActionParams): void {
+		switch (params.type) {
+			case SlideActionTypes.INTERNAL_SLIDE_LINK: {
+				const targetSlidePosition = this.presentation.slides.find((slide: Slide) => {
+					return slide.id === params.target;
+				}).position;
+				this.switchSlide(targetSlidePosition);
+				break;
+			}
+			case SlideActionTypes.EXTERNAL_PRESENTATION_LINK: {
+
+				break;
+			}
+			case SlideActionTypes.EXTERNAL_WEB_LINK: {
+
+				break;
+			}
+			default: {
+				this.toastService.error('Błąd parametrów akcji');
+			}
+		}
+	}
+
 	private initTitle(): void {
 		this.title.setTitle('Przeglądarka prezentacji');
 	}
@@ -141,28 +164,5 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit {
 		this.viewerPosition = params;
 		this.currentlyVisibleSlide = this.findSlideByPosition(params);
 		this.setBackgroundImage(this.currentlyVisibleSlide.imageData);
-	}
-
-	public performAction(params: SlideActionParams): void {
-		switch (params.type) {
-			case SlideActionTypes.INTERNAL_SLIDE_LINK: {
-				const targetSlidePosition = this.presentation.slides.find((slide: Slide) => {
-					return slide.id === params.target;
-				}).position;
-				this.switchSlide(targetSlidePosition);
-				break;
-			}
-			case SlideActionTypes.EXTERNAL_PRESENTATION_LINK: {
-
-				break;
-			}
-			case SlideActionTypes.EXTERNAL_WEB_LINK: {
-
-				break;
-			}
-			default: {
-				this.toastService.error('Błąd parametrów akcji');
-			}
-		}
 	}
 }
