@@ -1,4 +1,4 @@
 export interface SlidePosition {
-	column: number | null;
-	order: number | null;
+	column: number;
+	order: number;
 }

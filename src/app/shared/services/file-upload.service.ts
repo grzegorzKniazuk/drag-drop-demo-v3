@@ -3,6 +3,7 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ADD_SLIDES } from 'src/app/modules/dashboard/store/actions/library.actions';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -14,6 +15,7 @@ export class FileUploadService {
 
 	constructor(
 		private store: Store<AppState>,
+		private toastService: ToastService,
 	) {
 	}
 
@@ -24,15 +26,17 @@ export class FileUploadService {
 	public uploadFiles(event: any): void {
 		this.files = event.target.files || event.dataTransfer.files;
 
-		this.prepareSlides().then((slides: Slide[]) => {
-			this.store.dispatch(new ADD_SLIDES({ slides }));
-		}).finally(() => {
-			this.slides = [];
-		});
+		this.prepareSlides()
+		    .then((slides: Slide[]) => {
+			    this.store.dispatch(new ADD_SLIDES({ slides }));
+		    })
+		    .finally(() => {
+			    this.slides = [];
+		    });
 	}
 
 	private prepareSlides(): Promise<Slide[]> {
-		return new Promise<Slide[]>(((resolve, reject) => {
+		return new Promise<Slide[]>(((resolve) => {
 			for (let i = 0; i < this.files.length; i++) {
 				if (this.files.item(i).type.match('image')) {
 					const fileReader = new FileReader();
@@ -58,6 +62,8 @@ export class FileUploadService {
 							resolve(this.slides);
 						}
 					};
+				} else {
+					this.toastService.error('Wrzucony plik nie jest grafiką');
 				}
 			}
 		}));

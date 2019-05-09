@@ -1,6 +1,6 @@
 import { ApplicationRef, ComponentFactory, ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
-import { PresentationTitleComponent } from 'src/app/shared/components/presentation-title/presentation-title.component';
+import { PresentationTitleDialogComponent } from 'src/app/shared/components/presentation-title-dialog/presentation-title-dialog.component';
 import { DynamicComponentTypes } from 'src/app/shared/types/dynamic-component-types';
 import { merge, Observable } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
@@ -11,9 +11,9 @@ import { filter, first, map, tap } from 'rxjs/operators';
 export class ComponentFactoryBaseService {
 
 	protected readonly appViewContainerRef: ViewContainerRef = this.applicationRef.components[0].instance.viewContainerRef;
-	private readonly presentationTitleComponentFactory: ComponentFactory<PresentationTitleComponent> = this.componentFactoryResolver.resolveComponentFactory(PresentationTitleComponent);
+	private readonly presentationTitleComponentFactory: ComponentFactory<PresentationTitleDialogComponent> = this.componentFactoryResolver.resolveComponentFactory(PresentationTitleDialogComponent);
 	private readonly confirmDialogComponentFactory: ComponentFactory<ConfirmDialogComponent> = this.componentFactoryResolver.resolveComponentFactory(ConfirmDialogComponent);
-	private presentationTitleComponentRef: ComponentRef<PresentationTitleComponent>;
+	private presentationTitleComponentRef: ComponentRef<PresentationTitleDialogComponent>;
 	private confirmDialogComponentRef: ComponentRef<ConfirmDialogComponent>;
 
 	constructor(

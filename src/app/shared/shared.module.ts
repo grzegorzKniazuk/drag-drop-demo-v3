@@ -7,18 +7,18 @@ import { AutofocusDirective } from 'src/app/shared/directives/autofocus.directiv
 import { MaterialModule } from 'src/app/shared/material.module';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { PresentationTitleComponent } from 'src/app/shared/components/presentation-title/presentation-title.component';
+import { PresentationTitleDialogComponent } from 'src/app/shared/components/presentation-title-dialog/presentation-title-dialog.component';
 import { SlideActionComponent } from 'src/app/shared/components/slide-action/slide-action.component';
 
 const components = [
 	ConfirmDialogComponent,
-	PresentationTitleComponent,
+	PresentationTitleDialogComponent,
 	SlideActionComponent,
 ];
 
 const entryComponents = [
 	ConfirmDialogComponent,
-	PresentationTitleComponent,
+	PresentationTitleDialogComponent,
 ];
 
 const directives = [

@@ -1,17 +1,19 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { selectEditorPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-metadata.selectors';
 import { first } from 'rxjs/operators';
 import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-component.';
+import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 
+@AutoUnsubscribe()
 @Component({
 	selector: 'app-presentation-title',
-	templateUrl: './presentation-title.component.html',
-	styleUrls: [ './presentation-title.component.scss' ],
+	templateUrl: './presentation-title-dialog.component.html',
+	styleUrls: [ './presentation-title-dialog.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PresentationTitleComponent extends BaseDynamicComponent implements OnInit {
+export class PresentationTitleDialogComponent extends BaseDynamicComponent implements OnInit, OnDestroy {
 
 	public presentationTitle: string;
 	public dialogVisibility = true;
@@ -27,6 +29,9 @@ export class PresentationTitleComponent extends BaseDynamicComponent implements 
 	ngOnInit() {
 		this.setHeader();
 		this.setPresentationTitle();
+	}
+
+	ngOnDestroy() {
 	}
 
 	@HostListener('document:keydown.enter')

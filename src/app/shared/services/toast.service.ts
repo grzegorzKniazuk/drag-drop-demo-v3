@@ -6,7 +6,9 @@ import { MessageService } from 'primeng/api';
 })
 export class ToastService {
 
-	constructor(private messageService: MessageService) {
+	constructor(
+		private messageService: MessageService,
+	) {
 	}
 
 	public success(message: string): void {

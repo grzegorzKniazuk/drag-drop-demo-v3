@@ -30,7 +30,6 @@ import { WINDOW_PROVIDERS } from 'src/app/shared/services/window.service';
 		ConfirmationService,
 		MessageService,
 		WINDOW_PROVIDERS,
-		// { provide: ErrorHandler, useClass: RouterErrorHandler },
 	],
 	bootstrap: [ AppComponent ],
 })
