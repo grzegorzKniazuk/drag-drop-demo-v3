@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
-import { PresentationListActionsTypes, SavePresentation, UpdatePresentation } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
-import { concatMap, map, tap } from 'rxjs/operators';
+import { PresentationListActionsTypes, SAVE_PRESENTATION, UPDATE_PRESENTATION } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
+import { concatMap, tap } from 'rxjs/operators';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { fromPromise } from 'rxjs/internal-compatibility';
-import { Observable } from 'rxjs';
 import { ClearPresentationMetadata, SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
 import { AddColumns, ClearColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
 import { AddSlides, ClearSlides } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
@@ -15,13 +13,14 @@ import { LocalStorage } from '@ngx-pwa/local-storage';
 export class PresentationListEffects {
 
 	@Effect({ dispatch: true })
-	public savePresentation$: Observable<ClearPresentationMetadata | ClearColumns | ClearSlides> = this.actions$.pipe(
-		ofType(PresentationListActionsTypes.SavePresentation),
-		map((action: SavePresentation) => {
-			return fromPromise(this.router.navigateByUrl('/dashboard/presentation-list').then(() => {
-				this.localStorage.setItemSubscribe('presentation', action.payload.presentation);
-				this.toastService.success('Prezentacja została zapisana');
-			}));
+	public savePresentation$ = this.actions$.pipe(
+		ofType(PresentationListActionsTypes.SAVE_PRESENTATION),
+		tap((action: SAVE_PRESENTATION) => {
+			this.router.navigateByUrl('/dashboard/presentation-list')
+			    .then(() => {
+				    this.localStorage.setItemSubscribe('presentation', action.payload.presentation);
+				    this.toastService.success('Prezentacja została zapisana');
+			    });
 		}),
 		concatMap(() => {
 			return [
@@ -33,20 +32,20 @@ export class PresentationListEffects {
 	);
 
 	@Effect({ dispatch: false })
-	public removePresentation$: Observable<void> = this.actions$.pipe(
-		ofType(PresentationListActionsTypes.RemovePresentation),
+	public removePresentation$ = this.actions$.pipe(
+		ofType(PresentationListActionsTypes.REMOVE_PRESENTATION),
 		tap(() => {
 			this.toastService.success('Prezentacja została usunięta');
 		}),
 	);
 
 	@Effect({ dispatch: true })
-	public updatePresentation$: Observable<SetPresentationId | SetPresentationTitle | AddSlides | AddColumns> = this.actions$.pipe(
-		ofType(PresentationListActionsTypes.UpdatePresentation),
+	public updatePresentation$ = this.actions$.pipe(
+		ofType(PresentationListActionsTypes.UPDATE_PRESENTATION),
 		tap(() => {
-			return fromPromise(this.router.navigateByUrl('/dashboard/presentation-creator'));
+			this.router.navigateByUrl('/dashboard/presentation-creator');
 		}),
-		concatMap((action: UpdatePresentation) => {
+		concatMap((action: UPDATE_PRESENTATION) => {
 			return [
 				new SetPresentationId({ presentationId: action.payload.id }),
 				new SetPresentationTitle({ presentationTitle: action.payload.title }),

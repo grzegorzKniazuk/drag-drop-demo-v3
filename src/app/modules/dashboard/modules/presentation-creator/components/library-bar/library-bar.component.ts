@@ -24,7 +24,7 @@ export class LibraryBarComponent implements OnInit, OnDestroy {
 	public display: boolean;
 	public librarySlidesAmount$: Observable<number>;
 	public slidesInLibary$: Observable<Slide[]>;
-	@ViewChild('fileInputElement') protected fileInputElement: ElementRef;
+	@ViewChild('fileInputElement') protected readonly fileInputElement: ElementRef;
 
 	constructor(
 		private fileUploadService: FileUploadService,

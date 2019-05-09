@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
@@ -12,20 +12,22 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { Title } from '@angular/platform-browser';
 import { SlideActionParams } from 'src/app/shared/interfaces/slide-action-params';
 import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
+import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 
+@AutoUnsubscribe()
 @Component({
 	selector: 'app-presentation-viewer',
 	templateUrl: './presentation-viewer.component.html',
 	styleUrls: [ './presentation-viewer.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PresentationViewerComponent implements OnInit, AfterViewInit {
+export class PresentationViewerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	public readonly slideLinkActionContainerCssClass = 'slide-link-action-container';
 	public viewerPosition = { column: 0, order: 0 };
 	public currentlyVisibleSlide: Slide;
 	public presentation: Presentation;
-	@ViewChild('backgroundElement') private backgroundElement: ElementRef;
+	@ViewChild('backgroundElement') private readonly backgroundElement: ElementRef;
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
@@ -61,6 +63,9 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit() {
 		this.fetchPresentation();
+	}
+
+	ngOnDestroy() {
 	}
 
 	@HostListener('document:keydown.arrowup')

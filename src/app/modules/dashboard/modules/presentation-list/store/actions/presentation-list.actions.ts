@@ -4,30 +4,30 @@ import { Slide } from 'src/app/shared/interfaces/slide';
 import { Column } from 'src/app/shared/interfaces/column';
 
 export enum PresentationListActionsTypes {
-	SavePresentation = '[List] Save Presentation',
-	UpdatePresentation = '[List] Update Presentation',
-	RemovePresentation = '[List] Remove Presentation',
+	SAVE_PRESENTATION = '[List] Save Presentation',
+	UPDATE_PRESENTATION = '[List] Update Presentation',
+	REMOVE_PRESENTATION = '[List] Remove Presentation',
 }
 
-export class SavePresentation implements Action {
-	public readonly type = PresentationListActionsTypes.SavePresentation;
+export class SAVE_PRESENTATION implements Action {
+	public readonly type = PresentationListActionsTypes.SAVE_PRESENTATION;
 
 	constructor(public payload: { presentation: Presentation }) {
 	}
 }
 
-export class UpdatePresentation implements Action {
-	public readonly type = PresentationListActionsTypes.UpdatePresentation;
+export class UPDATE_PRESENTATION implements Action {
+	public readonly type = PresentationListActionsTypes.UPDATE_PRESENTATION;
 
 	constructor(public payload: { id: number, title: string, slides: Slide[], columns: Column[] }) {
 	}
 }
 
-export class RemovePresentation implements Action {
-	public readonly type = PresentationListActionsTypes.RemovePresentation;
+export class REMOVE_PRESENTATION implements Action {
+	public readonly type = PresentationListActionsTypes.REMOVE_PRESENTATION;
 
 	constructor(public payload: { presentationId: number }) {
 	}
 }
 
-export type PresentationListActions = SavePresentation | UpdatePresentation | RemovePresentation;
+export type PresentationListActions = SAVE_PRESENTATION | UPDATE_PRESENTATION | REMOVE_PRESENTATION;

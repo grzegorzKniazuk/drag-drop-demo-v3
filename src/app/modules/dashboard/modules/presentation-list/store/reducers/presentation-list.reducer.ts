@@ -11,10 +11,10 @@ export const initialPresentationListState: PresentationListState = presentationL
 
 export function presentationListReducer(state = initialPresentationListState, action: PresentationListActions): PresentationListState {
 	switch (action.type) {
-		case PresentationListActionsTypes.SavePresentation: {
+		case PresentationListActionsTypes.SAVE_PRESENTATION: {
 			return presentationListAdapter.upsertOne(action.payload.presentation, state);
 		}
-		case PresentationListActionsTypes.RemovePresentation: {
+		case PresentationListActionsTypes.REMOVE_PRESENTATION: {
 			return presentationListAdapter.removeOne(action.payload.presentationId, state);
 		}
 		default: {

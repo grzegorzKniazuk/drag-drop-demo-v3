@@ -4,5 +4,5 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class InternalSlideLinkService {
 
-	public selectedSlideId$: BehaviorSubject<number> = new BehaviorSubject(null);
+	public readonly selectedSlideId$: BehaviorSubject<number> = new BehaviorSubject(null);
 }

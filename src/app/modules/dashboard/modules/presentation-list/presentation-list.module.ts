@@ -9,6 +9,7 @@ import { PresentationThumbnailComponent } from './components/presentation-thumbn
 import { PresentationViewerComponent } from 'src/app/modules/dashboard/modules/presentation-list/components/presentation-viewer/presentation-viewer.component';
 import { ListMenuBarComponent } from './components/list-menu-bar/list-menu-bar.component';
 import { PresentationCreatorModule } from 'src/app/modules/dashboard/modules/presentation-creator/presentation-creator.module';
+import { StoreFeatureNames } from 'src/app/shared/enums/store-feature-names';
 
 @NgModule({
 	declarations: [
@@ -19,7 +20,7 @@ import { PresentationCreatorModule } from 'src/app/modules/dashboard/modules/pre
 	],
 	imports: [
 		SharedModule,
-		StoreModule.forFeature('presentation-list', presentationListReducer),
+		StoreModule.forFeature(StoreFeatureNames.PRESENTATION_LIST, presentationListReducer),
 		EffectsModule.forFeature([ PresentationListEffects ]),
 		PresentationCreatorModule,
 	],

@@ -8,7 +8,7 @@ import { selectEditorPresentationTitle } from 'src/app/modules/dashboard/modules
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
 import { first } from 'rxjs/operators';
 import { SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
-import { SavePresentation } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
+import { SAVE_PRESENTATION } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { selectCreatorMetadataState } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/module-base.selectors';
 import { selectSlides, selectSlidesAmount } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
@@ -63,7 +63,7 @@ export class EditorMenuBarComponent implements OnInit, OnDestroy {
 		)
 		.pipe(first())
 		.subscribe(([ metadata, slides, columns ]: [ CreatorMetadata, Slide[], Column[] ]) => {
-			this.store.dispatch(new SavePresentation({
+			this.store.dispatch(new SAVE_PRESENTATION({
 				presentation: {
 					id: metadata.presentationId,
 					title: metadata.presentationTitle,

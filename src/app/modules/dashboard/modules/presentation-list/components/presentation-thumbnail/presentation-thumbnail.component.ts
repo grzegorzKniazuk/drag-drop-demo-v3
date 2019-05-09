@@ -1,18 +1,20 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/core';
 import { Presentation } from 'src/app/shared/interfaces/presentation';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
-import { RemovePresentation, UpdatePresentation } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
+import { REMOVE_PRESENTATION, UPDATE_PRESENTATION } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
 import { Router } from '@angular/router';
+import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 
+@AutoUnsubscribe()
 @Component({
 	selector: 'app-presentation-thumbnail',
 	templateUrl: './presentation-thumbnail.component.html',
 	styleUrls: [ './presentation-thumbnail.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PresentationThumbnailComponent {
+export class PresentationThumbnailComponent implements OnDestroy {
 
 	@Input() presentation: Presentation;
 
@@ -23,8 +25,11 @@ export class PresentationThumbnailComponent {
 	) {
 	}
 
+	ngOnDestroy() {
+	}
+
 	public updatePresentation(): void {
-		this.store.dispatch(new UpdatePresentation({
+		this.store.dispatch(new UPDATE_PRESENTATION({
 			id: this.presentation.id,
 			title: this.presentation.title,
 			slides: this.presentation.slides,
@@ -35,10 +40,10 @@ export class PresentationThumbnailComponent {
 	public deletePresentation(): void {
 		this.componentFactoryBaseService.createConfirmDialogComponent(
 			'Uwaga',
-			'Czy napewno chcesz usunąć tą prezentację? Operacji nie można cofnać',
-		).subscribe(() => {
-			this.store.dispatch(new RemovePresentation({ presentationId: this.presentation.id }));
-		});
+			'Czy napewno chcesz usunąć tą prezentację? Operacji nie można cofnać')
+		    .subscribe(() => {
+			    this.store.dispatch(new REMOVE_PRESENTATION({ presentationId: this.presentation.id }));
+		    });
 	}
 
 	public showPresentation(): void {

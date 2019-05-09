@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { BaseMenuComponent } from 'src/app/shared/utils/base-menu-component';
 
 @Component({
 	selector: 'app-list-menu-bar',
@@ -7,23 +7,11 @@ import { MenuItem } from 'primeng/api';
 	styleUrls: [ './list-menu-bar.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListMenuBarComponent implements OnInit {
+export class ListMenuBarComponent extends BaseMenuComponent {
 
-	@Output() public onInitNewPresentation: EventEmitter<void> = new EventEmitter<void>();
-	public menuItems: MenuItem[] = [];
-
-	constructor() {
-	}
-
-	ngOnInit() {
-		this.buildMenu();
-	}
+	@Output() public readonly onInitNewPresentation: EventEmitter<void> = new EventEmitter<void>();
 
 	public initPresentationEditor(): void {
 		this.onInitNewPresentation.emit();
-	}
-
-	private buildMenu(): void {
-		this.menuItems = [];
 	}
 }
