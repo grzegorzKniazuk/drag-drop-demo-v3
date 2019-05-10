@@ -9,6 +9,7 @@ import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-componen
 })
 export class ConfirmDialogComponent extends BaseDynamicComponent implements OnInit {
 
+	public readonly inputProps = [ 'message', 'header' ];
 	public message: string;
 	public header: string;
 

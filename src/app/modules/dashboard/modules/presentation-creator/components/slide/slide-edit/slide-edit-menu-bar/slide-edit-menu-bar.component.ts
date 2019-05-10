@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
+import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 import { Router } from '@angular/router';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -17,7 +18,7 @@ export class SlideEditMenuBarComponent implements OnInit, OnDestroy {
 	public menuItems: MenuItem[] = [];
 
 	constructor(
-		private componentFactoryBaseService: ComponentFactoryBaseService,
+		private componentFactoryBaseService: ComponentFactoryService,
 		private router: Router,
 	) {
 	}
@@ -34,9 +35,12 @@ export class SlideEditMenuBarComponent implements OnInit, OnDestroy {
 	}
 
 	public cancel(): void {
-		this.componentFactoryBaseService.createConfirmDialogComponent(
-			'Uwaga',
-			'Zmiany nie zostaną zapisane! Czy napewno chcesz wyjść?',
+		this.componentFactoryBaseService.createDynamicComponent<boolean>(
+			ConfirmDialogComponent,
+			{
+				header: 'Uwaga',
+				message: 'Zmiany nie zostaną zapisane! Czy napewno chcesz wyjść?',
+			}
 		).subscribe(() => {
 			this.router.navigateByUrl('/dashboard/presentation-creator');
 		});

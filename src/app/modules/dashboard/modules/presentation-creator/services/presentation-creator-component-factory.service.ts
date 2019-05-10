@@ -1,7 +1,7 @@
 import { ApplicationRef, ComponentFactory, ComponentFactoryResolver, ComponentRef, Injectable } from '@angular/core';
 import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
 import { Observable } from 'rxjs';
-import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
+import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 import { ColumnTitleComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/column/column-title/column-title.component';
 import { SlideLightboxComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-lightbox/slide-lightbox.component';
 import { SlideSelectNewActionTypeComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/slide-select-new-action-type/slide-select-new-action-type.component';
@@ -9,7 +9,7 @@ import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/pr
 import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/external-link/external-link.component';
 
 @Injectable()
-export class PresentationCreatorComponentFactoryService extends ComponentFactoryBaseService {
+export class PresentationCreatorComponentFactoryService extends ComponentFactoryService {
 
 	private readonly columnTitleComponentFactory: ComponentFactory<ColumnTitleComponent> = this.componentFactoryResolver.resolveComponentFactory(ColumnTitleComponent);
 	private readonly slideLightboxComponentFactory: ComponentFactory<SlideLightboxComponent> = this.componentFactoryResolver.resolveComponentFactory(SlideLightboxComponent);

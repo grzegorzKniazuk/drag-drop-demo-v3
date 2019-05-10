@@ -13,6 +13,7 @@ import { selectSlidesById } from 'src/app/modules/dashboard/modules/presentation
 import { UpdateSlideActions } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { DrawZoneBase } from 'src/app/shared/utils/draw-zone.base';
 import { CursorTypes } from 'src/app/shared/enums/cursor-types';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -49,21 +50,21 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 	}
 
 	public removeSlideAction(actionId: number): void {
-		this.presentationCreatorComponentFactoryService.createConfirmDialogComponent(
-			'Uwaga',
-			'Czy napewno chcesz usunąć tą akcję? Operacji nie można cofnąć',
-		).subscribe(() => {
-			this.slideActions = this.slideActions.filter((actionParams) => {
-				return actionParams.id !== actionId;
-			});
+		this.presentationCreatorComponentFactoryService.createDynamicComponent<boolean>(
+			ConfirmDialogComponent,
+			{
+				header: 'Uwaga',
+				message: 'Czy napewno chcesz usunąć tą akcję? Operacji nie można cofnąć',
+			},
+		)
+		.subscribe(() => {
+			this.slideActions = this.slideActions.filter((actionParams) => actionParams.id !== actionId );
 			this.changeDetectorRef.detectChanges();
 		});
 	}
 
 	public editSlideAction(actionId: number): void {
-		const actionToEdit = this.slideActions.find((action: SlideActionParams) => {
-			return action.id === actionId;
-		});
+		const actionToEdit = this.slideActions.find((action: SlideActionParams) => action.id === actionId);
 
 		this.initEditSlideAction(actionToEdit);
 	}
@@ -107,38 +108,38 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 
 	private initEditSlideAction(actionToEdit: SlideActionParams): void {
 		this.presentationCreatorComponentFactoryService.createSlideSelectActionTypeComponent(actionToEdit.type)
-		    .subscribe((actionType: SlideActionTypes) => {
-			    if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
-				    this.createInternalSlideLinkComponent(actionType, actionToEdit.target);
-			    } else if (actionType === SlideActionTypes.EXTERNAL_WEB_LINK) {
+		.subscribe((actionType: SlideActionTypes) => {
+			if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
+				this.createInternalSlideLinkComponent(actionType, actionToEdit.target);
+			} else if (actionType === SlideActionTypes.EXTERNAL_WEB_LINK) {
 
-			    }
-		    });
+			}
+		});
 	}
 
 	private initNewSlideAction(): void {
 		this.presentationCreatorComponentFactoryService.createSlideSelectActionTypeComponent()
-		    .subscribe((actionType: SlideActionTypes) => {
-			    if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
-				    this.createInternalSlideLinkComponent(actionType);
-			    } else if (actionType === SlideActionTypes.EXTERNAL_WEB_LINK) {
-				    this.createExternalLinkComponent(actionType);
-			    }
-		    });
+		.subscribe((actionType: SlideActionTypes) => {
+			if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
+				this.createInternalSlideLinkComponent(actionType);
+			} else if (actionType === SlideActionTypes.EXTERNAL_WEB_LINK) {
+				this.createExternalLinkComponent(actionType);
+			}
+		});
 	}
 
 	private createExternalLinkComponent(actionType: SlideActionTypes): void {
 		this.presentationCreatorComponentFactoryService.createExternalLinkComponent()
-		    .subscribe((externalLink: string) => {
-			    console.log(externalLink);
-		    });
+		.subscribe((externalLink: string) => {
+			console.log(externalLink);
+		});
 	}
 
 	private createInternalSlideLinkComponent(actionType: SlideActionTypes, alreadySelectedSlideId?: number | string): void {
 		this.presentationCreatorComponentFactoryService.createInternalSlideLinkComponent(this.slide.id, alreadySelectedSlideId)
-		    .subscribe((selectedSlideId: number) => {
-			    this.addActionToArray(selectedSlideId, actionType);
-		    });
+		.subscribe((selectedSlideId: number) => {
+			this.addActionToArray(selectedSlideId, actionType);
+		});
 	}
 
 	private addActionToArray(target: number, actionType: SlideActionTypes): void {

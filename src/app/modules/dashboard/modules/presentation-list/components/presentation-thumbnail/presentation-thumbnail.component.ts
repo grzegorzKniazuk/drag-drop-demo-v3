@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/c
 import { Presentation } from 'src/app/shared/interfaces';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
+import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 import { REMOVE_PRESENTATION, UPDATE_PRESENTATION } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
 import { Router } from '@angular/router';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -19,7 +20,7 @@ export class PresentationThumbnailComponent implements OnDestroy {
 	@Input() presentation: Presentation;
 
 	constructor(
-		private componentFactoryBaseService: ComponentFactoryBaseService,
+		private componentFactoryBaseService: ComponentFactoryService,
 		private store: Store<AppState>,
 		private router: Router,
 	) {
@@ -38,9 +39,12 @@ export class PresentationThumbnailComponent implements OnDestroy {
 	}
 
 	public deletePresentation(): void {
-		this.componentFactoryBaseService.createConfirmDialogComponent(
-			'Uwaga',
-			'Czy napewno chcesz usunąć tą prezentację? Operacji nie można cofnać')
+		this.componentFactoryBaseService.createDynamicComponent<boolean>(
+			ConfirmDialogComponent,
+			{
+				header: 'Uwaga',
+				message: 'Czy napewno chcesz usunąć tą prezentację? Operacji nie można cofnać',
+			})
 		    .subscribe(() => {
 			    this.store.dispatch(new REMOVE_PRESENTATION({ presentationId: this.presentation.id }));
 		    });

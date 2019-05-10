@@ -10,6 +10,7 @@ import { isNull, isNumber } from 'lodash';
 import { REMOVE_SLIDE } from 'src/app/modules/dashboard/store/actions/library.actions';
 import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { Router } from '@angular/router';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -95,9 +96,12 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnChanges, 
 				slideId: this.slide.id,
 			}));
 		} else if (isNull(this.slide.columnId)) { // jesli usuwamy z bibiloteki
-			this.presentationCreatorComponentFactoryService.createConfirmDialogComponent(
-				'Uwaga',
-				'Czy napewno chcesz usunąć ten slajd z biblioteki? Operacji nie można cofnąć',
+			this.presentationCreatorComponentFactoryService.createDynamicComponent<boolean>(
+				ConfirmDialogComponent,
+				{
+					header: 'Uwaga',
+					message: 'Czy napewno chcesz usunąć ten slajd z biblioteki? Operacji nie można cofnąć',
+				},
 			).subscribe(() => {
 				this.store.dispatch(new REMOVE_SLIDE({
 					slideId: this.slide.id,

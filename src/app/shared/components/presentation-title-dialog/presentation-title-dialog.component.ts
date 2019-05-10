@@ -15,10 +15,12 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 })
 export class PresentationTitleDialogComponent extends BaseDynamicComponent implements OnInit, OnDestroy {
 
+	public readonly inputProps = [ 'isEditMode' ];
+
 	public presentationTitle: string;
 	public dialogVisibility = true;
 	public header: string;
-	public isEditMode = false;
+	public isEditMode: boolean;
 
 	constructor(
 		private store: Store<AppState>,

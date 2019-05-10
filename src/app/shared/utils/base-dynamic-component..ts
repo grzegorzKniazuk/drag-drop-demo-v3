@@ -3,6 +3,7 @@ import { EventEmitter } from '@angular/core';
 export abstract class BaseDynamicComponent {
 	public readonly onSaveAction: EventEmitter<number | string | boolean> = new EventEmitter();
 	public readonly onCancelAction: EventEmitter<void | boolean> = new EventEmitter();
+	public readonly inputProps: string[] = [];
 
 	public onSave(event?: MouseEvent): void {
 	}

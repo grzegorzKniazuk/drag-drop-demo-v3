@@ -8,7 +8,8 @@ import { selectAmountOfPresentations, selectPresentationList } from 'src/app/mod
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
 import { Router } from '@angular/router';
-import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
+import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
+import { PresentationTitleDialogComponent } from 'src/app/shared/components/presentation-title-dialog/presentation-title-dialog.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -25,7 +26,7 @@ export class PresentationListComponent implements OnInit, OnDestroy {
 	constructor(
 		private title: Title,
 		private store: Store<AppState>,
-		private componentFactoryBaseService: ComponentFactoryBaseService,
+		private componentFactoryBaseService: ComponentFactoryService,
 		private router: Router,
 	) {
 	}
@@ -44,7 +45,7 @@ export class PresentationListComponent implements OnInit, OnDestroy {
 
 	public createNewPresentation(): void {
 		const presentationId = this.generatePresentationId;
-		this.componentFactoryBaseService.createPresentationTitleComponent(false)
+		this.componentFactoryBaseService.createDynamicComponent<string>(PresentationTitleDialogComponent, { isEditMode: false })
 		    .subscribe((presentationTitle: string) => {
 			    this.router.navigateByUrl(`/dashboard/presentation-creator`).then(() => {
 				    this.store.dispatch(new SetPresentationId({ presentationId }));

@@ -5,7 +5,7 @@ import { AppState } from 'src/app/store';
 import { LeaveEditor, ShowLibrarySlider } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-options.actions';
 import { combineLatest, Observable } from 'rxjs';
 import { selectEditorPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-metadata.selectors';
-import { ComponentFactoryBaseService } from 'src/app/shared/services/component-factory-base.service';
+import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 import { first } from 'rxjs/operators';
 import { SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
 import { SAVE_PRESENTATION } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
@@ -14,6 +14,7 @@ import { selectCreatorMetadataState } from 'src/app/modules/dashboard/modules/pr
 import { selectSlides, selectSlidesAmount } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { selectColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
 import { CreatorMetadata, Slide, Column } from 'src/app/shared/interfaces';
+import { PresentationTitleDialogComponent } from 'src/app/shared/components/presentation-title-dialog/presentation-title-dialog.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -30,7 +31,7 @@ export class EditorMenuBarComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private store: Store<AppState>,
-		private componentFactoryBaseService: ComponentFactoryBaseService,
+		private componentFactoryBaseService: ComponentFactoryService,
 	) {
 	}
 
@@ -47,7 +48,7 @@ export class EditorMenuBarComponent implements OnInit, OnDestroy {
 	}
 
 	public changePresentationTitle(): void {
-		this.componentFactoryBaseService.createPresentationTitleComponent(true)
+		this.componentFactoryBaseService.createDynamicComponent<string>(PresentationTitleDialogComponent,{ isEditMode: true })
 		    .subscribe((presentationTitle: string) => {
 			    this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
 		    });
