@@ -43,7 +43,7 @@ export class PresentationThumbnailComponent implements OnDestroy {
 			ConfirmDialogComponent,
 			{
 				header: 'Uwaga',
-				message: 'Czy napewno chcesz usunąć tą prezentację? Operacji nie można cofnać',
+				message: 'Czy na pewno chcesz usunąć tą prezentację? Operacji nie można cofnać',
 			})
 		    .subscribe(() => {
 			    this.store.dispatch(new REMOVE_PRESENTATION({ presentationId: this.presentation.id }));

@@ -56,7 +56,7 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 		this.componentFactoryService.createDynamicComponent<boolean>(
 			ConfirmDialogComponent, {
 				header: 'Uwaga',
-				message: 'Czy napewno chcesz usunąć tą akcję? Operacji nie można cofnąć',
+				message: 'Czy na pewno chcesz usunąć tą akcję? Operacji nie można cofnąć',
 			})
 		    .subscribe(() => {
 			    this.slideActions = this.slideActions.filter((actionParams) => actionParams.id !== actionId);
@@ -135,7 +135,7 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 	private createExternalLinkComponent(actionType: SlideActionTypes): void {
 		this.componentFactoryService.createDynamicComponent<string>(ExternalLinkComponent)
 		    .subscribe((externalLink: string) => {
-			    console.log(externalLink);
+			    this.addActionToArray(externalLink, actionType);
 		    });
 	}
 
@@ -150,7 +150,7 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 		    });
 	}
 
-	private addActionToArray(target: number, actionType: SlideActionTypes): void {
+	private addActionToArray(target: number | string, actionType: SlideActionTypes): void {
 		const slideAction = {
 			id: this.slideActions.length,
 			type: actionType,

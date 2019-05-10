@@ -101,7 +101,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnChanges, 
 				ConfirmDialogComponent,
 				{
 					header: 'Uwaga',
-					message: 'Czy napewno chcesz usunąć ten slajd z biblioteki? Operacji nie można cofnąć',
+					message: 'Czy na pewno chcesz usunąć ten slajd z biblioteki? Operacji nie można cofnąć',
 				},
 			).subscribe(() => {
 				this.store.dispatch(new REMOVE_SLIDE({

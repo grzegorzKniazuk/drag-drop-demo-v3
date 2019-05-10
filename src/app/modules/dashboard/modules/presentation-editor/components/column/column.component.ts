@@ -76,7 +76,7 @@ export class ColumnComponent extends DropZoneBase implements OnInit, OnChanges, 
 			ConfirmDialogComponent,
 			{
 				header: 'Uwaga',
-				message: 'Czy napewno chcesz usunąć tą sekcję prezentacji?',
+				message: 'Czy na pewno chcesz usunąć tą sekcję prezentacji?',
 			})
 		    .pipe(withLatestFrom(this.store.pipe(select(selectColumnSlidesIdsByColumnId, { columnId: this.column.id }))))
 		    .subscribe(([ accepted, slideIds ]: [ boolean, number[] ]) => {

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
@@ -10,6 +10,7 @@ import { Title } from '@angular/platform-browser';
 import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Presentation, Slide, SlideActionParams, SlidePosition } from 'src/app/shared/interfaces';
+import { DOCUMENT } from '@angular/common';
 
 @AutoUnsubscribe()
 @Component({
@@ -34,6 +35,7 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit, OnDes
 		private renderer2: Renderer2,
 		private toastService: ToastService,
 		private title: Title,
+		@Inject(DOCUMENT) private document: Document
 	) {
 	}
 
@@ -94,6 +96,7 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit, OnDes
 	}
 
 	public performAction(params: SlideActionParams): void {
+		console.log(params);
 		switch (params.type) {
 			case SlideActionTypes.INTERNAL_SLIDE_LINK: {
 				const targetSlidePosition = this.presentation.slides.find((slide: Slide) => {
@@ -107,7 +110,7 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit, OnDes
 				break;
 			}
 			case SlideActionTypes.EXTERNAL_WEB_LINK: {
-
+				this.openExternalLink(<string>params.target);
 				break;
 			}
 			default: {
@@ -115,6 +118,8 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit, OnDes
 			}
 		}
 	}
+
+
 
 	private initTitle(): void {
 		this.title.setTitle('Przeglądarka prezentacji');
@@ -166,5 +171,10 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit, OnDes
 		this.viewerPosition = params;
 		this.currentlyVisibleSlide = this.findSlideByPosition(params);
 		this.setBackgroundImage(this.currentlyVisibleSlide.imageData);
+	}
+
+	private openExternalLink(target: string): void {
+		this.document.defaultView.open(target, '_blank');
+		this.toastService.information('Jeśli link nie działa - Wyłącz blokowanie reklam');
 	}
 }

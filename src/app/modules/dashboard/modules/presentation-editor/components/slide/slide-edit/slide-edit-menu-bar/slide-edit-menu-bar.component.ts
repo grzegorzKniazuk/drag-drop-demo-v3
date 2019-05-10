@@ -39,7 +39,7 @@ export class SlideEditMenuBarComponent implements OnInit, OnDestroy {
 			ConfirmDialogComponent,
 			{
 				header: 'Uwaga',
-				message: 'Zmiany nie zostaną zapisane! Czy napewno chcesz wyjść?',
+				message: 'Zmiany nie zostaną zapisane! Czy na pewno chcesz wyjść?',
 			},
 		).subscribe(() => {
 			this.router.navigateByUrl('/dashboard/presentation-editor');
