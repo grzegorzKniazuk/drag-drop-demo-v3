@@ -4,7 +4,7 @@ import { AppState } from 'src/app/store';
 import { select, Store } from '@ngrx/store';
 import { Slide, SlideDividerSibilings } from 'src/app/shared/interfaces';
 import { isNull, isNumber } from 'lodash';
-import { AddSlideToPresentation, MoveBetweenSlidesInTheDifferentColumn, MoveBetweenSlidesInTheSameColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { AddSlideToPresentation, MoveBetweenSlidesInTheDifferentColumn, MoveBetweenSlidesInTheSameColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { first } from 'rxjs/operators';
 

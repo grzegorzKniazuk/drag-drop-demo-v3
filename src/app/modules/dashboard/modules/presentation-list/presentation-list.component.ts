@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { selectAmountOfPresentations, selectPresentationList } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
+import { SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions';
 import { Router } from '@angular/router';
 import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 import { PresentationTitleDialogComponent } from 'src/app/shared/components/presentation-title-dialog/presentation-title-dialog.component';

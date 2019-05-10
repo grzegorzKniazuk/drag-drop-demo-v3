@@ -4,9 +4,7 @@ import { Router } from '@angular/router';
 import { PresentationListActionsTypes, SAVE_PRESENTATION, UPDATE_PRESENTATION } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
 import { concatMap, tap } from 'rxjs/operators';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { ClearPresentationMetadata, SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
-import { AddColumns, ClearColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
-import { AddSlides, ClearSlides } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { AddColumns, AddSlides, ClearColumns, ClearPresentationMetadata, ClearSlides, SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 
 @Injectable()

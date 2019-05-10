@@ -1,5 +1,5 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { ColumnActions, ColumnActionsTypes } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+import { ColumnActions, ColumnActionsTypes } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions';
 import { Comparer } from '@ngrx/entity/src/models';
 import { Column } from 'src/app/shared/interfaces';
 

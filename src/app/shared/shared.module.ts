@@ -37,7 +37,7 @@ const modules = [
 ];
 
 const providers = [
-	ComponentFactoryService
+	ComponentFactoryService,
 ];
 
 @NgModule({

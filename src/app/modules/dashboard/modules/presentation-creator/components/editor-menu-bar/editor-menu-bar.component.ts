@@ -2,17 +2,13 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { MenuItem } from 'primeng/api';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { LeaveEditor, ShowLibrarySlider } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-options.actions';
+import { LeaveEditor, SetPresentationTitle, ShowLibrarySlider } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions';
 import { combineLatest, Observable } from 'rxjs';
-import { selectEditorPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-metadata.selectors';
+import { selectEditorPresentationTitle, selectCreatorMetadataState, selectSlides, selectSlidesAmount, selectColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors';
 import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 import { first } from 'rxjs/operators';
-import { SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/creator-metadata.actions';
 import { SAVE_PRESENTATION } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { selectCreatorMetadataState } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/module-base.selectors';
-import { selectSlides, selectSlidesAmount } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
-import { selectColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
 import { Column, CreatorMetadata, Slide } from 'src/app/shared/interfaces';
 import { PresentationTitleDialogComponent } from 'src/app/shared/components/presentation-title-dialog/presentation-title-dialog.component';
 

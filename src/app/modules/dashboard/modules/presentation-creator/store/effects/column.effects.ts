@@ -6,11 +6,14 @@ import {
 	AddColumnFromAnotherColumn,
 	AddColumnFromLibrary,
 	AddSlideFromLibraryToExistingColumn,
+	AddSlideToPresentation,
 	ColumnActionsTypes,
+	MoveSlideBetweenColumns,
+	MoveSlideToNewCreatedColumn,
 	RemoveColumn,
-} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+	RemoveSlidesByColumn,
+} from 'src/app/modules/dashboard/modules/presentation-creator/store/actions';
 import { map, tap } from 'rxjs/operators';
-import { AddSlideToPresentation, MoveSlideBetweenColumns, MoveSlideToNewCreatedColumn, RemoveSlidesByColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { Observable } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast.service';
 

@@ -3,7 +3,7 @@ import { Slide, SlidePosition } from 'src/app/shared/interfaces';
 import { DropZoneBase } from 'src/app/shared/utils/drop-zone.base';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { RemoveSlide, SwapSlideInTheDifferentColumns, SwapSlideInTheSameColumn, UpdateSlidePosition } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { RemoveSlide, SwapSlideInTheDifferentColumns, SwapSlideInTheSameColumn, UpdateSlidePosition } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Update } from '@ngrx/entity';
 import { isNull, isNumber } from 'lodash';

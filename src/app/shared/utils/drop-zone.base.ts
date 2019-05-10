@@ -2,11 +2,10 @@ import { HostListener, NgZone } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { combineLatest } from 'rxjs';
-import { selectAmountOfSlidesInColumnById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { Slide, SlideDataTransfer } from 'src/app/shared/interfaces';
-import { AddSlideFromLibraryToExistingColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/column.actions';
+import { AddSlideFromLibraryToExistingColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions';
 import { AppState } from 'src/app/store';
-import { selectColumnPositionById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
+import { selectAmountOfSlidesInColumnById, selectColumnPositionById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors';
 import { first } from 'rxjs/operators';
 
 export abstract class DropZoneBase {

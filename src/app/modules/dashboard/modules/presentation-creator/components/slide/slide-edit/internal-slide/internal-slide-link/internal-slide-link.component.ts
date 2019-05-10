@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { Slide } from 'src/app/shared/interfaces';
-import { selectSlides } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
+import { selectSlides } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { groupBy } from 'src/app/shared/utils/group-by';
 import { first, map, tap } from 'rxjs/operators';

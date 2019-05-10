@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { selectEditorPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-metadata.selectors';
+import { selectEditorPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors';
 import { first } from 'rxjs/operators';
 import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-component.';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';

@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Slide } from 'src/app/shared/interfaces';
-import { SlideActions, SlideActionsTypes } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { SlideActions, SlideActionsTypes } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions';
 import { Comparer } from '@ngrx/entity/src/models';
 
 export interface SlideState extends EntityState<Slide> {

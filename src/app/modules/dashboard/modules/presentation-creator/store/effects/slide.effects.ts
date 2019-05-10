@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { SlideActionsTypes } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
+import { SlideActionsTypes } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions';
 import { tap } from 'rxjs/operators';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { Router } from '@angular/router';
