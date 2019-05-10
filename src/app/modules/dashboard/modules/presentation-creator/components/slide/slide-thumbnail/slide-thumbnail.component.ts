@@ -8,9 +8,10 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Update } from '@ngrx/entity';
 import { isNull, isNumber } from 'lodash';
 import { REMOVE_SLIDE } from 'src/app/modules/dashboard/store/actions/library.actions';
-import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
+import { SlideLightboxComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-lightbox/slide-lightbox.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -26,7 +27,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnChanges, 
 
 	constructor(
 		private changeDetectorRef: ChangeDetectorRef,
-		private presentationCreatorComponentFactoryService: PresentationCreatorComponentFactoryService,
+		private componentFactoryService: ComponentFactoryService,
 		private router: Router,
 		store: Store<AppState>,
 		ngZone: NgZone,
@@ -96,7 +97,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnChanges, 
 				slideId: this.slide.id,
 			}));
 		} else if (isNull(this.slide.columnId)) { // jesli usuwamy z bibiloteki
-			this.presentationCreatorComponentFactoryService.createDynamicComponent<boolean>(
+			this.componentFactoryService.createDynamicComponent<boolean>(
 				ConfirmDialogComponent,
 				{
 					header: 'Uwaga',
@@ -113,7 +114,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnChanges, 
 	public showLightbox(event: MouseEvent): void {
 		event.stopImmediatePropagation();
 
-		this.presentationCreatorComponentFactoryService.createSlideLightboxComponent(this.slide.imageData).subscribe();
+		this.componentFactoryService.createDynamicComponent(SlideLightboxComponent, { imageData: this.slide.imageData }).subscribe();
 	}
 
 	private swapSlideInTheSameColumn(sourceSlideId: number, sourceSlidePosition: SlidePosition): void {

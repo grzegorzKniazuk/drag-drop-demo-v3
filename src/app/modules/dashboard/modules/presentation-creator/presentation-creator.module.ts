@@ -8,7 +8,6 @@ import { LibraryBarComponent } from './components/library-bar/library-bar.compon
 import { ColumnEffects } from 'src/app/modules/dashboard/modules/presentation-creator/store/effects/column.effects';
 import { SlideEffects } from 'src/app/modules/dashboard/modules/presentation-creator/store/effects/slide.effects';
 import { ColumnComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/column/column.component';
-import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { EditorMenuBarComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/editor-menu-bar/editor-menu-bar.component';
 import { CreatorOptionsEffects } from './store/effects/creator-options.effects';
 import { InternalSlideLinkService } from 'src/app/modules/dashboard/modules/presentation-creator/services/internal-slide-link.service';
@@ -60,7 +59,6 @@ import { StoreFeatureNames } from 'src/app/shared/enums/store-feature-names';
 		EffectsModule.forFeature([ CreatorOptionsEffects, ColumnEffects, SlideEffects ]),
 	],
 	providers: [
-		PresentationCreatorComponentFactoryService,
 		InternalSlideLinkService,
 	],
 })

@@ -16,7 +16,7 @@ export class ComponentFactoryService {
 	) {
 	}
 
-	public createDynamicComponent<T>(component: Type<DynamicComponentTypes>, props: { [key: string]: any }): Observable<T> {
+	public createDynamicComponent<T>(component: Type<DynamicComponentTypes>, props: { [key: string]: any } = {}): Observable<T> {
 		const componentFactory: ComponentFactory<DynamicComponentTypes> = this.componentFactoryResolver.resolveComponentFactory(component);
 		const componentRef = this.appViewContainerRef.createComponent(componentFactory);
 

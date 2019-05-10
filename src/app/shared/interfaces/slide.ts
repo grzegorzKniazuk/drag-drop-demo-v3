@@ -1,4 +1,4 @@
-import { SlidePosition, SlideActionParams } from 'src/app/shared/interfaces';
+import { SlideActionParams, SlidePosition } from 'src/app/shared/interfaces';
 
 export interface ISlide {
 	id: number;

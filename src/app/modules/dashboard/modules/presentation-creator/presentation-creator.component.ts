@@ -9,10 +9,11 @@ import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { selectAmountOfColumns, selectColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
-import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { selectIsLibrarySliderOpen } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/creator-options.selectors';
 import { ActivatedRoute } from '@angular/router';
 import { Column, Slide } from 'src/app/shared/interfaces';
+import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
+import { ColumnTitleComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/column/column-title/column-title.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -29,7 +30,7 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	public presentationId: number;
 
 	constructor(
-		private presentationCreatorComponentFactoryService: PresentationCreatorComponentFactoryService,
+		private componentFactoryService: ComponentFactoryService,
 		private title: Title,
 		private activatedRoute: ActivatedRoute,
 		store: Store<AppState>,
@@ -75,7 +76,7 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	}
 
 	private addColumnFromAnotherColumn(sourceSlideId: number, sourceColumnId: number): void {
-		this.presentationCreatorComponentFactoryService.createColumnTitleComponent()
+		this.componentFactoryService.createDynamicComponent<string>(ColumnTitleComponent)
 		    .pipe(withLatestFrom(this.store.pipe(select(selectAmountOfColumns))))
 		    .subscribe(([ columnTitle, amountOfColumnsInPresentation ]: [ string, number ]) => {
 			    this.store.dispatch(new AddColumnFromAnotherColumn({
@@ -87,7 +88,7 @@ export class PresentationCreatorComponent extends DropZoneBase implements OnInit
 	}
 
 	private addColumnFromLibrary(sourceSlideId: number): void {
-		this.presentationCreatorComponentFactoryService.createColumnTitleComponent()
+		this.componentFactoryService.createDynamicComponent<string>(ColumnTitleComponent)
 		    .pipe(
 			    withLatestFrom(
 				    this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId })),

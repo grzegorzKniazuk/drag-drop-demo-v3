@@ -8,8 +8,9 @@ import { withLatestFrom } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { selectSlidesById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
-import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
-import { Column, Slide, ColumnDividerSibilings } from 'src/app/shared/interfaces';
+import { Column, ColumnDividerSibilings, Slide } from 'src/app/shared/interfaces';
+import { ColumnTitleComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/column/column-title/column-title.component';
+import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -24,7 +25,7 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 	@Input() numberOfColumns: number;
 
 	constructor(
-		private presentationCreatorComponentFactoryService: PresentationCreatorComponentFactoryService,
+		private componentFactoryService: ComponentFactoryService,
 		store: Store<AppState>,
 		ngZone: NgZone,
 	) {
@@ -50,7 +51,7 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 	}
 
 	private addColumnBetweenExistingColumns(sourceSlideId: number): void {
-		this.presentationCreatorComponentFactoryService.createColumnTitleComponent()
+		this.componentFactoryService.createDynamicComponent<string>(ColumnTitleComponent)
 		    .pipe(withLatestFrom(this.store.pipe(select(selectSlidesById, { slideId: sourceSlideId }))))
 		    .subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
 			    this.store.dispatch(new AddColumnBetweenExistingColumns({
@@ -61,7 +62,7 @@ export class ColumnDividerComponent extends DropZoneBase implements OnDestroy {
 	}
 
 	private addColumnBetweenExistingColumnsByLibrarySlide(sourceSlideId: number): void {
-		this.presentationCreatorComponentFactoryService.createColumnTitleComponent()
+		this.componentFactoryService.createDynamicComponent<string>(ColumnTitleComponent)
 		    .pipe(withLatestFrom(this.store.pipe(select(selectSlideFromLibraryById, { slideId: sourceSlideId }))))
 		    .subscribe(([ columnTitle, sourceSlide ]: [ string, Slide ]) => {
 			    this.store.dispatch(new AddColumnBetweenExistingColumnsByLibrarySlide({

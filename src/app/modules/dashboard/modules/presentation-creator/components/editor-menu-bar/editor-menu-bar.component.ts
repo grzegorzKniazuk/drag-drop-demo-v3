@@ -13,7 +13,7 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { selectCreatorMetadataState } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/module-base.selectors';
 import { selectSlides, selectSlidesAmount } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { selectColumns } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/column.selectors';
-import { CreatorMetadata, Slide, Column } from 'src/app/shared/interfaces';
+import { Column, CreatorMetadata, Slide } from 'src/app/shared/interfaces';
 import { PresentationTitleDialogComponent } from 'src/app/shared/components/presentation-title-dialog/presentation-title-dialog.component';
 
 @AutoUnsubscribe()
@@ -48,7 +48,7 @@ export class EditorMenuBarComponent implements OnInit, OnDestroy {
 	}
 
 	public changePresentationTitle(): void {
-		this.componentFactoryBaseService.createDynamicComponent<string>(PresentationTitleDialogComponent,{ isEditMode: true })
+		this.componentFactoryBaseService.createDynamicComponent<string>(PresentationTitleDialogComponent, { isEditMode: true })
 		    .subscribe((presentationTitle: string) => {
 			    this.store.dispatch(new SetPresentationTitle({ presentationTitle }));
 		    });

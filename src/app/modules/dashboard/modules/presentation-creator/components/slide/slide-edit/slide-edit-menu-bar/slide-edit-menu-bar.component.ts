@@ -40,7 +40,7 @@ export class SlideEditMenuBarComponent implements OnInit, OnDestroy {
 			{
 				header: 'Uwaga',
 				message: 'Zmiany nie zostaną zapisane! Czy napewno chcesz wyjść?',
-			}
+			},
 		).subscribe(() => {
 			this.router.navigateByUrl('/dashboard/presentation-creator');
 		});

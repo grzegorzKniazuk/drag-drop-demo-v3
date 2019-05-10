@@ -9,6 +9,7 @@ import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-componen
 })
 export class SlideLightboxComponent extends BaseDynamicComponent {
 
+	public readonly inputProps = [ 'imageData' ];
 	public imageData: string | ArrayBuffer;
 
 	@HostListener('click', [ '$event' ])

@@ -1,4 +1,4 @@
-import { Slide, Column } from 'src/app/shared/interfaces';
+import { Column, Slide } from 'src/app/shared/interfaces';
 
 export interface IPresentation {
 	id: number;

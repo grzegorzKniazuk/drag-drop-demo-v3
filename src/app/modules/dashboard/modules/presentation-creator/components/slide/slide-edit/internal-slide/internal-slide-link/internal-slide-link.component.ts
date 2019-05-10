@@ -19,6 +19,7 @@ import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-componen
 })
 export class InternalSlideLinkComponent extends BaseDynamicComponent implements OnInit, OnDestroy {
 
+	public readonly inputProps = [ 'editedSlideId', 'alreadySelectedSlideId' ];
 	public sortedSlidesArrays: Slide[][];
 	public editedSlideId: number;
 	public isVisible = true;

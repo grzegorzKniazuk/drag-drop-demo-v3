@@ -7,13 +7,16 @@ import { Slide, SlideActionParams } from 'src/app/shared/interfaces';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { first } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { PresentationCreatorComponentFactoryService } from 'src/app/modules/dashboard/modules/presentation-creator/services/presentation-creator-component-factory.service';
 import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
 import { selectSlidesById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors/slide.selector';
 import { UpdateSlideActions } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions/slide.actions';
 import { DrawZoneBase } from 'src/app/shared/utils/draw-zone.base';
 import { CursorTypes } from 'src/app/shared/enums/cursor-types';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
+import { SlideSelectNewActionTypeComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/slide-select-new-action-type/slide-select-new-action-type.component';
+import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/internal-slide/internal-slide-link/internal-slide-link.component';
+import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/external-link/external-link.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -30,7 +33,7 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 	constructor(
 		private activatedRoute: ActivatedRoute,
 		private store: Store<AppState>,
-		private presentationCreatorComponentFactoryService: PresentationCreatorComponentFactoryService,
+		private componentFactoryService: ComponentFactoryService,
 		private changeDetectorRef: ChangeDetectorRef,
 		title: Title,
 		renderer2: Renderer2,
@@ -50,17 +53,15 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 	}
 
 	public removeSlideAction(actionId: number): void {
-		this.presentationCreatorComponentFactoryService.createDynamicComponent<boolean>(
-			ConfirmDialogComponent,
-			{
+		this.componentFactoryService.createDynamicComponent<boolean>(
+			ConfirmDialogComponent, {
 				header: 'Uwaga',
 				message: 'Czy napewno chcesz usunąć tą akcję? Operacji nie można cofnąć',
-			},
-		)
-		.subscribe(() => {
-			this.slideActions = this.slideActions.filter((actionParams) => actionParams.id !== actionId );
-			this.changeDetectorRef.detectChanges();
-		});
+			})
+		    .subscribe(() => {
+			    this.slideActions = this.slideActions.filter((actionParams) => actionParams.id !== actionId);
+			    this.changeDetectorRef.detectChanges();
+		    });
 	}
 
 	public editSlideAction(actionId: number): void {
@@ -107,39 +108,46 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 	}
 
 	private initEditSlideAction(actionToEdit: SlideActionParams): void {
-		this.presentationCreatorComponentFactoryService.createSlideSelectActionTypeComponent(actionToEdit.type)
-		.subscribe((actionType: SlideActionTypes) => {
-			if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
-				this.createInternalSlideLinkComponent(actionType, actionToEdit.target);
-			} else if (actionType === SlideActionTypes.EXTERNAL_WEB_LINK) {
+		this.componentFactoryService.createDynamicComponent<string>(
+			SlideSelectNewActionTypeComponent, {
+				alreadySelectedActionType: actionToEdit.type,
+			})
+		    .subscribe((actionType: SlideActionTypes) => {
+			    if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
+				    this.createInternalSlideLinkComponent(actionType, actionToEdit.target);
+			    } else if (actionType === SlideActionTypes.EXTERNAL_WEB_LINK) {
 
-			}
-		});
+			    }
+		    });
 	}
 
 	private initNewSlideAction(): void {
-		this.presentationCreatorComponentFactoryService.createSlideSelectActionTypeComponent()
-		.subscribe((actionType: SlideActionTypes) => {
-			if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
-				this.createInternalSlideLinkComponent(actionType);
-			} else if (actionType === SlideActionTypes.EXTERNAL_WEB_LINK) {
-				this.createExternalLinkComponent(actionType);
-			}
-		});
+		this.componentFactoryService.createDynamicComponent(SlideSelectNewActionTypeComponent)
+		    .subscribe((actionType: SlideActionTypes) => {
+			    if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
+				    this.createInternalSlideLinkComponent(actionType);
+			    } else if (actionType === SlideActionTypes.EXTERNAL_WEB_LINK) {
+				    this.createExternalLinkComponent(actionType);
+			    }
+		    });
 	}
 
 	private createExternalLinkComponent(actionType: SlideActionTypes): void {
-		this.presentationCreatorComponentFactoryService.createExternalLinkComponent()
-		.subscribe((externalLink: string) => {
-			console.log(externalLink);
-		});
+		this.componentFactoryService.createDynamicComponent<string>(ExternalLinkComponent)
+		    .subscribe((externalLink: string) => {
+			    console.log(externalLink);
+		    });
 	}
 
 	private createInternalSlideLinkComponent(actionType: SlideActionTypes, alreadySelectedSlideId?: number | string): void {
-		this.presentationCreatorComponentFactoryService.createInternalSlideLinkComponent(this.slide.id, alreadySelectedSlideId)
-		.subscribe((selectedSlideId: number) => {
-			this.addActionToArray(selectedSlideId, actionType);
-		});
+		this.componentFactoryService.createDynamicComponent<number>(
+			InternalSlideLinkComponent, {
+				editedSlideId: this.slide.id,
+				alreadySelectedSlideId: alreadySelectedSlideId,
+			})
+		    .subscribe((selectedSlideId: number) => {
+			    this.addActionToArray(selectedSlideId, actionType);
+		    });
 	}
 
 	private addActionToArray(target: number, actionType: SlideActionTypes): void {
