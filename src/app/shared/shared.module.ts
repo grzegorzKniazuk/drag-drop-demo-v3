@@ -36,6 +36,10 @@ const modules = [
 	HttpClientModule,
 ];
 
+const providers = [
+	ComponentFactoryService
+];
+
 @NgModule({
 	declarations: [
 		...components,
@@ -53,7 +57,7 @@ const modules = [
 		...directives,
 	],
 	providers: [
-		ComponentFactoryService,
+		...providers,
 	],
 })
 export class SharedModule {
