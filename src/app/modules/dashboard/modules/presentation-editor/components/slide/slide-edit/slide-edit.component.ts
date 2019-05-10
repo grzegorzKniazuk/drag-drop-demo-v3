@@ -18,7 +18,6 @@ import { SlideSelectNewActionTypeComponent } from 'src/app/modules/dashboard/mod
 import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/internal-slide/internal-slide-link/internal-slide-link.component';
 import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/external-link/external-link.component';
 import { ExternalPresentationLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/external-presentation/external-presentation-link/external-presentation-link.component';
-import { demoSlide1 } from 'src/app/shared/utils/demo-slides';
 
 @AutoUnsubscribe()
 @Component({
@@ -30,7 +29,7 @@ import { demoSlide1 } from 'src/app/shared/utils/demo-slides';
 export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestroy {
 
 	private slide: Slide;
-	private slideActions: SlideActionParams[] = [];
+	public slideActions: SlideActionParams[] = [];
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
