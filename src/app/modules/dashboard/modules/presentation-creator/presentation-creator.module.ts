@@ -25,6 +25,7 @@ import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/pr
 import { SlideLinkThumbnailComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/internal-slide/slide-link-thumbnail/slide-link-thumbnail.component';
 import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-creator/components/slide/slide-edit/external-link/external-link.component';
 import { StoreFeatureNames } from 'src/app/shared/enums/store-feature-names';
+import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 
 @NgModule({
 	declarations: [
@@ -60,6 +61,7 @@ import { StoreFeatureNames } from 'src/app/shared/enums/store-feature-names';
 	],
 	providers: [
 		InternalSlideLinkService,
+		ComponentFactoryService,
 	],
 })
 export class PresentationCreatorModule {

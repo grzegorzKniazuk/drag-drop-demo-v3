@@ -3,9 +3,7 @@ import { DynamicComponentTypes } from 'src/app/shared/types/dynamic-component-ty
 import { merge, Observable } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
 
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable()
 export class ComponentFactoryService {
 
 	protected readonly appViewContainerRef: ViewContainerRef = this.applicationRef.components[0].instance.viewContainerRef;

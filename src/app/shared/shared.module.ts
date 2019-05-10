@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { PresentationTitleDialogComponent } from 'src/app/shared/components/presentation-title-dialog/presentation-title-dialog.component';
 import { SlideActionComponent } from 'src/app/shared/components/slide-action/slide-action.component';
+import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 
 const components = [
 	ConfirmDialogComponent,
@@ -50,6 +51,9 @@ const modules = [
 		...modules,
 		...components,
 		...directives,
+	],
+	providers: [
+		ComponentFactoryService,
 	],
 })
 export class SharedModule {
