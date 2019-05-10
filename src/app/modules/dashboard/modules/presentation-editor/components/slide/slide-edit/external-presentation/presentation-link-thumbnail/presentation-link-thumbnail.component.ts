@@ -33,16 +33,16 @@ export class PresentationLinkThumbnailComponent implements OnInit {
 	private initObservables(): void {
 		this.subscriptions$.add(
 			this.internalSlideLinkService.selectedPresentationId$.pipe(
-				    filter((selectedPresentationId: number) => !!selectedPresentationId),
-				    tap(() => {
-					    this.isSelected = false;
-					    this.changeDetectorRef.detectChanges();
-				    }),
-				    filter((selectedPresentationId: number) => selectedPresentationId === this.presentation.id ),
-			    ).subscribe(() => {
-				    this.isSelected = true;
-				    this.changeDetectorRef.detectChanges();
-			    }),
+				filter((selectedPresentationId: number) => !!selectedPresentationId),
+				tap(() => {
+					this.isSelected = false;
+					this.changeDetectorRef.detectChanges();
+				}),
+				filter((selectedPresentationId: number) => selectedPresentationId === this.presentation.id),
+			).subscribe(() => {
+				this.isSelected = true;
+				this.changeDetectorRef.detectChanges();
+			}),
 		);
 	}
 

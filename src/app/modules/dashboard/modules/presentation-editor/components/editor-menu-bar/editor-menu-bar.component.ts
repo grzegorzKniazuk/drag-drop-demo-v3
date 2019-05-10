@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { LeaveEditor, SetPresentationTitle, ShowLibrarySlider } from 'src/app/modules/dashboard/modules/presentation-editor/store/actions';
 import { combineLatest, Observable } from 'rxjs';
-import { selectEditorPresentationTitle, selectCreatorMetadataState, selectSlides, selectSlidesAmount, selectColumns } from 'src/app/modules/dashboard/modules/presentation-editor/store/selectors';
+import { selectColumns, selectCreatorMetadataState, selectEditorPresentationTitle, selectSlides, selectSlidesAmount } from 'src/app/modules/dashboard/modules/presentation-editor/store/selectors';
 import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 import { first } from 'rxjs/operators';
 import { SAVE_PRESENTATION } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';

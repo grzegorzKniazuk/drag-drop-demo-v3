@@ -1,5 +1,5 @@
-<p-dialog [(visible)]="dialogVisibility"
-		  (onHide)="onCancel()"
+<p-dialog (onHide)="onCancel()"
+		  [(visible)]="dialogVisibility"
 		  [baseZIndex]="10"
 		  [focusOnShow]="false"
 		  [modal]="true"

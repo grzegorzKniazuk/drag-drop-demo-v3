@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
 import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-component.';
 
 @Component({
@@ -16,11 +16,15 @@ export class ExternalLinkComponent extends BaseDynamicComponent implements OnIni
 	ngOnInit() {
 	}
 
+	@HostListener('document:keydown.enter')
 	public onSave(): void {
-		this.isVisible = false;
-		this.onSaveAction.emit(this.link);
+		if (this.link) {
+			this.isVisible = false;
+			this.onSaveAction.emit(this.link);
+		}
 	}
 
+	@HostListener('document:keydown.escape')
 	public onCancel(): void {
 		this.isVisible = false;
 		this.onCancelAction.emit();

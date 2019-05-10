@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="isVisible" header="Wklej link do zewnętrznego źródła" (onHide)="onCancel()">
+<p-dialog (onHide)="onCancel()" [(visible)]="isVisible" header="Wklej link do zewnętrznego źródła">
 	<input [(ngModel)]="link" appAutofocus pInputText type="text">
 	<p-footer>
 		<button (click)="onSave()"

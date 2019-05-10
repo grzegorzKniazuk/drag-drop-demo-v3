@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="isVisible" header="Wybierz typ nowej akcji" (onHide)="onCancel()">
+<p-dialog (onHide)="onCancel()" [(visible)]="isVisible" [maximizable]="true" header="Wybierz typ nowej akcji">
 	<p-selectButton [(ngModel)]="selectedActionType" [options]="actionTypes"></p-selectButton>
 	<p-footer>
 		<button (click)="onNextStep()" [disabled]="!selectedActionType" class="ui-button-raised ui-button-success" icon="pi pi-angle-double-right" label="Dalej" pButton type="button"></button>

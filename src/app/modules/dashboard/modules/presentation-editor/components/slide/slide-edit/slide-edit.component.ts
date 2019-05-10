@@ -18,6 +18,7 @@ import { SlideSelectNewActionTypeComponent } from 'src/app/modules/dashboard/mod
 import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/internal-slide/internal-slide-link/internal-slide-link.component';
 import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/external-link/external-link.component';
 import { ExternalPresentationLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/external-presentation/external-presentation-link/external-presentation-link.component';
+import { demoSlide1 } from 'src/app/shared/utils/demo-slides';
 
 @AutoUnsubscribe()
 @Component({
@@ -104,6 +105,7 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 			if (this.slide && this.slideActions) {
 				this.slideActions.push(...this.slide.actions);
 			}
+			this.slide = demoSlide1;
 			this.setBackgroundImage(this.slide.imageData);
 		});
 	}

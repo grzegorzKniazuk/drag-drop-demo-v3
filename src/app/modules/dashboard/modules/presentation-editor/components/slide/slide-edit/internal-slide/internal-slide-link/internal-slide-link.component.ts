@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { Slide } from 'src/app/shared/interfaces';
@@ -51,6 +51,7 @@ export class InternalSlideLinkComponent extends BaseDynamicComponent implements 
 		});
 	}
 
+	@HostListener('document:keydown.escape')
 	public onCancel(): void {
 		this.isVisible = false;
 		this.onCancelAction.emit();
@@ -62,7 +63,6 @@ export class InternalSlideLinkComponent extends BaseDynamicComponent implements 
 	}
 
 	private fetchEditorSlides(): void {
-		console.log(this.editedSlideId);
 		this.store.pipe(
 			select(selectSlidesExceptOne, { slideId: this.editedSlideId }),
 			first(),

@@ -3,7 +3,7 @@
 	<img [src]="slide.imageData" alt="">
 	<ng-container *ngIf="isElementOnMouseEnter">
 		<i (click)="showLightbox($event)" class="pi pi-eye"></i>
-		<i *ngIf="!isLibrary" (click)="onEditSlide($event)" class="pi pi-pencil"></i>
+		<i (click)="onEditSlide($event)" *ngIf="!isLibrary" class="pi pi-pencil"></i>
 		<i (click)="onRemoveSlide($event)" class="pi pi-times"></i>
 	</ng-container>
 </div>

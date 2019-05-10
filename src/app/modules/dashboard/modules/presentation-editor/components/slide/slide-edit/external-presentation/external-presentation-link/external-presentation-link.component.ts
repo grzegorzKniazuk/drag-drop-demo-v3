@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-component.';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
@@ -42,13 +42,27 @@ export class ExternalPresentationLinkComponent extends BaseDynamicComponent impl
 		this.selectedItemLinkService.selectedPresentationId$.next(null);
 	}
 
+	public onSave(): void {
+		this.selectedItemLinkService.selectedPresentationId$.pipe(
+			tap(() => this.isVisible = false),
+			first(),
+		).subscribe((selectedPresentationId: number) => {
+			this.onSaveAction.emit(selectedPresentationId);
+		});
+	}
+
+	@HostListener('document:keydown.escape')
+	public onCancel(): void {
+		this.isVisible = false;
+		this.onCancelAction.emit();
+	}
+
 	private initObservables(): void {
 		this.isPresentationSelected$ = this.selectedItemLinkService.selectedPresentationId$.pipe(
 			map((selectedPresentationId: number) => !!selectedPresentationId));
 	}
 
 	private fetchPresentations(): void {
-		console.log(this.editedPresentationId);
 		this.store.pipe(
 			select(selectPresentationsExceptOne, { presentationId: this.editedPresentationId }),
 			first(),
@@ -64,19 +78,5 @@ export class ExternalPresentationLinkComponent extends BaseDynamicComponent impl
 				thumbnail: presentation.thumbnail,
 			};
 		});
-	}
-
-	public onSave(): void {
-		this.selectedItemLinkService.selectedPresentationId$.pipe(
-			tap(() => this.isVisible = false),
-			first(),
-		).subscribe((selectedPresentationId: number) => {
-			this.onSaveAction.emit(selectedPresentationId);
-		});
-	}
-
-	public onCancel(): void {
-		this.isVisible = false;
-		this.onCancelAction.emit();
 	}
 }

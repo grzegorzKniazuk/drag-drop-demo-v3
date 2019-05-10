@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
 import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-component.';
@@ -24,6 +24,7 @@ export class SlideSelectNewActionTypeComponent extends BaseDynamicComponent impl
 		this.onSaveAction.emit(this.selectedActionType);
 	}
 
+	@HostListener('document:keydown.escape')
 	public onCancel(): void {
 		this.isVisible = false;
 		this.onCancelAction.emit();

@@ -12,6 +12,7 @@ export class SlideLightboxComponent extends BaseDynamicComponent {
 	public readonly inputProps = [ 'imageData' ];
 	public imageData: string | ArrayBuffer;
 
+	@HostListener('document:keydown.escape', [ '$event' ])
 	@HostListener('click', [ '$event' ])
 	public onCancel(event: MouseEvent): void {
 		event.stopImmediatePropagation();
