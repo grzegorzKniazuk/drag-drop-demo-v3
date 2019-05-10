@@ -105,7 +105,6 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 			if (this.slide && this.slideActions) {
 				this.slideActions.push(...this.slide.actions);
 			}
-			this.slide = demoSlide1;
 			this.setBackgroundImage(this.slide.imageData);
 		});
 	}
