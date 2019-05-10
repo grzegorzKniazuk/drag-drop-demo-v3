@@ -17,6 +17,7 @@ import { ComponentFactoryService } from 'src/app/shared/services/component-facto
 import { SlideSelectNewActionTypeComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/slide-select-new-action-type/slide-select-new-action-type.component';
 import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/internal-slide/internal-slide-link/internal-slide-link.component';
 import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/external-link/external-link.component';
+import { ExternalPresentationLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/external-presentation/external-presentation-link/external-presentation-link.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -110,13 +111,15 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 	private initEditSlideAction(actionToEdit: SlideActionParams): void {
 		this.componentFactoryService.createDynamicComponent<string>(
 			SlideSelectNewActionTypeComponent, {
-				alreadySelectedActionType: actionToEdit.type,
+				selectedActionType: actionToEdit.type,
 			})
 		    .subscribe((actionType: SlideActionTypes) => {
 			    if (actionType === SlideActionTypes.INTERNAL_SLIDE_LINK) {
 				    this.createInternalSlideLinkComponent(actionType, actionToEdit.target);
 			    } else if (actionType === SlideActionTypes.EXTERNAL_WEB_LINK) {
-
+				    this.createExternalLinkComponent(actionType, <string>actionToEdit.target);
+			    } else if (actionType === SlideActionTypes.EXTERNAL_PRESENTATION_LINK) {
+				    this.createExternalPresentationLinkComponent(actionType, actionToEdit.target);
 			    }
 		    });
 	}
@@ -128,14 +131,30 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 				    this.createInternalSlideLinkComponent(actionType);
 			    } else if (actionType === SlideActionTypes.EXTERNAL_WEB_LINK) {
 				    this.createExternalLinkComponent(actionType);
+			    } else if (actionType === SlideActionTypes.EXTERNAL_PRESENTATION_LINK) {
+				    this.createExternalPresentationLinkComponent(actionType);
 			    }
 		    });
 	}
 
-	private createExternalLinkComponent(actionType: SlideActionTypes): void {
-		this.componentFactoryService.createDynamicComponent<string>(ExternalLinkComponent)
+	private createExternalLinkComponent(actionType: SlideActionTypes, alreadySelectedExternalLink?: string): void {
+		this.componentFactoryService.createDynamicComponent<string>(
+			ExternalLinkComponent, {
+				link: alreadySelectedExternalLink,
+			})
 		    .subscribe((externalLink: string) => {
 			    this.addActionToArray(externalLink, actionType);
+		    });
+	}
+
+	private createExternalPresentationLinkComponent(actionType: SlideActionTypes, alreadySelectedPresenationId?: number | string): void {
+		this.componentFactoryService.createDynamicComponent<number>(
+			ExternalPresentationLinkComponent, {
+				editedPresentationId: this.slide.presentationId,
+				alreadySelectedPresenationId: alreadySelectedPresenationId,
+			})
+		    .subscribe((selectedPresentationId) => {
+			    this.addActionToArray(selectedPresentationId, actionType);
 		    });
 	}
 

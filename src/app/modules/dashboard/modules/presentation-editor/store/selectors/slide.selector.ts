@@ -8,6 +8,15 @@ export const selectSlides = createSelector(
 	slideEntitySelectors.selectAll,
 );
 
+export const selectSlidesExceptOne = createSelector(
+	selectSlides,
+	((slides: Slide[], props: { slideId: number }) => {
+		return slides.filter((slide: Slide) => {
+			return slide.id !== props.slideId;
+		});
+	}),
+);
+
 export const selectSlidesAmount = createSelector(
 	selectSlidesState,
 	slideEntitySelectors.selectTotal,

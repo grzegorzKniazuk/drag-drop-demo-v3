@@ -1,20 +1,18 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { Slide } from 'src/app/shared/interfaces';
-import { SelectedItemLinkService } from 'src/app/modules/dashboard/modules/presentation-editor/services/selected-item-link.service';
-import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
-import { filter, tap } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, OnInit } from '@angular/core';
+import { Presentation } from 'src/app/shared/interfaces';
 import { Subscription } from 'rxjs';
+import { SelectedItemLinkService } from 'src/app/modules/dashboard/modules/presentation-editor/services/selected-item-link.service';
+import { filter, tap } from 'rxjs/operators';
 
-@AutoUnsubscribe()
 @Component({
-	selector: 'app-slide-link-thumbnail',
-	templateUrl: './slide-link-thumbnail.component.html',
-	styleUrls: [ './slide-link-thumbnail.component.scss' ],
+	selector: 'app-presentation-link-thumbnail',
+	templateUrl: './presentation-link-thumbnail.component.html',
+	styleUrls: [ './presentation-link-thumbnail.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SlideLinkThumbnailComponent implements OnInit, OnDestroy {
+export class PresentationLinkThumbnailComponent implements OnInit {
 
-	@Input() public slide: Slide;
+	@Input() public presentation: Partial<Presentation>;
 	@Input() public isSelected: boolean;
 	private subscriptions$: Subscription = new Subscription();
 
@@ -34,13 +32,13 @@ export class SlideLinkThumbnailComponent implements OnInit, OnDestroy {
 
 	private initObservables(): void {
 		this.subscriptions$.add(
-			this.internalSlideLinkService.selectedSlideId$.pipe(
-				    filter((selectedSlideId: number) => !!selectedSlideId),
+			this.internalSlideLinkService.selectedPresentationId$.pipe(
+				    filter((selectedPresentationId: number) => !!selectedPresentationId),
 				    tap(() => {
 					    this.isSelected = false;
 					    this.changeDetectorRef.detectChanges();
 				    }),
-				    filter((selectedSlideId: number) => selectedSlideId === this.slide.id),
+				    filter((selectedPresentationId: number) => selectedPresentationId === this.presentation.id ),
 			    ).subscribe(() => {
 				    this.isSelected = true;
 				    this.changeDetectorRef.detectChanges();
@@ -49,8 +47,9 @@ export class SlideLinkThumbnailComponent implements OnInit, OnDestroy {
 	}
 
 	@HostListener('click')
-	private selectSlide() {
+	private selectPresentation() {
 		this.isSelected = !this.isSelected;
-		this.internalSlideLinkService.selectedSlideId$.next(this.slide.id);
+		this.internalSlideLinkService.selectedPresentationId$.next(this.presentation.id);
 	}
+
 }

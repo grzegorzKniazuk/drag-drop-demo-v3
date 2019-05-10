@@ -11,15 +11,14 @@ import { PresentationTitleDialogComponent } from 'src/app/shared/components/pres
 import { SlideActionComponent } from 'src/app/shared/components/slide-action/slide-action.component';
 import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
 
-const components = [
-	ConfirmDialogComponent,
-	PresentationTitleDialogComponent,
-	SlideActionComponent,
-];
-
 const entryComponents = [
 	ConfirmDialogComponent,
 	PresentationTitleDialogComponent,
+];
+
+const components = [
+	...entryComponents,
+	SlideActionComponent,
 ];
 
 const directives = [

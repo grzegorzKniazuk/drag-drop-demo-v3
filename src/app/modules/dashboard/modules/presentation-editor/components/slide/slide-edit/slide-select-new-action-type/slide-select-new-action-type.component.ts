@@ -10,6 +10,7 @@ import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-componen
 })
 export class SlideSelectNewActionTypeComponent extends BaseDynamicComponent implements OnInit {
 
+	public readonly inputProps = [ 'selectedActionType' ];
 	public actionTypes: SelectItem[];
 	public isVisible = true;
 	public selectedActionType: SlideActionTypes;

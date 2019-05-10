@@ -1,8 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { ActivatedRoute, Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { first } from 'rxjs/operators';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { Memoize } from 'lodash-decorators';
 import { ToastService } from 'src/app/shared/services/toast.service';
@@ -11,6 +10,7 @@ import { SlideActionTypes } from 'src/app/shared/enums/slide-action-types';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Presentation, Slide, SlideActionParams, SlidePosition } from 'src/app/shared/interfaces';
 import { DOCUMENT } from '@angular/common';
+import { selectPresentationById } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
 
 @AutoUnsubscribe()
 @Component({
@@ -35,7 +35,8 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit, OnDes
 		private renderer2: Renderer2,
 		private toastService: ToastService,
 		private title: Title,
-		@Inject(DOCUMENT) private document: Document
+		private router: Router,
+		@Inject(DOCUMENT) private document: Document,
 	) {
 	}
 
@@ -96,7 +97,6 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit, OnDes
 	}
 
 	public performAction(params: SlideActionParams): void {
-		console.log(params);
 		switch (params.type) {
 			case SlideActionTypes.INTERNAL_SLIDE_LINK: {
 				const targetSlidePosition = this.presentation.slides.find((slide: Slide) => {
@@ -106,7 +106,7 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit, OnDes
 				break;
 			}
 			case SlideActionTypes.EXTERNAL_PRESENTATION_LINK: {
-
+				this.showExternalPresentation(<number>params.target);
 				break;
 			}
 			case SlideActionTypes.EXTERNAL_WEB_LINK: {
@@ -119,8 +119,6 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit, OnDes
 		}
 	}
 
-
-
 	private initTitle(): void {
 		this.title.setTitle('Przeglądarka prezentacji');
 	}
@@ -132,26 +130,16 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit, OnDes
 	private fetchPresentation(): void {
 		const presentationId = +this.activatedRoute.snapshot.paramMap.get('id');
 
-		this.localStorage.getItem('presentation').pipe(
-			first(),
-		).subscribe((presentation: Presentation) => {
-			this.presentation = presentation;
-			this.initPresentation();
-		});
-
-		/*
 		this.store.pipe(
 			select(selectPresentationById, { id: presentationId }),
-			first(),
 		).subscribe((presentation: Presentation) => {
 			this.presentation = presentation;
 			this.initPresentation();
 		});
-		*/
 	}
 
 	private initPresentation(): void {
-		this.currentlyVisibleSlide = this.findSlideByPosition(this.viewerPosition);
+		this.currentlyVisibleSlide = this.findSlideByPosition({ column: 0, order: 0 });
 		this.setBackgroundImage(this.currentlyVisibleSlide.imageData);
 	};
 
@@ -171,6 +159,13 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit, OnDes
 		this.viewerPosition = params;
 		this.currentlyVisibleSlide = this.findSlideByPosition(params);
 		this.setBackgroundImage(this.currentlyVisibleSlide.imageData);
+	}
+
+	private showExternalPresentation(presentationId: number): void {
+		this.router.navigateByUrl(`/dashboard/presentation-viewer/${presentationId}`).then(() => {
+			this.fetchPresentation();
+			this.toastService.success(`Otwarto ${this.presentation.title}`);
+		});
 	}
 
 	private openExternalLink(target: string): void {

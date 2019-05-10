@@ -8,7 +8,7 @@ import { LibraryBarComponent } from './components/library-bar/library-bar.compon
 import { ColumnEffects, CreatorOptionsEffects, SlideEffects } from 'src/app/modules/dashboard/modules/presentation-editor/store/effects';
 import { ColumnComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/column/column.component';
 import { EditorMenuBarComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/editor-menu-bar/editor-menu-bar.component';
-import { InternalSlideLinkService } from 'src/app/modules/dashboard/modules/presentation-editor/services/internal-slide-link.service';
+import { SelectedItemLinkService } from 'src/app/modules/dashboard/modules/presentation-editor/services/selected-item-link.service';
 import { SlideThumbnailComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-thumbnail/slide-thumbnail.component';
 import { SlideLibraryDividerComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/library-bar/slide-library-divider/slide-library-divider.component';
 import { ColumnTitleComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/column/column-title/column-title.component';
@@ -24,33 +24,46 @@ import { SlideLinkThumbnailComponent } from 'src/app/modules/dashboard/modules/p
 import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/external-link/external-link.component';
 import { StoreFeatureNames } from 'src/app/shared/enums/store-feature-names';
 import { ComponentFactoryService } from 'src/app/shared/services/component-factory.service';
+import { ExternalPresentationLinkComponent } from './components/slide/slide-edit/external-presentation/external-presentation-link/external-presentation-link.component';
+import { PresentationLinkThumbnailComponent } from './components/slide/slide-edit/external-presentation/presentation-link-thumbnail/presentation-link-thumbnail.component';
+
+const entryComponents = [
+	ColumnTitleComponent,
+	SlideLightboxComponent,
+	SlideSelectNewActionTypeComponent,
+	InternalSlideLinkComponent,
+	ExternalLinkComponent,
+	ExternalPresentationLinkComponent,
+	PresentationLinkThumbnailComponent,
+];
+
+const components = [
+	...entryComponents,
+	PresentationEditorComponent,
+	LibraryBarComponent,
+	SlideThumbnailComponent,
+	ColumnComponent,
+	SlideLibraryDividerComponent,
+	SlideColumnDividerComponent,
+	ColumnDividerComponent,
+	AddMoreSlidesComponent,
+	EditorMenuBarComponent,
+	SlideEditComponent,
+	SlideEditMenuBarComponent,
+	SlideLinkThumbnailComponent,
+];
+
+const providers = [
+	SelectedItemLinkService,
+	ComponentFactoryService,
+];
 
 @NgModule({
 	declarations: [
-		PresentationEditorComponent,
-		LibraryBarComponent,
-		SlideThumbnailComponent,
-		ColumnComponent,
-		SlideLibraryDividerComponent,
-		ColumnTitleComponent,
-		SlideColumnDividerComponent,
-		ColumnDividerComponent,
-		SlideLightboxComponent,
-		AddMoreSlidesComponent,
-		EditorMenuBarComponent,
-		SlideEditComponent,
-		SlideEditMenuBarComponent,
-		SlideSelectNewActionTypeComponent,
-		InternalSlideLinkComponent,
-		SlideLinkThumbnailComponent,
-		ExternalLinkComponent,
+		...components,
 	],
 	entryComponents: [
-		ColumnTitleComponent,
-		SlideLightboxComponent,
-		SlideSelectNewActionTypeComponent,
-		InternalSlideLinkComponent,
-		ExternalLinkComponent,
+		...entryComponents,
 	],
 	imports: [
 		SharedModule,
@@ -58,8 +71,7 @@ import { ComponentFactoryService } from 'src/app/shared/services/component-facto
 		EffectsModule.forFeature([ CreatorOptionsEffects, ColumnEffects, SlideEffects ]),
 	],
 	providers: [
-		InternalSlideLinkService,
-		ComponentFactoryService,
+		...providers,
 	],
 })
 export class PresentationEditorModule {

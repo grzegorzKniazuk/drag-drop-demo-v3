@@ -1,0 +1,10 @@
+@import "base.scss";
+
+.presentation-column-container {
+	@include flex(flex, center, flex-start, row, relative, wrap);
+	max-width: 1000px;
+
+	.presentation-column {
+		@include flex(flex, center, center, column);
+	}
+}

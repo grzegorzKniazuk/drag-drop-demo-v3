@@ -1,0 +1,15 @@
+<p-dialog [(visible)]="isVisible" header="Wybierz docelową prezenację">
+	<div class="presentation-column-container">
+		<ng-container *ngFor="let presentation of presentations">
+			<app-presentation-link-thumbnail [isSelected]="+alreadySelectedPresenationId === presentation.id" [presentation]="presentation"></app-presentation-link-thumbnail>
+		</ng-container>
+		<div *ngIf="!presentations.length">Brak prezentacji spełniających kryteria</div>
+	</div>
+	<p-footer>
+		<button (click)="onSave()"
+				[disabled]="!(isPresentationSelected$ | async)"
+				class="ui-button-raised ui-button-success" icon="pi pi-save" label="Zapisz akcję" pButton type="button"></button>
+		<button (click)="onCancel()"
+				class="ui-button-raised ui-button-secondary" icon="pi pi-times" label="Anuluj" pButton type="button"></button>
+	</p-footer>
+</p-dialog>

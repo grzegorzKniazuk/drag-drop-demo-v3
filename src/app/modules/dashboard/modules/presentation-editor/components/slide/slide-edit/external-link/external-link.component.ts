@@ -9,6 +9,7 @@ import { BaseDynamicComponent } from 'src/app/shared/utils/base-dynamic-componen
 })
 export class ExternalLinkComponent extends BaseDynamicComponent implements OnInit {
 
+	public readonly inputProps = [ 'link' ];
 	public link: string;
 	public isVisible = true;
 

@@ -5,6 +5,7 @@ import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog
 import { SlideSelectNewActionTypeComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/slide-select-new-action-type/slide-select-new-action-type.component';
 import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/internal-slide/internal-slide-link/internal-slide-link.component';
 import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/external-link/external-link.component';
+import { ExternalPresentationLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/external-presentation/external-presentation-link/external-presentation-link.component';
 
 export type DynamicComponentTypes =
 	ColumnTitleComponent
@@ -13,4 +14,5 @@ export type DynamicComponentTypes =
 	| InternalSlideLinkComponent
 	| ExternalLinkComponent
 	| PresentationTitleDialogComponent
+	| ExternalPresentationLinkComponent
 	| ConfirmDialogComponent;

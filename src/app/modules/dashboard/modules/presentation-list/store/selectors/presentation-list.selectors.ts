@@ -8,6 +8,15 @@ export const selectPresentationList = createSelector(
 	presentationListEntitySelectors.selectAll,
 );
 
+export const selectPresentationsExceptOne = createSelector(
+	selectPresentationList,
+	((presentations: Presentation[], props: { presentationId: number }) => {
+		return presentations.filter((presentation: Presentation) => {
+			return presentation.id !== props.presentationId;
+		});
+	})
+);
+
 export const selectAmountOfPresentations = createSelector(
 	selectPresentationListState,
 	presentationListEntitySelectors.selectTotal,
