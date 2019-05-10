@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="isVisible" header="Wybierz docelową prezenację">
+<p-dialog [(visible)]="isVisible" header="Wybierz docelową prezenację" (onHide)="onCancel()">
 	<div class="presentation-column-container">
 		<ng-container *ngFor="let presentation of presentations">
 			<app-presentation-link-thumbnail [isSelected]="+alreadySelectedPresenationId === presentation.id" [presentation]="presentation"></app-presentation-link-thumbnail>

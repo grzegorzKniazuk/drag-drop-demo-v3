@@ -1,4 +1,5 @@
 <p-dialog [(visible)]="dialogVisibility"
+		  (onHide)="onCancel()"
 		  [baseZIndex]="10"
 		  [focusOnShow]="false"
 		  [header]="header"

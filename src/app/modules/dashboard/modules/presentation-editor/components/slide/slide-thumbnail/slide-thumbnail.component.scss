@@ -24,28 +24,20 @@
 		font-size: 25px;
 		right: -25px;
 
+		&:hover {
+			color: $primary;
+		}
+
 		&:first-of-type {
 			top: 0;
-
-			&:hover {
-				color: $primary;
-			}
 		}
 
 		&:nth-of-type(2) {
 			top: 25px;
-
-			&:hover {
-				color: $success;
-			}
 		}
 
-		&:last-of-type {
+		&:nth-of-type(3) {
 			top: 50px;
-
-			&:hover {
-				color: $danger;
-			}
 		}
 	}
 

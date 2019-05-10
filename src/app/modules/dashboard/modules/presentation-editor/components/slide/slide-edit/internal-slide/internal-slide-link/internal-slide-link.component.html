@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="isVisible" header="Wybierz docelowy slajd">
+<p-dialog [(visible)]="isVisible" header="Wybierz docelowy slajd" (onHide)="onCancel()">
 	<div class="presentation-column-container">
 		<ng-container *ngFor="let column of sortedSlidesArrays">
 			<div class="presentation-column">

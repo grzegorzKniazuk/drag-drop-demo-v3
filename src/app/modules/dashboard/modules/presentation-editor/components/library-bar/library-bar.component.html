@@ -6,7 +6,7 @@
 									 itemSize="112" orientation="vertical">
 			<ng-container *cdkVirtualFor="let slide of slidesInLibary$ | async">
 				<div>
-					<app-slide [position]="{ column: null, order: null }" [slide]="slide"></app-slide>
+					<app-slide [isLibrary]="true" [position]="{ column: null, order: null }" [slide]="slide"></app-slide>
 					<app-slide-library-divider></app-slide-library-divider>
 				</div>
 			</ng-container>

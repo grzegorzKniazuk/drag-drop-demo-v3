@@ -1,5 +1,4 @@
 <div [ngClass]="dragOverCssClass" class="column-container">
-	<!-- <div class="column-id">{{ column.id }} {{ column.position }}</div> -->
 	<form [formGroup]="columnTitleForm" class="title-container">
 		<label for="columnTitle">Nazwa sekcji</label>
 		<input formControlName="columnTitle" id="columnTitle" pInputText type="text">
@@ -7,7 +6,7 @@
 	</form>
 	<div>
 		<ng-container *ngFor="let slide of (columnSlides$ | async); let i = index; let l = count">
-			<app-slide [position]="{ column: position, order: i }" [slide]="slide"></app-slide>
+			<app-slide [isLibrary]="false" [position]="{ column: position, order: i }" [slide]="slide"></app-slide>
 			<app-slide-column-divider
 				*ngIf="l !== i + 1"
 				[columnId]="column.id"

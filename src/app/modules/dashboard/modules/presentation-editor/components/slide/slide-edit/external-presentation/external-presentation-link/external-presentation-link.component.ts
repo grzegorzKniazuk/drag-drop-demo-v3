@@ -6,7 +6,7 @@ import { SelectedItemLinkService } from 'src/app/modules/dashboard/modules/prese
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Observable } from 'rxjs';
 import { first, map, tap } from 'rxjs/operators';
-import { selectPresentationList, selectPresentationsExceptOne } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
+import { selectPresentationsExceptOne } from 'src/app/modules/dashboard/modules/presentation-list/store/selectors/presentation-list.selectors';
 import { Presentation } from 'src/app/shared/interfaces';
 import { Partial } from 'lodash-decorators';
 
@@ -68,9 +68,9 @@ export class ExternalPresentationLinkComponent extends BaseDynamicComponent impl
 
 	public onSave(): void {
 		this.selectedItemLinkService.selectedPresentationId$.pipe(
-			    tap(() => this.isVisible = false),
-			    first(),
-		    ).subscribe((selectedPresentationId: number) => {
+			tap(() => this.isVisible = false),
+			first(),
+		).subscribe((selectedPresentationId: number) => {
 			this.onSaveAction.emit(selectedPresentationId);
 		});
 	}

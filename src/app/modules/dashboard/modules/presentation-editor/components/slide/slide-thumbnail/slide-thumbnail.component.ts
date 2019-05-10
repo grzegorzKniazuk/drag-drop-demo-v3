@@ -24,6 +24,7 @@ export class SlideThumbnailComponent extends DropZoneBase implements OnChanges, 
 
 	@Input() public slide: Slide;
 	@Input() public position: SlidePosition;
+	@Input() public isLibrary: boolean;
 
 	constructor(
 		private changeDetectorRef: ChangeDetectorRef,
