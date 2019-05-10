@@ -8,7 +8,7 @@ import { PresentationListEffects } from 'src/app/modules/dashboard/modules/prese
 import { PresentationThumbnailComponent } from './components/presentation-thumbnail/presentation-thumbnail.component';
 import { PresentationViewerComponent } from 'src/app/modules/dashboard/modules/presentation-list/components/presentation-viewer/presentation-viewer.component';
 import { ListMenuBarComponent } from './components/list-menu-bar/list-menu-bar.component';
-import { PresentationCreatorModule } from 'src/app/modules/dashboard/modules/presentation-creator/presentation-creator.module';
+import { PresentationEditorModule } from 'src/app/modules/dashboard/modules/presentation-editor/presentation-editor.module';
 import { StoreFeatureNames } from 'src/app/shared/enums/store-feature-names';
 
 @NgModule({
@@ -22,7 +22,7 @@ import { StoreFeatureNames } from 'src/app/shared/enums/store-feature-names';
 		SharedModule,
 		StoreModule.forFeature(StoreFeatureNames.PRESENTATION_LIST, presentationListReducer),
 		EffectsModule.forFeature([ PresentationListEffects ]),
-		PresentationCreatorModule,
+		PresentationEditorModule,
 	],
 })
 export class PresentationListModule {

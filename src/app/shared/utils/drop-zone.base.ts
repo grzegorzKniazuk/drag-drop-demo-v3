@@ -3,9 +3,9 @@ import { select, Store } from '@ngrx/store';
 import { selectSlideFromLibraryById } from 'src/app/modules/dashboard/store/selectors/library.selectors';
 import { combineLatest } from 'rxjs';
 import { Slide, SlideDataTransfer } from 'src/app/shared/interfaces';
-import { AddSlideFromLibraryToExistingColumn } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions';
+import { AddSlideFromLibraryToExistingColumn } from 'src/app/modules/dashboard/modules/presentation-editor/store/actions';
 import { AppState } from 'src/app/store';
-import { selectAmountOfSlidesInColumnById, selectColumnPositionById } from 'src/app/modules/dashboard/modules/presentation-creator/store/selectors';
+import { selectAmountOfSlidesInColumnById, selectColumnPositionById } from 'src/app/modules/dashboard/modules/presentation-editor/store/selectors';
 import { first } from 'rxjs/operators';
 
 export abstract class DropZoneBase {

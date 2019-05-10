@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { PresentationListActionsTypes, SAVE_PRESENTATION, UPDATE_PRESENTATION } from 'src/app/modules/dashboard/modules/presentation-list/store/actions/presentation-list.actions';
 import { concatMap, tap } from 'rxjs/operators';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { AddColumns, AddSlides, ClearColumns, ClearPresentationMetadata, ClearSlides, SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-creator/store/actions';
+import { AddColumns, AddSlides, ClearColumns, ClearPresentationMetadata, ClearSlides, SetPresentationId, SetPresentationTitle } from 'src/app/modules/dashboard/modules/presentation-editor/store/actions';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 
 @Injectable()
@@ -41,7 +41,7 @@ export class PresentationListEffects {
 	public updatePresentation$ = this.actions$.pipe(
 		ofType(PresentationListActionsTypes.UPDATE_PRESENTATION),
 		tap(() => {
-			this.router.navigateByUrl('/dashboard/presentation-creator');
+			this.router.navigateByUrl('/dashboard/presentation-editor');
 		}),
 		concatMap((action: UPDATE_PRESENTATION) => {
 			return [
