@@ -67,9 +67,7 @@ export abstract class DropZoneBase {
 			this.store.pipe(select(selectColumnPositionById, { columnId: targetColumnId })),
 			this.store.pipe(select(selectAmountOfSlidesInColumnById, { columnId: targetColumnId })),
 		)
-		.pipe(
-			first(),
-		)
+		.pipe(first())
 		.subscribe(([ slideToMove, columnPosition, amountOfSlidesInExsistingColumn ]: [ Slide, number, number ]) => {
 			this.store.dispatch(new AddSlideFromLibraryToExistingColumn({
 				sourceSlide: {

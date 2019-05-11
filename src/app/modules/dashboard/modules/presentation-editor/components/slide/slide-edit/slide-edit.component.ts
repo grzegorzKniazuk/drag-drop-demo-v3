@@ -89,6 +89,10 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 		this.initEditSlideAction(actionToEdit);
 	}
 
+	public resizeSlideAction(actionParams: SlideActionParams): void {
+		this.slideActions.splice(actionParams.id, 0, actionParams);
+	}
+
 	public onSlideChangesSave(): void {
 		this.store.dispatch(new UpdateSlideActions({
 			slide: {

@@ -4,33 +4,116 @@
 	@include flex(flex, center, center, row, relative);
 	@include size(100%, 100%);
 
-	.edit-icon {
+	i {
 		position: absolute;
 		font-size: 35px;
-		left: -2px;
-		top: -35px;
-		color: $white;
-		background: $black;
 		z-index: 3;
 
-		&:hover {
-			cursor: pointer;
-			background: $primary;
+		&.edit-icon {
+			left: -4px;
+			top: -35px;
+			color: $white;
+			background: $black;
+
+			&:hover {
+				cursor: pointer;
+				background: $primary;
+			}
 		}
-	}
 
-	.remove-icon {
-		position: absolute;
-		font-size: 35px;
-		right: -2px;
-		top: -35px;
-		color: $white;
-		background: $black;
-		z-index: 3;
+		&.remove-icon {
+			right: -4px;
+			top: -35px;
+			color: $white;
+			background: $black;
 
-		&:hover {
-			cursor: pointer;
-			background: $danger;
+			&:hover {
+				cursor: pointer;
+				background: $danger;
+			}
+		}
+
+		&.top-left {
+			left: -10px;
+			top: -10px;
+			transform: rotate(45deg);
+
+			&:hover {
+				cursor: nw-resize;
+				color: $primary;
+			}
+		}
+
+		&.top {
+			top: -10px;
+			transform: rotate(90deg);
+
+			&:hover {
+				cursor: n-resize;
+				color: $primary;
+			}
+		}
+
+		&.top-right {
+			right: -10px;
+			top: -10px;
+			transform: rotate(135deg);
+
+			&:hover {
+				cursor: ne-resize;
+				color: $primary;
+			}
+		}
+
+		&.right {
+			right: -10px;
+			transform: rotate(180deg);
+
+			&:hover {
+				cursor: e-resize;
+				color: $primary;
+			}
+		}
+
+		&.bottom-right {
+			right: -10px;
+			bottom: -10px;
+			transform: rotate(225deg);
+
+			&:hover {
+				cursor: se-resize;
+				color: $primary;
+			}
+		}
+
+		&.bottom {
+			bottom: -10px;
+			transform: rotate(270deg);
+
+			&:hover {
+				cursor: s-resize;
+				color: $primary;
+			}
+		}
+
+		&.bottom-left {
+			left: -10px;
+			bottom: -10px;
+			transform: rotate(315deg);
+
+			&:hover {
+				cursor: sw-resize;
+				color: $primary;
+			}
+		}
+
+		&.left {
+			left: -10px;
+
+			&:hover {
+				cursor: w-resize;
+				color: $primary;
+			}
 		}
 	}
 }

@@ -1,4 +1,4 @@
-import { Coordinates } from 'src/app/shared/interfaces';
+import { Coordinates, Style } from 'src/app/shared/interfaces';
 import { CursorTypes } from 'src/app/shared/enums/cursor-types';
 import { ElementRef, NgZone, Renderer2, ViewChild } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast.service';
@@ -7,7 +7,7 @@ import { Title } from '@angular/platform-browser';
 export abstract class DrawZoneBase {
 
 	public readonly slideLinkActionContainerCssClass = 'slide-link-action-container';
-	@ViewChild('canvasElement') protected readonly canvasElement: ElementRef;
+	@ViewChild('drawZoneElement') public readonly drawZone: ElementRef;
 	@ViewChild('backgroundElement') protected readonly backgroundElement: ElementRef;
 	protected element: HTMLDivElement | null = null;
 	protected startCords: Coordinates = { x: 0, y: 0 };
@@ -21,7 +21,7 @@ export abstract class DrawZoneBase {
 	) {
 	}
 
-	protected get slideLinkActionComponentPositionStyle(): { [key: string]: string } {
+	protected get slideLinkActionComponentPositionStyle(): Style {
 		return {
 			'top': `${this.toPercentageY(this.top)}%`,
 			'left': `${this.toPercentageX(this.left)}%`,
@@ -62,16 +62,16 @@ export abstract class DrawZoneBase {
 		this.renderer2.addClass(this.element, this.slideLinkActionContainerCssClass);
 		this.renderer2.setStyle(this.element, 'left', `${this.startCords.x}px`);
 		this.renderer2.setStyle(this.element, 'top', `${this.startCords.y}px`);
-		this.renderer2.appendChild(this.canvasElement.nativeElement, this.element);
+		this.renderer2.appendChild(this.drawZone.nativeElement, this.element);
 	}
 
 	protected removeDrawnDivElement(): void {
-		this.renderer2.removeChild(this.canvasElement.nativeElement, this.element);
+		this.renderer2.removeChild(this.drawZone.nativeElement, this.element);
 		this.element = null;
 	}
 
 	protected setCursor(cursorType: CursorTypes): void {
-		this.renderer2.setStyle(this.canvasElement.nativeElement, 'cursor', cursorType);
+		this.renderer2.setStyle(this.drawZone.nativeElement, 'cursor', cursorType);
 	}
 
 	protected showOpeningToast(): void {
@@ -87,11 +87,11 @@ export abstract class DrawZoneBase {
 	}
 
 	protected toPercentageX(x: number): number {
-		return (x / this.canvasElement.nativeElement.offsetWidth) * 100;
+		return (x / this.drawZone.nativeElement.offsetWidth) * 100;
 	}
 
 	protected toPercentageY(y: number): number {
-		return (y / this.canvasElement.nativeElement.offsetHeight) * 100;
+		return (y / this.drawZone.nativeElement.offsetHeight) * 100;
 	}
 
 	private drawDivElement(): void {
@@ -102,7 +102,7 @@ export abstract class DrawZoneBase {
 	}
 
 	private getCursorPosition(event: MouseEvent): Coordinates {
-		const rect = this.canvasElement.nativeElement.getBoundingClientRect();
+		const rect = this.drawZone.nativeElement.getBoundingClientRect();
 		const x = event.clientX - rect.left;
 		const y = event.clientY - rect.top;
 

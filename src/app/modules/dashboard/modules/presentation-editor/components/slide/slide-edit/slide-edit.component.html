@@ -1,16 +1,18 @@
 <app-slide-edit-menu-bar (onSave)="onSlideChangesSave()"></app-slide-edit-menu-bar>
 <div class="editor-container">
-	<div #canvasElement (click)="onClick($event)" (mousemove)="onMouseMove($event)" class="canvas">
-		<app-slide-link-action (cdkDragEnded)="cdkDragEnded($event, slideAction.id)"
-							   (cdkDragMoved)="cdkDragMoved()"
-							   (onEditAction)="editSlideAction($event)"
+	<div #drawZoneElement (click)="onClick($event)" (mousemove)="onMouseMove($event)" class="canvas">
+		<app-slide-link-action (onEditAction)="editSlideAction($event)"
 							   (onRemoveAction)="removeSlideAction($event)"
+							   (onResizeAction)="resizeSlideAction($event)"
 							   *ngFor="let slideAction of slideActions"
 							   [actionParams]="slideAction"
 							   [class]="slideLinkActionContainerCssClass"
 							   [isEditMode]="true"
 							   [ngStyle]="slideAction.style"
+							   [parentElement]="drawZone"
 							   cdkDrag
+							   (cdkDragEnded)="cdkDragEnded($event, slideAction.id)"
+							   (cdkDragMoved)="cdkDragMoved()"
 							   cdkDragBoundary=".canvas"></app-slide-link-action>
 	</div>
 	<img #backgroundElement [src]="" alt="">

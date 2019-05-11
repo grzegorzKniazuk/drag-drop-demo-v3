@@ -1,4 +1,14 @@
 <div #slideActionElement class="slide-link-action">
-	<i (click)="onEdit($event)" *ngIf="isElementOnMouseEnter && isEditMode" class="pi pi-pencil edit-icon" pTooltip="Edytuj akcję"></i>
-	<i (click)="onRemove($event)" *ngIf="isElementOnMouseEnter && isEditMode" class="pi pi-times remove-icon" pTooltip="Usuń akcję"></i>
+	<ng-container *ngIf="isElementOnMouseEnter && isEditMode">
+		<i (click)="onEdit($event)" class="pi pi-pencil edit-icon" pTooltip="Edytuj akcję"></i>
+		<i (click)="onRemove($event)" class="pi pi-times remove-icon" pTooltip="Usuń akcję"></i>
+		<i (mousedown)="onResize($event, 'top-left')" (mouseup)="onMouseUp()" class="pi pi-caret-left top-left"></i>
+		<i (mousedown)="onResize($event, 'top')" (mouseup)="onMouseUp()" class="pi pi-caret-left top" ></i>
+		<i (mousedown)="onResize($event, 'top-right')" (mouseup)="onMouseUp()" class="pi pi-caret-left top-right"></i>
+		<i (mousedown)="onResize($event, 'right')" (mouseup)="onMouseUp()" class="pi pi-caret-left right"></i>
+		<i (mousedown)="onResize($event, 'bottom-right')" (mouseup)="onMouseUp()" class="pi pi-caret-left bottom-right"></i>
+		<i (mousedown)="onResize($event, 'bottom')" (mouseup)="onMouseUp()" class="pi pi-caret-left bottom"></i>
+		<i (mousedown)="onResize($event, 'bottom-left')" (mouseup)="onMouseUp()" class="pi pi-caret-left bottom-left"></i>
+		<i (mousedown)="onResize($event, 'left')" (mouseup)="onMouseUp()" class="pi pi-caret-left left"></i>
+	</ng-container>
 </div>
