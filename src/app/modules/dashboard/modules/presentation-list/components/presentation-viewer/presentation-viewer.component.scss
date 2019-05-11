@@ -1,6 +1,6 @@
 @import "base.scss";
 
-.canvas-container {
+.presentation-container {
 	@include flex(flex, center, center, column, relative);
 	@include size(100%, 100%);
 

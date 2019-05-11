@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { Title } from '@angular/platform-browser';
-import { Slide, SlideActionParams } from 'src/app/shared/interfaces';
+import { Coordinates, Slide, SlideActionParams } from 'src/app/shared/interfaces';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { first } from 'rxjs/operators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
@@ -18,6 +18,7 @@ import { SlideSelectNewActionTypeComponent } from 'src/app/modules/dashboard/mod
 import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/internal-slide/internal-slide-link/internal-slide-link.component';
 import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/external-link/external-link.component';
 import { ExternalPresentationLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/external-presentation/external-presentation-link/external-presentation-link.component';
+import { CdkDragEnd } from '@angular/cdk/drag-drop';
 
 @AutoUnsubscribe()
 @Component({
@@ -28,8 +29,8 @@ import { ExternalPresentationLinkComponent } from 'src/app/modules/dashboard/mod
 })
 export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestroy {
 
-	private slide: Slide;
 	public slideActions: SlideActionParams[] = [];
+	private slide: Slide;
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
@@ -51,6 +52,23 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 	}
 
 	ngOnDestroy() {
+	}
+
+	public cdkDragMoved(): void {
+		this.setCursor(CursorTypes.MOVE);
+	}
+
+	public cdkDragEnded(event: CdkDragEnd, actionId: number): void {
+		const offset = { ...(<any>event.source._dragRef)._passiveTransform };
+
+		if (this.slideActions[actionId]) {
+			const position: Coordinates = {
+				x: this.slideActions[actionId].position.x + offset.x,
+				y: this.slideActions[actionId].position.y + offset.y,
+			};
+			this.updateActionPosition(actionId, position);
+		}
+		this.setCursor(CursorTypes.DEFAULT);
 	}
 
 	public removeSlideAction(actionId: number): void {
@@ -169,11 +187,37 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 		    });
 	}
 
+	private updateActionPosition(actionId: number, position: Coordinates): void {
+		this.slideActions[actionId] = {
+			id: this.slideActions.length,
+			type: this.slideActions[actionId].type,
+			target: this.slideActions[actionId].target,
+			position: {
+				...position,
+			},
+			size: this.slideActions[actionId].size,
+			style: {
+				'top': `${this.toPercentageY(position.y)}%`,
+				'left': `${this.toPercentageX(position.x)}%`,
+				'width': `${this.slideActions[actionId].size.width}px`,
+				'height': `${this.slideActions[actionId].size.height}px`,
+			},
+		};
+	}
+
 	private addActionToArray(target: number | string, actionType: SlideActionTypes): void {
 		const slideAction = {
 			id: this.slideActions.length,
 			type: actionType,
 			target: target,
+			position: {
+				x: this.left,
+				y: this.top,
+			},
+			size: {
+				width: this.width,
+				height: this.height,
+			},
 			style: this.slideLinkActionComponentPositionStyle,
 		};
 

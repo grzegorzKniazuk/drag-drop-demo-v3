@@ -59,6 +59,7 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit, OnDes
 	ngOnInit() {
 		this.initTitle();
 		this.showOpeningToast();
+		this.requestFullScreen();
 	}
 
 	ngAfterViewInit() {
@@ -119,12 +120,22 @@ export class PresentationViewerComponent implements OnInit, AfterViewInit, OnDes
 		}
 	}
 
+	private requestFullScreen(): void {
+		this.document.documentElement.requestFullscreen();
+	}
+
 	private initTitle(): void {
 		this.title.setTitle('Przeglądarka prezentacji');
 	}
 
 	private showOpeningToast(): void {
-		this.toastService.information('Poruszać się po prezentacji możesz również za pomocą strzałek na klawiaturze :)');
+		this.toastService.information('Poruszać się po prezentacji możesz również za pomocą strzałek na klawiaturze');
+		this.toastService.information('Nacisnij dwukrotnie ESC aby wyjść z trybu prezentacji');
+	}
+
+	@HostListener('document:keydown.escape')
+	private exitPresentation(): void {
+		this.router.navigateByUrl('dashboard/presentation-list');
 	}
 
 	private fetchPresentation(): void {

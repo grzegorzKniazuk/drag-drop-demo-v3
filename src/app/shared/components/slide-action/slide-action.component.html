@@ -1,5 +1,4 @@
-<div class="slide-link-action">
-	<i (click)="onMove($event)" *ngIf="isElementOnMouseEnter && isEditMode" class="pi pi-circle-off move-icon" pTooltip="Przesuń element"></i>
+<div #slideActionElement class="slide-link-action">
 	<i (click)="onEdit($event)" *ngIf="isElementOnMouseEnter && isEditMode" class="pi pi-pencil edit-icon" pTooltip="Edytuj akcję"></i>
 	<i (click)="onRemove($event)" *ngIf="isElementOnMouseEnter && isEditMode" class="pi pi-times remove-icon" pTooltip="Usuń akcję"></i>
 </div>

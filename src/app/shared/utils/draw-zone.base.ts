@@ -23,45 +23,45 @@ export abstract class DrawZoneBase {
 
 	protected get slideLinkActionComponentPositionStyle(): { [key: string]: string } {
 		return {
-			'top': this.top,
-			'left': this.left,
-			'width': this.width,
-			'height': this.height,
+			'top': `${this.toPercentageY(this.top)}%`,
+			'left': `${this.toPercentageX(this.left)}%`,
+			'width': `${this.width}px`,
+			'height': `${this.height}px`,
 		};
 	}
 
-	private get top(): string {
-		return (this.endCords.y - this.startCords.y < 0) ? this.endCords.y + '%' : this.startCords.y + '%';
+	protected get top(): number {
+		return (this.endCords.y - this.startCords.y < 0) ? this.endCords.y : this.startCords.y;
 	}
 
-	private get left(): string {
-		return (this.endCords.x - this.startCords.x < 0) ? this.endCords.x + '%' : this.startCords.x + '%';
+	protected get left(): number {
+		return (this.endCords.x - this.startCords.x < 0) ? this.endCords.x : this.startCords.x;
 	}
 
-	private get width(): string {
-		return `${Math.abs(this.endCords.x - this.startCords.x)}%`;
+	protected get width(): number {
+		return Math.abs(this.endCords.x - this.startCords.x);
 	}
 
-	private get height(): string {
-		return `${Math.abs(this.endCords.y - this.startCords.y)}%`;
+	protected get height(): number {
+		return Math.abs(this.endCords.y - this.startCords.y);
 	}
 
 	public onMouseMove(event: MouseEvent): void {
 		this.ngZone.runOutsideAngular(() => {
 			if (this.element) {
-				this.endCords = this.getPercentageCursorPosition(this.getCursorPosition(event));
+				this.endCords = this.getCursorPosition(event);
 				this.drawDivElement();
 			}
 		});
 	}
 
 	protected createDivElement(event: MouseEvent): void {
-		this.startCords = this.getPercentageCursorPosition(this.getCursorPosition(event));
+		this.startCords = this.getCursorPosition(event);
 
 		this.element = this.renderer2.createElement('div');
 		this.renderer2.addClass(this.element, this.slideLinkActionContainerCssClass);
-		this.renderer2.setStyle(this.element, 'left', `${this.startCords.x}%`);
-		this.renderer2.setStyle(this.element, 'top', `${this.startCords.y}%`);
+		this.renderer2.setStyle(this.element, 'left', `${this.startCords.x}px`);
+		this.renderer2.setStyle(this.element, 'top', `${this.startCords.y}px`);
 		this.renderer2.appendChild(this.canvasElement.nativeElement, this.element);
 	}
 
@@ -86,11 +86,19 @@ export abstract class DrawZoneBase {
 		this.title.setTitle('Edycja slajdu');
 	}
 
+	protected toPercentageX(x: number): number {
+		return (x / this.canvasElement.nativeElement.offsetWidth) * 100;
+	}
+
+	protected toPercentageY(y: number): number {
+		return (y / this.canvasElement.nativeElement.offsetHeight) * 100;
+	}
+
 	private drawDivElement(): void {
-		this.renderer2.setStyle(this.element, 'width', this.width);
-		this.renderer2.setStyle(this.element, 'height', this.height);
-		this.renderer2.setStyle(this.element, 'left', this.left);
-		this.renderer2.setStyle(this.element, 'top', this.top);
+		this.renderer2.setStyle(this.element, 'width', `${this.width}px`);
+		this.renderer2.setStyle(this.element, 'height', `${this.height}px`);
+		this.renderer2.setStyle(this.element, 'left', `${this.left}px`);
+		this.renderer2.setStyle(this.element, 'top', `${this.top}px`);
 	}
 
 	private getCursorPosition(event: MouseEvent): Coordinates {
@@ -103,13 +111,5 @@ export abstract class DrawZoneBase {
 
 	private getPercentageCursorPosition(cords: Coordinates): Coordinates {
 		return { x: this.toPercentageX(cords.x), y: this.toPercentageY(cords.y) };
-	}
-
-	private toPercentageX(x: number): number {
-		return (x / this.canvasElement.nativeElement.offsetWidth) * 100;
-	}
-
-	private toPercentageY(y: number): number {
-		return (y / this.canvasElement.nativeElement.offsetHeight) * 100;
 	}
 }

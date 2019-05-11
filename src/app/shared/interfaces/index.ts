@@ -9,3 +9,4 @@ export * from './slide-data-transfer';
 export * from './slide-divider-sibilings';
 export * from './slide-position';
 export * from './style';
+export * from './element-size';
