@@ -38,6 +38,18 @@ export class SlideActionComponent {
 		this.resizing = true;
 	}
 
+	public onEdit(event: MouseEvent): void {
+		event.stopImmediatePropagation();
+
+		this.onEditAction.emit(this.actionParams.id);
+	}
+
+	public onRemove(event: MouseEvent): void {
+		event.stopImmediatePropagation();
+
+		this.onRemoveAction.emit(this.actionParams.id);
+	}
+
 	private onMouseUp(event: MouseEvent): void {
 		event.stopImmediatePropagation();
 
@@ -177,18 +189,6 @@ export class SlideActionComponent {
 
 	private toPercentageY(y: number): number {
 		return (y / this.parentElement.nativeElement.offsetHeight) * 100;
-	}
-
-	public onEdit(event: MouseEvent): void {
-		event.stopImmediatePropagation();
-
-		this.onEditAction.emit(this.actionParams.id);
-	}
-
-	public onRemove(event: MouseEvent): void {
-		event.stopImmediatePropagation();
-
-		this.onRemoveAction.emit(this.actionParams.id);
 	}
 
 	@HostListener('click', [ '$event' ])
