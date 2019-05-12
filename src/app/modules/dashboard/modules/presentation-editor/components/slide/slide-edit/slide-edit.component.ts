@@ -125,7 +125,7 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 			select(selectSlidesById, { slideId }),
 			first(),
 		).subscribe((slide: Slide) => {
-			this.slide = slide;
+			this.slide = cloneDeep(slide);
 			if (this.slide && this.slideActions) {
 				this.slideActions.push(...this.slide.actions);
 			}
