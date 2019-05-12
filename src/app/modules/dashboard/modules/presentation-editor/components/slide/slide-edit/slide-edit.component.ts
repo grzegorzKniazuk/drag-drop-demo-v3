@@ -214,7 +214,7 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 
 	private addActionToArray(target: number | string, actionType: SlideActionTypes): void {
 		const slideAction = {
-			id: this.slideActions.length ? this.slideActions.length - 1 : 0,
+			id: this.slideActions.length ? this.slideActions.length : 0,
 			type: actionType,
 			target: target,
 			position: {
