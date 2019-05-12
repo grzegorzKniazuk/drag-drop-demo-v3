@@ -22,6 +22,7 @@ export class SlideActionComponent {
 	public isElementOnMouseEnter: boolean;
 	@ViewChild('slideActionElement') private readonly slideActionElement: ElementRef;
 	private resizeDirection: ResizeDirection | string;
+	private resizing: boolean;
 
 	constructor(
 		private changeDetectorRef: ChangeDetectorRef,
@@ -32,20 +33,26 @@ export class SlideActionComponent {
 
 	public onResize(event: MouseEvent, direction: ResizeDirection | string): void {
 		event.stopImmediatePropagation();
+
 		this.resizeDirection = direction;
+		this.resizing = true;
 	}
 
-	private onMouseUp(): void {
-		if (this.isEditMode) {
-			this.setCursor(CursorTypes.DEFAULT);
-			this.onResizeAction.emit(this.actionParams);
+	private onMouseUp(event: MouseEvent): void {
+		event.stopImmediatePropagation();
+
+		if (this.isEditMode && this.resizing) {
+			this.setCursor(CursorTypes.GRAB);
 		}
+
+		this.resizing = false;
+		this.onResizeAction.emit(this.actionParams);
 	}
 
 	@HostListener('mousemove', [ '$event' ])
 	private onMouseMove(event: MouseEvent): void {
 		this.ngZone.runOutsideAngular(() => {
-			if (this.isEditMode && (event.buttons === LEFT_MOUSE_BUTTON_CODE || event.buttons === RIGHT_MOUSE_BUTTON_CODE)) {
+			if (this.isEditMode && this.resizing && (event.buttons === LEFT_MOUSE_BUTTON_CODE || event.buttons === RIGHT_MOUSE_BUTTON_CODE)) {
 				switch (this.resizeDirection) {
 					case ResizeDirection.TOP_LEFT: {
 						this.setCursor(CursorTypes.NW_RESIZE);
@@ -209,7 +216,11 @@ export class SlideActionComponent {
 		this.ngZone.runOutsideAngular(() => {
 			event.stopPropagation();
 			this.isElementOnMouseEnter = false;
+			this.resizing = false;
+
 			this.setCursor(CursorTypes.DEFAULT);
+
+			this.onResizeAction.emit(this.actionParams);
 		});
 	}
 

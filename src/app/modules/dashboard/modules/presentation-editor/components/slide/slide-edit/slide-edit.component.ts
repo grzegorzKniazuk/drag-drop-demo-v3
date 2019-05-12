@@ -19,6 +19,7 @@ import { InternalSlideLinkComponent } from 'src/app/modules/dashboard/modules/pr
 import { ExternalLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/external-link/external-link.component';
 import { ExternalPresentationLinkComponent } from 'src/app/modules/dashboard/modules/presentation-editor/components/slide/slide-edit/external-presentation/external-presentation-link/external-presentation-link.component';
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
+import { cloneDeep } from 'lodash';
 
 @AutoUnsubscribe()
 @Component({
@@ -90,7 +91,9 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 	}
 
 	public resizeSlideAction(actionParams: SlideActionParams): void {
-		this.slideActions.splice(actionParams.id, 0, actionParams);
+		if (this.slideActions[actionParams.id]) {
+			this.slideActions[actionParams.id] = actionParams;
+		}
 	}
 
 	public onSlideChangesSave(): void {
@@ -193,7 +196,7 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 
 	private updateActionPosition(actionId: number, position: Coordinates): void {
 		this.slideActions[actionId] = {
-			id: this.slideActions.length,
+			id: actionId,
 			type: this.slideActions[actionId].type,
 			target: this.slideActions[actionId].target,
 			position: {
@@ -211,7 +214,7 @@ export class SlideEditComponent extends DrawZoneBase implements OnInit, OnDestro
 
 	private addActionToArray(target: number | string, actionType: SlideActionTypes): void {
 		const slideAction = {
-			id: this.slideActions.length,
+			id: this.slideActions.length ? this.slideActions.length - 1 : 0,
 			type: actionType,
 			target: target,
 			position: {

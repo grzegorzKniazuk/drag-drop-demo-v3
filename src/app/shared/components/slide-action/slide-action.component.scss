@@ -37,6 +37,7 @@
 			left: -10px;
 			top: -10px;
 			transform: rotate(45deg);
+			z-index: 4;
 
 			&:hover {
 				cursor: nw-resize;
@@ -47,6 +48,7 @@
 		&.top {
 			top: -10px;
 			transform: rotate(90deg);
+			z-index: 4;
 
 			&:hover {
 				cursor: n-resize;
@@ -58,6 +60,7 @@
 			right: -10px;
 			top: -10px;
 			transform: rotate(135deg);
+			z-index: 4;
 
 			&:hover {
 				cursor: ne-resize;
@@ -68,6 +71,7 @@
 		&.right {
 			right: -10px;
 			transform: rotate(180deg);
+			z-index: 4;
 
 			&:hover {
 				cursor: e-resize;
@@ -79,6 +83,7 @@
 			right: -10px;
 			bottom: -10px;
 			transform: rotate(225deg);
+			z-index: 4;
 
 			&:hover {
 				cursor: se-resize;
@@ -89,6 +94,7 @@
 		&.bottom {
 			bottom: -10px;
 			transform: rotate(270deg);
+			z-index: 4;
 
 			&:hover {
 				cursor: s-resize;
@@ -99,6 +105,7 @@
 		&.bottom-left {
 			left: -10px;
 			bottom: -10px;
+			z-index: 4;
 			transform: rotate(315deg);
 
 			&:hover {
@@ -109,6 +116,7 @@
 
 		&.left {
 			left: -10px;
+			z-index: 4;
 
 			&:hover {
 				cursor: w-resize;
